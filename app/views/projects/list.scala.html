@@ -9,9 +9,8 @@
     <ul>
         @projects.map { project =>
           <li>
-              <a href="@routes.Projects.project(project.id)">project.name</a>
+              <a href="@routes.Projects.project(project.id)">@project.name</a>
           </li>
-
         }
     </ul>
 

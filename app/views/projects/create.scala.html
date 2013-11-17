@@ -6,8 +6,10 @@
     <h1>Create a new project</h1>
 
     @form(routes.Projects.add) {
+
         @inputText(projectForm("name"))
         @textarea(projectForm("description"))
+
         <input type="submit" value="Create project"/>
     }
 

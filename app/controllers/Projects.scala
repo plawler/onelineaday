@@ -11,8 +11,8 @@ import play.api.mvc.{Action, Controller}
  */
 object Projects extends Controller {
 
-  def index = Action {
-    Ok("Default page, list of current projects")
+  def index = Action { implicit request =>
+    Ok(views.html.projects())
   }
 
 }

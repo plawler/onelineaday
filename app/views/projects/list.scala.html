@@ -1,0 +1,18 @@
+@(projects: List[Project])
+
+@main("One Line a Day - Projects") {
+
+    <h1>Projects</h1>
+
+    <p><a href="@routes.Projects.newProject">Start a new project</a></p>
+
+    <ul>
+        @projects.map { project =>
+          <li>
+              <a href="@routes.Projects.project(project.id)">project.name</a>
+          </li>
+
+        }
+    </ul>
+
+}

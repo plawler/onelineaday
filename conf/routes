@@ -14,7 +14,10 @@ GET         /logout                     controllers.Authentication.logout
 GET         /projects                   controllers.Projects.projects
 GET         /projects/new               controllers.Projects.newProject
 GET         /projects/:id               controllers.Projects.project(id: Long)
+GET         /projects/:id/edit          controllers.Projects.edit(id: Long)
+
 POST        /projects                   controllers.Projects.add
+POST        /projects/:id               controllers.Projects.update(id: Long)
 POST        /projects/:id/delete        controllers.Projects.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path

@@ -19,7 +19,7 @@ class ProjectsSpec extends Specification {
   "Projects" should {
 
     "default to the user's list of list on the index page" in new WithBrowser {
-      browser.goTo("http://localhost:" + port + "/list")
+      browser.goTo("http://localhost:" + port + "/")
       browser.$("h1").getText must equalTo("Projects")
     }
 

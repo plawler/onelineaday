@@ -1,0 +1,16 @@
+@(project: Project, projectForm: Form[(String,String)])
+
+@import helper._
+
+@main("One Line a Day - Edit Project") {
+    <h1>Edit your project</h1>
+
+    @form(routes.Projects.update(project.id)) {
+
+        @inputText(projectForm("name"))
+        @textarea(projectForm("description"))
+
+        <input type="submit" value="Save project"/>
+    }
+
+}

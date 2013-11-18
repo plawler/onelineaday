@@ -1,0 +1,15 @@
+@(project: Project)
+
+@import helper._
+
+@main("One Line a Day - Project") {
+
+    <h1>@project.name</h1>
+
+    <p>@project.description</p>
+
+    <p>Show the project calendar starting with the project start date</p>
+
+    <a href="@routes.Projects.edit(project.id)">Edit this project</a>
+
+}

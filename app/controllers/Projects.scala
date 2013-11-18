@@ -23,13 +23,15 @@ object Projects extends Controller {
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
   )
 
-  def projects = Action { implicit request =>
+  def projects = Action {
     Ok(views.html.projects.list(Project.all()))
   }
 
-  def project(id: Long) = TODO
+  def project(id: Long) = Action {
+    Ok(views.html.projects.item(Project.find(id)))
+  }
 
-  def newProject = Action { implicit request =>
+  def newProject = Action {
     Ok(views.html.projects.create(projectForm))
   }
 
@@ -41,6 +43,22 @@ object Projects extends Controller {
           Redirect(routes.Projects.projects)
       }
     )
+  }
+
+  def edit(id: Long) = Action {
+    val project = Project.find(id)
+    Ok(views.html.projects.edit(project, projectForm.fill(project.name, project.description)))
+  } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
+
+  def update(id: Long) = Action { implicit request =>
+    projectForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm)),
+      data => {
+        Project.update(id, data._1, data._2)
+        Redirect(routes.Projects.project(id))
+      }
+    )
+
   }
 
   def delete(id: Long) = TODO

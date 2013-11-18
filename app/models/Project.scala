@@ -28,15 +28,29 @@ object Project {
     }
   }
 
-  def all(): List[Project] = DB.withConnection { implicit c =>
+  def find(id: Long): Project = DB.withConnection { implicit conn =>
+    SQL("select * from projects where id = {id}").on(
+      'id -> id
+    ).using(project).single()
+  }
+
+  def all(): List[Project] = DB.withConnection { implicit conn =>
     SQL("select * from projects").as(project *)
   }
 
   def create(name: String, description: String, createdOn: Date) {
-    DB.withConnection { implicit c =>
+    DB.withConnection { implicit conn =>
       SQL("insert into projects (name, description, created_on) values ({name}, {description}, {created_on})").on(
         'name -> name, 'description -> description, 'created_on -> createdOn
-      ).executeUpdate()
+      ).executeUpdate
+    }
+  }
+
+  def update(id: Long, name: String, description: String) {
+    DB.withConnection { implicit conn =>
+      SQL("update projects set name = {name}, description = {description} where id = {id}").on(
+        'name -> name, 'description -> description, 'id -> id
+      ).executeUpdate
     }
   }
 

@@ -19,6 +19,9 @@ case class Project(id: Long, name: String, description: String, createdOn: Date)
 
 object Project {
 
+  // https://github.com/Diego81/workwithplay/tree/master/20130508
+  // http://janhelwich.wordpress.com/tag/anorm/
+
   val project = {
     get[Long]("id") ~
     get[String]("name") ~

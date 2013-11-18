@@ -58,7 +58,6 @@ object Projects extends Controller {
         Redirect(routes.Projects.project(id))
       }
     )
-
   }
 
   def delete(id: Long) = Action {

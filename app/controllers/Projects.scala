@@ -61,6 +61,9 @@ object Projects extends Controller {
 
   }
 
-  def delete(id: Long) = TODO
+  def delete(id: Long) = Action {
+    Project.delete(id)
+    Redirect(routes.Projects.projects)
+  }
 
 }

@@ -29,7 +29,7 @@ object Project {
   }
 
   def find(id: Long): Project = DB.withConnection { implicit conn =>
-    SQL("select * from projects where id = {id}").on(
+    SQL("select * from projects where id = {id} order by created_on").on(
       'id -> id
     ).using(project).single()
   }
@@ -54,6 +54,8 @@ object Project {
     }
   }
 
-  def delete(id: Long) {}
+  def delete(id: Long) {
+    DB.withConnection { implicit conn => SQL("delete from projects where id = {id}").on('id -> id).executeUpdate }
+  }
 
 }

@@ -10,6 +10,8 @@
 
     <p>Show the project calendar starting with the project start date</p>
 
-    <a href="@routes.Projects.edit(project.id)">Edit this project</a>
+    <p><a href="@routes.Projects.edit(project.id)">Edit this project</a>&nbsp;&nbsp;</p>
+
+    @form(routes.Projects.delete(project.id)) { <button type="submit">Delete</button> }
 
 }

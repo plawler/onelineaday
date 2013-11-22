@@ -1,14 +1,14 @@
 @(projectForm: Form[(String,String)])
 
-@import helper._
+@import helper.twitterBootstrap._
 
 @main("One Line a Day - New Project") {
     <h1>Create a new project</h1>
 
-    @form(routes.Projects.add) {
+    @helper.form(routes.Projects.add) {
 
-        @inputText(projectForm("name"))
-        @textarea(projectForm("description"))
+        @helper.inputText(projectForm("name"))
+        @helper.textarea(projectForm("description"))
 
         <input type="submit" value="Create project"/>
     }

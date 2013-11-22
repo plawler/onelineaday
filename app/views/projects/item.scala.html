@@ -10,8 +10,14 @@
 
     <p>Show the project calendar starting with the project start date</p>
 
-    <p><a href="@routes.Projects.edit(project.id)">Edit this project</a>&nbsp;&nbsp;</p>
+    <p>
 
-    @form(routes.Projects.delete(project.id)) { <button type="submit">Delete</button> }
+        @form(routes.Projects.delete(project.id)) {
+            <a href="@routes.Projects.edit(project.id)" class="btn btn-primary">Edit this project</a>&nbsp;
+            <button type="submit" class="btn btn-danger">Delete project</button>
+        }
+    </p>
 
 }
+@*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@
+@*http://tutorialzine.com/2013/07/50-must-have-plugins-for-extending-twitter-bootstrap*@

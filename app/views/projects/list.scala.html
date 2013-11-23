@@ -2,16 +2,26 @@
 
 @main("One Line a Day - Projects") {
 
-    <h1>Projects</h1>
+    <h1>Your projects</h1>
+    <p>&nbsp;</p>
 
-    <p><a href="@routes.Projects.newProject">Start a new project</a></p>
-
-    <ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Project name</th>
+                <th>Streak</th>
+            </tr>
+        </thead>
         @projects.map { project =>
-          <li>
-              <a href="@routes.Projects.project(project.id)">@project.name</a>
-          </li>
+            <tr>
+                <td><a href="@routes.Projects.project(project.id)">@project.name</a></td>
+                <td>Nothin' yet!</td>
+            </tr>
         }
-    </ul>
+    </table>
+
+    <p>&nbsp;</p>
+
+    <a href="@routes.Projects.newProject" class="btn btn-success btn-lg">Start a new project</a>
 
 }

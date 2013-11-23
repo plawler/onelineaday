@@ -1,16 +1,23 @@
 @(projectForm: Form[(String,String)])
 
-@import helper.twitterBootstrap._
+@import helper.form
+@import bootstrap._
 
 @main("One Line a Day - New Project") {
     <h1>Create a new project</h1>
+    <p>&nbsp;</p>
 
-    @helper.form(routes.Projects.add) {
+    @form(routes.Projects.add, 'class -> "form-horizontal", 'role -> "form") {
 
-        @helper.inputText(projectForm("name"))
-        @helper.textarea(projectForm("description"))
+        @text(projectForm("name"), "Name")
+        @textarea(projectForm("description"), "5", "Description")
 
-        <button type="submit" class="btn btn-primary">Create project</button>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" value="Submit" class="btn btn-primary">Create project</button>
+                <a href="@routes.Projects.projects" class="btn cancel" role="button">Cancel</a>
+            </div>
+        </div>
     }
 
 }

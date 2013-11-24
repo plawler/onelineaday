@@ -4,20 +4,47 @@
 
 @main("One Line a Day - Project") {
 
-    <h1>@project.name</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@project.name</h1>
 
-    <p>@project.description</p>
+            <p>&nbsp;</p>
 
-    <p>Show the project calendar starting with the project start date</p>
+            <p>@project.description</p>
 
-    <p>
+            <h2>Recent dailies</h2>
 
-        @form(routes.Projects.delete(project.id)) {
-            <a href="@routes.Projects.edit(project.id)" class="btn btn-primary">Edit this project</a>&nbsp;
-            <button type="submit" class="btn btn-danger">Delete project</button>
-        }
-    </p>
+            <p>&nbsp;</p>
+
+            @form(routes.Projects.delete(project.id)) {
+                <a href="@routes.Projects.edit(project.id)" class="btn btn-primary">Edit this project</a> &nbsp;
+                <button type="submit" class="btn btn-danger">Delete project</button>
+            }
+        </div>
+        <div class="col-md-4">
+            <div class="jumbotron">
+                <h1>17</h1>
+                <p>day streak</p>
+            </div>
+
+            @*<h3>Momentum</h3>*@
+            @*Calculates unbroken streaks and time spent on each daily into a momentum factor. Can increase with social media awareness*@
+
+            @*<h3>Serendipity</h3>*@
+            @*Just an idea that would indicate when the project has accidentally received some boost somehow*@
+        </div>
+    </div>
 
 }
+@*
+
+One Line a Day is my personal project to build personal projects ;). The idea is that you have a tremendous amount of high-quality work inside of them but don't have a system for getting it out into the world. One Line a Day creates that system for you so that, day by day, your work can emerge from an idea to a real, live project that, hopefully, makes an incredible contribution to the world.
+
+*@
+
+
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@
 @*http://tutorialzine.com/2013/07/50-must-have-plugins-for-extending-twitter-bootstrap*@
+@*http://bootstrapstyler.com/themes/admin/2-boardskin*@
+@*http://fortawesome.github.io*@
+@*http://designshack.net/articles/css/20-awesome-resources-for-twitter-bootstrap-lovers/*@

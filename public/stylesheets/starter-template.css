@@ -5,3 +5,7 @@ body {
     padding: 15px 15px;
     text-align: left;
 }
+
+.jumbotron {
+    background-color: #fff;
+}

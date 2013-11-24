@@ -16,10 +16,12 @@ import java.util.Date
 object Projects extends Controller {
 
   val projectForm = Form(
-    tuple (
+    mapping (
+    "id" -> ignored(0L),
     "name" -> nonEmptyText,
-    "description" -> nonEmptyText
-    )
+    "description" -> nonEmptyText,
+    "createdOn" -> ignored(new Date())
+    ) (Project.apply)(Project.unapply)
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
   )
 
@@ -38,8 +40,8 @@ object Projects extends Controller {
   def add = Action { implicit request =>
     projectForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.projects.create(formWithErrors)),
-      data => {
-          Project.create(data._1, data._2, new Date())
+      project => {
+          Project.create(project.name, project.description, new Date())
           Redirect(routes.Projects.projects)
       }
     )
@@ -47,14 +49,15 @@ object Projects extends Controller {
 
   def edit(id: Long) = Action {
     val project = Project.find(id)
-    Ok(views.html.projects.edit(project, projectForm.fill(project.name, project.description)))
+    Ok(views.html.projects.edit(project, projectForm.fill(project)))
+
   } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
 
   def update(id: Long) = Action { implicit request =>
     projectForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm)),
-      data => {
-        Project.update(id, data._1, data._2)
+      project => {
+        Project.update(id, project.name, project.description)
         Redirect(routes.Projects.project(id))
       }
     )

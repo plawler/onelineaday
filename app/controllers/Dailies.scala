@@ -1,6 +1,10 @@
 package controllers
 
-import play.api.mvc.Controller
+import play.api.mvc._
+import play.api.data._
+import play.api.data.Forms._
+import views.dailies.DailyData
+import java.util.Date
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,18 +15,28 @@ import play.api.mvc.Controller
  */
 object Dailies extends Controller {
 
-    def dailies = TODO
+  val dailyForm = Form(
+    mapping (
+      "id" -> ignored(0L),
+      "projectId" -> longNumber,
+      "description" -> nonEmptyText,
+      "duration" -> number(min = 0), // see docs for min/max
+      "createdOn" -> ignored(new Date)
+    )(DailyData.apply)(DailyData.unapply)
+  )
 
-    def daily(id: Long) = TODO
+  def dailies = TODO
 
-    def newDaily = TODO
+  def daily(id: Long) = TODO
 
-    def create = TODO
+  def newDaily = TODO
 
-    def edit(id: Long) = TODO
+  def create = TODO
 
-    def update(id: Long) = TODO
+  def edit(id: Long) = TODO
 
-    def delete(id: Long) = TODO
+  def update(id: Long) = TODO
+
+  def delete(id: Long) = TODO
 
 }

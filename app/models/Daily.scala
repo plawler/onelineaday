@@ -1,7 +1,7 @@
 package models
 
-import java.sql.Timestamp
-import java.util.Date
+import play.api.mvc.Controller
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,8 +10,6 @@ import java.util.Date
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date)
-
 object Daily {
 
 }

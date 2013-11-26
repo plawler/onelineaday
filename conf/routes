@@ -7,8 +7,8 @@ GET         /                           controllers.Application.index
 
 #Authentication
 GET         /login                      controllers.Authentication.login
-POST        /authenticate               controllers.Authentication.authenticate
 GET         /logout                     controllers.Authentication.logout
+POST        /authenticate               controllers.Authentication.authenticate
 
 #Projects
 GET         /projects                   controllers.Projects.projects
@@ -19,6 +19,16 @@ GET         /projects/:id/edit          controllers.Projects.edit(id: Long)
 POST        /projects                   controllers.Projects.add
 POST        /projects/:id               controllers.Projects.update(id: Long)
 POST        /projects/:id/delete        controllers.Projects.delete(id: Long)
+
+#Dailies
+GET         /dailies                    controllers.Dailies.dailies
+GET         /dailies/new                controllers.Dailies.newDaily
+GET         /dailies/:id                controllers.Dailies.daily(id: Long)
+GET         /dailies/:id/edit           controllers.Dailies.edit(id: Long)
+
+POST        /dailies                    controllers.Dailies.create
+POST        /dailies/:id                controllers.Dailies.update(id: Long)
+POST        /dailies/:id/delete         controllers.Dailies.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /webjars/*file              controllers.WebJarAssets.at(file)

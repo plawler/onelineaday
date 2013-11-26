@@ -2,9 +2,9 @@
 
 # --- !Ups
 
-CREATE SEQUENCE task_id_seq;
+CREATE SEQUENCE project_id_seq;
 CREATE TABLE projects (
-    id integer NOT NULL DEFAULT nextval('task_id_seq'),
+    id integer NOT NULL DEFAULT nextval('project_id_seq'),
     name varchar(255),
     description varchar(500),
     created_on timestamp
@@ -13,4 +13,4 @@ CREATE TABLE projects (
 # --- !Downs
 
 DROP TABLE projects;
-DROP SEQUENCE task_id_seq;
+DROP SEQUENCE project_id_seq;

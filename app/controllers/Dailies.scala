@@ -3,8 +3,8 @@ package controllers
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import views.dailies.DailyData
 import java.util.Date
+import models.{Project, Daily}
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,14 +22,16 @@ object Dailies extends Controller {
       "description" -> nonEmptyText,
       "duration" -> number(min = 0), // see docs for min/max
       "createdOn" -> ignored(new Date)
-    )(DailyData.apply)(DailyData.unapply)
+    )(Daily.apply)(Daily.unapply)
   )
 
-  def dailies = TODO
+  def dailies(projectId: Long) = TODO
 
   def daily(id: Long) = TODO
 
-  def newDaily = TODO
+  def newDaily(projectId: Long) = Action {
+    Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))
+  }
 
   def create = TODO
 

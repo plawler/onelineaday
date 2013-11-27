@@ -1,8 +1,11 @@
 package models
 
-import play.api.mvc.Controller
+import java.util.Date
 
-
+import play.api.Play.current
+import play.api.db._
+import anorm._
+import anorm.SqlParser._
 /**
  * Created with IntelliJ IDEA.
  * User: paullawler
@@ -10,6 +13,22 @@ import play.api.mvc.Controller
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
+case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date)
+
 object Daily {
+
+  val daily = {
+    get[Long]("id") ~
+    get[Long]("project_id") ~
+    get[String]("description") ~
+    get[Int]("duration") ~
+    get[Date]("created_on") map {
+      case id~projectId~description~duration~createdOn => Daily(id, projectId, description, duration, createdOn)
+    }
+  }
+
+  def findByProjectId(projectId: Long): List[Daily] = DB.withConnection { implicit conn =>
+    SQL("select * from dailies where project_id = {projectId}").on('project_id -> projectId).as(daily *)
+  }
 
 }

@@ -1,0 +1,16 @@
+@(dailyForm: Form[Daily], project: Project)
+
+@import helper.form
+@import bootstrap._
+
+@main("One Line a Day - New Daily") {
+
+    <h1>Add a new Daily to the project</h1>
+    <p>&nbsp;</p>
+
+    @form(routes.Dailies.create, 'class -> "form-horizontal", 'role -> "form") {
+        <input type="hidden" name="projectId" value="@project.id"/>
+    }
+
+
+}

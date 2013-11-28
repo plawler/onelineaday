@@ -8,7 +8,8 @@ CREATE TABLE dailies (
     project_id integer,
     description varchar(max),
     duration integer,
-    created_on timestamp
+    created_on timestamp,
+    completed_on timestamp
 );
 
 # --- !Downs

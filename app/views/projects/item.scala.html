@@ -1,4 +1,4 @@
-@(project: Project)
+@(project: Project, dailies: List[Daily])
 
 @import helper._
 
@@ -12,15 +12,35 @@
 
             <p>@project.description</p>
 
-            <h2>Recent dailies</h2>
-
             <p>&nbsp;</p>
 
             @form(routes.Projects.delete(project.id)) {
                 <a href="@routes.Projects.edit(project.id)" class="btn btn-primary">Edit this project</a> &nbsp;
                 <button type="submit" class="btn btn-danger">Delete project</button>
             }
+
+            <p>&nbsp;</p>
+
+            <h2>Project dailies</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Resources</th>
+                    </tr>
+                </thead>
+                @dailies.map { daily =>
+                    <tr>
+                        <td>@daily.description</td>
+                        <td>No resources yet!</td>
+                    </tr>
+                }
+            </table>
+
+            <a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success">Add a daily</a>
         </div>
+
         <div class="col-md-4">
             <div class="jumbotron">
                 <h1>17</h1>
@@ -33,6 +53,7 @@
             @*<h3>Serendipity</h3>*@
             @*Just an idea that would indicate when the project has accidentally received some boost somehow*@
         </div>
+
     </div>
 
 }

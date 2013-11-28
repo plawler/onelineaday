@@ -21,7 +21,8 @@ object Dailies extends Controller {
       "projectId" -> longNumber,
       "description" -> nonEmptyText,
       "duration" -> number(min = 0), // see docs for min/max
-      "createdOn" -> ignored(new Date)
+      "createdOn" -> ignored(new Date),
+      "completedOn" -> optional(date("yyyy-MM-dd"))
     )(Daily.apply)(Daily.unapply)
   )
 
@@ -33,7 +34,16 @@ object Dailies extends Controller {
     Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))
   }
 
-  def create = TODO
+  def create = Action { implicit request =>
+    dailyForm.bindFromRequest.fold(
+      formWithErrors =>
+        BadRequest(views.html.dailies.create(formWithErrors, Project.find(formWithErrors.data.get("projectId").get.toLong))),
+      daily => {
+        Daily.create(daily.projectId, daily.description, daily.duration, new Date())
+        Redirect(routes.Projects.project(daily.projectId))
+      }
+    )
+  }
 
   def edit(id: Long) = TODO
 

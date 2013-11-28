@@ -13,7 +13,7 @@ import anorm.SqlParser._
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date)
+case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date, completedOn: Option[Date])
 
 object Daily {
 
@@ -22,13 +22,26 @@ object Daily {
     get[Long]("project_id") ~
     get[String]("description") ~
     get[Int]("duration") ~
-    get[Date]("created_on") map {
-      case id~projectId~description~duration~createdOn => Daily(id, projectId, description, duration, createdOn)
+    get[Date]("created_on") ~
+    get[Option[Date]]("completed_on") map {
+      case id~projectId~description~duration~createdOn~completedOn =>
+        Daily(id, projectId, description, duration, createdOn, completedOn)
     }
   }
 
   def findByProjectId(projectId: Long): List[Daily] = DB.withConnection { implicit conn =>
-    SQL("select * from dailies where project_id = {projectId}").on('project_id -> projectId).as(daily *)
+    SQL("select * from dailies where project_id = {projectId}").on('projectId -> projectId).as(daily *)
+  }
+
+  def create(projectId: Long, description: String, duration: Int, createdOn: Date) =
+    DB.withConnection { implicit conn =>
+    SQL(
+      """
+      insert into dailies (project_id, description, duration, created_on)
+      values ({project_id}, {description}, {duration}, {created_on})
+      """
+    ).on('project_id -> projectId, 'description -> description, 'duration -> duration, 'created_on -> createdOn
+    ).executeUpdate()
   }
 
 }

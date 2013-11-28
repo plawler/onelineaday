@@ -3,7 +3,7 @@ package controllers
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
-import models.Project
+import models.{Daily, Project}
 import java.util.Date
 
 /**
@@ -30,7 +30,7 @@ object Projects extends Controller {
   }
 
   def project(id: Long) = Action {
-    Ok(views.html.projects.item(Project.find(id)))
+    Ok(views.html.projects.item(Project.find(id), Daily.findByProjectId(id)))
   }
 
   def newProject = Action {

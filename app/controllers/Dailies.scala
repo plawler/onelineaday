@@ -37,7 +37,7 @@ object Dailies extends Controller {
   def create = Action { implicit request =>
     dailyForm.bindFromRequest.fold(
       formWithErrors =>
-        BadRequest(views.html.dailies.create(formWithErrors, Project.find(formWithErrors.data.get("projectId").get.toLong))),
+        BadRequest(views.html.dailies.create(formWithErrors, Project.find(formWithErrors.data("projectId").toLong))),
       daily => {
         Daily.create(daily.projectId, daily.description, daily.duration, new Date())
         Redirect(routes.Projects.project(daily.projectId))

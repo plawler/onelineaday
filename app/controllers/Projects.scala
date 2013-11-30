@@ -30,7 +30,7 @@ object Projects extends Controller {
   }
 
   def project(id: Long) = Action {
-    Ok(views.html.projects.item(Project.find(id), Daily.findByProjectId(id)))
+    Ok(views.html.projects.item(Project.find(id), Daily.findByProjectId(id), Project.streak(id)))
   }
 
   def newProject = Action {
@@ -50,7 +50,6 @@ object Projects extends Controller {
   def edit(id: Long) = Action {
     val project = Project.find(id)
     Ok(views.html.projects.edit(project, projectForm.fill(project)))
-
   } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
 
   def update(id: Long) = Action { implicit request =>

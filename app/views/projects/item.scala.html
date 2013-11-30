@@ -1,4 +1,4 @@
-@(project: Project, dailies: List[Daily])
+@(project: Project, dailies: List[Daily], streak: Int)
 
 @import helper._
 
@@ -43,7 +43,7 @@
 
         <div class="col-md-4">
             <div class="jumbotron">
-                <h1>17</h1>
+                <h1>@streak</h1>
                 <p>day streak</p>
             </div>
 

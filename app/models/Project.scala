@@ -44,8 +44,9 @@ object Project {
       if (daily.completedOn == None) total
       else {
         val completedOn = daily.completedOn.get
-        if (daysBetween(completedOn, referenceDate) > 1) total
-        else calculateStreak(dailies.tail, completedOn, total + 1)
+        val days = daysBetween(completedOn, referenceDate)
+        if (days > 1) total
+        else calculateStreak(dailies.tail, completedOn, total + days)
       }
     }
   }

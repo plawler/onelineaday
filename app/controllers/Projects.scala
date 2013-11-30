@@ -25,6 +25,7 @@ object Projects extends Controller {
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
   )
 
+  //http://engineering.linkedin.com/play/play-framework-democratizing-functional-programming-modern-web-programmers
   def projects = Action {
     Ok(views.html.projects.list(Project.all()))
   }

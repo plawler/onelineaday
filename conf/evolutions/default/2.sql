@@ -12,6 +12,25 @@ CREATE TABLE dailies (
     completed_on timestamp
 );
 
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (1, 1, 'Download and install Play framework', 60, '2013-11-16', '2013-11-017');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (2, 1, 'Set up repo in Github', 60, '2013-11-16', '2013-11-16');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (3, 1, 'Project model', 30, '2013-11-17', '2013-11-17');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (4, 1, 'Listing projects from database', 60, '2013-11-17', '2013-11-17');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (5, 1, 'Finish CRUD for Project model', 60, '2013-11-17', '2013-11-17');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (6, 1, 'Bootstrap and Webjars dependencies', 30, '2013-11-18', '2013-11-18');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (7, 1, 'JQuery and Webjars dependencies', 30, '2013-11-19', '2013-11-19');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (8, 1, 'Bootstrap integration', 90, '2013-11-20', '2013-11-20');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (9, 1, 'Form buttons using Bootstrap', 60, '2013-11-21', '2013-11-21');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (10, 1, 'Bootstrap form helpers using scala views', 120, '2013-11-22', '2013-11-22');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (11, 1, 'Mapping method instead of tuples to bind to forms', 60, '2013-11-23', '2013-11-23');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (12, 1, 'Daily model', 60, '2013-11-24', '2013-11-24');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (13, 1, 'Daily controller and form binding', 60, '2013-11-25', '2013-11-25');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (14, 1, 'Hidden fields for views', 60, '2013-11-26', '2013-11-26');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (15, 1, 'Daily object for database access', 60, '2013-11-27', '2013-11-27');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (16, 1, 'Correctly referencing data in the form map', 20, '2013-11-28', '2013-11-28');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (17, 1, 'Computing the daily streak', 20, '2013-11-29', '2013-11-29');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (17, 1, 'Project list page needs streak and started on fields', 20, '2013-11-30', '2013-11-30');
+
 # --- !Downs
 
 DROP TABLE dailies;

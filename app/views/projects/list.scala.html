@@ -9,13 +9,15 @@
         <thead>
             <tr>
                 <th>Project name</th>
-                <th>Streak</th>
+                <th>Created on</th>
+                @*<th>Streak</th> two approaches: pass in map(Project, Streak) or optimize a table for this view*@
             </tr>
         </thead>
         @projects.map { project =>
             <tr>
                 <td><a href="@routes.Projects.project(project.id)">@project.name</a></td>
-                <td>Nothin' yet!</td>
+                <td>@project.createdOn.format("MMMM d, yyyy")</td>
+                @*<td>0</td>*@
             </tr>
         }
     </table>

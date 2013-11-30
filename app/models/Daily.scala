@@ -30,7 +30,7 @@ object Daily {
   }
 
   def findByProjectId(projectId: Long): List[Daily] = DB.withConnection { implicit conn =>
-    SQL("select * from dailies where project_id = {projectId} order by completed_on desc").on('projectId -> projectId).as(daily *)
+    SQL("select * from dailies where project_id = {projectId} order by created_on desc, completed_on desc").on('projectId -> projectId).as(daily *)
   }
 
   def create(projectId: Long, description: String, duration: Int, createdOn: Date) =

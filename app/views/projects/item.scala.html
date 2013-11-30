@@ -19,32 +19,12 @@
                 <button type="submit" class="btn btn-danger">Delete project</button>
             }
 
-            <p>&nbsp;</p>
-
-            <h2>Project dailies</h2>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Resources</th>
-                    </tr>
-                </thead>
-                @dailies.map { daily =>
-                    <tr>
-                        <td>@daily.description</td>
-                        <td>No resources yet!</td>
-                    </tr>
-                }
-            </table>
-
-            <a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success">Add a daily</a>
         </div>
 
         <div class="col-md-4">
             <div class="jumbotron">
                 <h1>@streak</h1>
-                <p>day streak</p>
+                <p>day streak@if(streak > 0) {!} else {&nbsp;(get crackin')}</p>
             </div>
 
             @*<h3>Momentum</h3>*@
@@ -53,7 +33,38 @@
             @*<h3>Serendipity</h3>*@
             @*Just an idea that would indicate when the project has accidentally received some boost somehow*@
         </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>&nbsp;</p>
 
+            <h2>Project dailies</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        @*<th>Created on</th>*@
+                        <th>Completed?</th>
+                        <th>Resources</th>
+                    </tr>
+                </thead>
+                @dailies.map { daily =>
+                    <tr>
+                        <td>@daily.description</td>
+                        @*<td>@daily.createdOn.format("MMM d")</td>*@
+                        @if(daily.completedOn == None) {
+                            <td>Nope</td>
+                        } else {
+                            <td>@daily.completedOn.get.format("MMM d")</td>
+                        }
+                        <td>Nuttin' yet!</td>
+                    </tr>
+                }
+            </table>
+
+            <a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success">Add a daily</a>
+        </div>
     </div>
 
 }
@@ -62,7 +73,6 @@
 One Line a Day is my personal project to build personal projects ;). The idea is that you have a tremendous amount of high-quality work inside of them but don't have a system for getting it out into the world. One Line a Day creates that system for you so that, day by day, your work can emerge from an idea to a real, live project that, hopefully, makes an incredible contribution to the world.
 
 *@
-
 
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@
 @*http://tutorialzine.com/2013/07/50-must-have-plugins-for-extending-twitter-bootstrap*@

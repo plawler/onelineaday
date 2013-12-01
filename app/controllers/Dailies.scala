@@ -51,4 +51,10 @@ object Dailies extends Controller {
 
   def delete(id: Long) = TODO
 
+  def complete(id: Long) = Action {
+    Daily.complete(id, new Date())
+    val daily = Daily.find(id)
+    Redirect(routes.Projects.project(daily.projectId))
+  }
+
 }

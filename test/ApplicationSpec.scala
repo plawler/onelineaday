@@ -19,12 +19,12 @@ class ApplicationSpec extends Specification {
       route(FakeRequest(GET, "/boum")) must beNone
     }
 
-    "render the index page" in new WithApplication{
-      val home = route(FakeRequest(GET, "/")).get
+    "render the default page" in new WithApplication{
+      val home = route(FakeRequest(GET, "/projects")).get
 
-      status(home) must equalTo(OK)
+      status(home) must equalTo(OK) // not sure what to do with this since it is a redirect
       contentType(home) must beSome.which(_ == "text/html")
-      contentAsString(home) must contain ("Your form application is ready.")
+      contentAsString(home) must contain ("Your projects")
     }
   }
 }

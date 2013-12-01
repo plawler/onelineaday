@@ -5,6 +5,7 @@ import org.specs2.mutable._
 import org.specs2.runner._
 
 import play.api.test._
+import org.junit.Ignore
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,13 +15,14 @@ import play.api.test._
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(classOf[JUnitRunner])
+@Ignore
 class ProjectsSpec extends Specification {
 
   "Projects" should {
 
     "default to the user's list of list on the index page" in new WithBrowser {
       browser.goTo("http://localhost:" + port + "/")
-      browser.$("h1").getText must equalTo("Projects")
+      browser.$("h1").getText must equalTo("Your projects")
     }
 
   }

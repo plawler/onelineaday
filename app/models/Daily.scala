@@ -44,4 +44,16 @@ object Daily {
     ).executeUpdate()
   }
 
+  def find(id: Long): Daily = DB.withConnection { implicit conn =>
+    SQL("select * from dailies where id = {id}").on('id -> id).using(daily).single()
+  }
+
+  def complete(id: Long, completedOn: Date) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      update dailies set completed_on = {completedOn} where id = {id}
+      """
+    ).on('completedOn -> completedOn, 'id -> id).executeUpdate()
+  }
+
 }

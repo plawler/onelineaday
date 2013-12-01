@@ -29,6 +29,7 @@ GET         /dailies/:id/edit                       controllers.Dailies.edit(id:
 POST        /dailies                                controllers.Dailies.create
 POST        /dailies/:id                            controllers.Dailies.update(id: Long)
 POST        /dailies/:id/delete                     controllers.Dailies.delete(id: Long)
+POST        /dailies/:id/complete                   controllers.Dailies.complete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /webjars/*file                          controllers.WebJarAssets.at(file)

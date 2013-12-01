@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-CREATE SEQUENCE daily_id_seq;
+CREATE SEQUENCE daily_id_seq start with 100000;
 CREATE TABLE dailies (
     id integer NOT NULL DEFAULT nextval('daily_id_seq'),
     project_id integer,
@@ -29,7 +29,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (15, 1, 'Daily object for database access', 60, '2013-11-27', '2013-11-27');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (16, 1, 'Correctly referencing data in the form map', 20, '2013-11-28', '2013-11-28');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (17, 1, 'Computing the daily streak', 20, '2013-11-29', '2013-11-29');
-insert into dailies (id, project_id, description, duration, created_on, completed_on) values (17, 1, 'Project list page needs streak and started on fields', 20, '2013-11-30', '2013-11-30');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (18, 1, 'Project list page needs streak and started on fields', 20, '2013-11-30', '2013-11-30');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (19, 1, 'Complete the table columns for project dailies', 20, '2013-12-01', '2013-12-01');
 
 # --- !Downs
 

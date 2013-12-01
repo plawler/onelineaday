@@ -54,11 +54,19 @@
                         <td>@daily.description</td>
                         @*<td>@daily.createdOn.format("MMM d")</td>*@
                         @if(daily.completedOn == None) {
-                            <td>Nope</td>
+                            <td>
+                                @form(routes.Dailies.complete(daily.id)) {
+                                    <button type="submit" class="btn btn-success btn-xs">Complete it!</button>
+                                }
+                            </td>
                         } else {
                             <td>@daily.completedOn.get.format("MMM d")</td>
                         }
-                        <td>Nuttin' yet!</td>
+                        <td>
+                            <a href="#">Links <span class="label label-primary">2</span></a>&nbsp;
+                            <a href="#">Commits <span class="label label-primary">3</span></a>&nbsp;
+                            <a href="#">Tweets <span class="label label-primary">1</span></a>
+                        </td>
                     </tr>
                 }
             </table>
@@ -68,11 +76,6 @@
     </div>
 
 }
-@*
-
-One Line a Day is my personal project to build personal projects ;). The idea is that you have a tremendous amount of high-quality work inside of them but don't have a system for getting it out into the world. One Line a Day creates that system for you so that, day by day, your work can emerge from an idea to a real, live project that, hopefully, makes an incredible contribution to the world.
-
-*@
 
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@
 @*http://tutorialzine.com/2013/07/50-must-have-plugins-for-extending-twitter-bootstrap*@

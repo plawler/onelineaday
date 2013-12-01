@@ -57,14 +57,14 @@ object Project {
 
   def find(id: Long): Project = DB.withConnection {
     implicit conn =>
-      SQL("select * from projects where id = {id} order by created_on").on(
+      SQL("select * from projects where id = {id}").on(
         'id -> id
       ).using(project).single()
   }
 
   def all(): List[Project] = DB.withConnection {
     implicit conn =>
-      SQL("select * from projects").as(project *)
+      SQL("select * from projects order by created on").as(project *)
   }
 
   def create(name: String, description: String, createdOn: Date) {

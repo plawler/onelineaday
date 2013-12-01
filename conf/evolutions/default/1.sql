@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-CREATE SEQUENCE project_id_seq;
+CREATE SEQUENCE project_id_seq start with 100000;
 CREATE TABLE projects (
     id integer NOT NULL DEFAULT nextval('project_id_seq'),
     name varchar(255),

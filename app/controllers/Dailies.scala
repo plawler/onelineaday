@@ -28,7 +28,10 @@ object Dailies extends Controller {
 
   def dailies(projectId: Long) = TODO
 
-  def daily(id: Long) = TODO
+  def daily(id: Long) = Action {
+    val d = Daily.find(id)
+    Ok(views.html.dailies.item(d, Project.find(d.projectId)))
+  }
 
   def newDaily(projectId: Long) = Action {
     Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))

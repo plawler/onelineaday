@@ -1,0 +1,16 @@
+@(daily: Daily, project: Project)
+
+@import helper._
+
+@main("One Line a Day - Daily") {
+
+    <h1>Daily <small>@project.name</small></h1>
+
+    <p>&nbsp;</p>
+
+    <blockquote>
+        <p>@daily.description</p>
+        <small>@daily.createdOn.format("MMM d, yyyy")</small>
+    </blockquote>
+
+}

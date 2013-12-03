@@ -64,7 +64,7 @@ object Project {
 
   def all(): List[Project] = DB.withConnection {
     implicit conn =>
-      SQL("select * from projects order by created on").as(project *)
+      SQL("select * from projects order by created_on desc").as(project *)
   }
 
   def create(name: String, description: String, createdOn: Date) {

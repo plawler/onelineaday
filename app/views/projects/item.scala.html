@@ -51,7 +51,7 @@
                 </thead>
                 @dailies.map { daily =>
                     <tr>
-                        <td>@daily.description</td>
+                        <td><a href="@routes.Dailies.daily(daily.id)">@daily.description</a></td>
                         @*<td>@daily.createdOn.format("MMM d")</td>*@
                         @if(daily.completedOn == None) {
                             <td>

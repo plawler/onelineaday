@@ -4,13 +4,38 @@
 
 @main("One Line a Day - Daily") {
 
-    <h1>Daily <small>@project.name</small></h1>
+    <h1>Daily <small>@daily.createdOn.format("MMM d, yyyy")</small></h1>
 
     <p>&nbsp;</p>
 
     <blockquote>
         <p>@daily.description</p>
-        <small>@daily.createdOn.format("MMM d, yyyy")</small>
+        @*<small>@daily.createdOn.format("MMM d, yyyy")</small>*@
     </blockquote>
+
+    <dl class="dl-horizontal">
+        <dt>Project</dt>
+        <dd><a href="@routes.Projects.project(project.id)">@project.name</a></dd>
+        <dt>Completed</dt>
+        <dd>
+        @if(daily.completedOn == None) {
+            Nope. Get going!
+        } else {
+            @daily.completedOn.get.format("MMM d, yyyy")
+        }
+        </dd>
+        <dt>Duration</dt>
+        <dd>@daily.duration minutes</dd>
+    </dl>
+
+    <p>&nbsp;</p>
+
+    @form(routes.Dailies.delete(daily.id)) {
+        <button type="submit" class="btn btn-danger">Delete</button>
+    }
+
+    <p>&nbsp;</p>
+
+    <h2>Resources</h2>
 
 }

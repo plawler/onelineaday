@@ -31,7 +31,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (17, 1, 'Computing the daily streak', 20, '2013-11-29', '2013-11-29');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (18, 1, 'Project list page needs streak and started on fields', 20, '2013-11-30', '2013-11-30');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (19, 1, 'Complete the table columns for project dailies', 45, '2013-12-01', '2013-12-01');
-insert into dailies (id, project_id, description, duration, created_on, completed_on) values (19, 1, 'Daily view page', 30, '2013-12-02', '2013-12-02');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (20, 1, 'Daily view page', 30, '2013-12-02', '2013-12-02');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (21, 1, 'Daily view details', 30, '2013-12-03', '2013-12-03');
 
 # --- !Downs
 

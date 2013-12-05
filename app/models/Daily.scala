@@ -56,4 +56,8 @@ object Daily {
     ).on('completedOn -> completedOn, 'id -> id).executeUpdate()
   }
 
+  def delete(id: Long) = DB.withConnection { implicit conn =>
+    SQL("delete from dailies where id = {id}").on('id -> id).executeUpdate()
+  }
+
 }

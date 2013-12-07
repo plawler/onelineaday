@@ -48,10 +48,6 @@ object Dailies extends Controller {
     )
   }
 
-  def edit(id: Long) = TODO
-
-  def update(id: Long) = TODO
-
   def delete(id: Long) = Action {
     val projectId = Daily.find(id).projectId
     Daily.delete(id)

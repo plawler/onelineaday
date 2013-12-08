@@ -1,6 +1,8 @@
 package controllers
 
-import com.sun.xml.internal.bind.v2.TODO
+import play.api.mvc._
+import play.api.data._
+import play.api.data.Forms._
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,14 +11,12 @@ import com.sun.xml.internal.bind.v2.TODO
  * Time: 10:42 PM
  * To change this template use File | Settings | File Templates.
  */
-object Resources {
+object Resources extends Controller {
 
-  def create = TODO
+  def get(id: Long) = TODO
 
-  def edit = TODO
-
-  def update = TODO
-
-  def resources = TODO
+  def newResource(dailyId: Long) = Action {
+    Ok(views.html.resources.modal_new())
+  }
 
 }

@@ -15,7 +15,7 @@ import anorm.SqlParser._
  * To change this template use File | Settings | File Templates.
  */
 
-case class Resource(id: Long, dailyId: Long, url: String, title: Option[String], comment: Option[String],
+case class Resource(id: Long, dailyId: Long, url: String, title: String, comment: Option[String],
                     tags: Option[String], createdOn: Date)
 
 object Resource {
@@ -24,7 +24,7 @@ object Resource {
     get[Long]("id") ~
     get[Long]("daily_id") ~
     get[String]("url") ~
-    get[Option[String]]("title") ~
+    get[String]("title") ~
     get[Option[String]]("comment") ~
     get[Option[String]]("tags") ~
     get[Date]("createOn") map {
@@ -33,7 +33,7 @@ object Resource {
     }
   }
 
-  def create(dailyId: Long, url: String, title: Option[String], comment: Option[String], tags: Option[String], createdOn: Date) =
+  def create(dailyId: Long, url: String, title: String, comment: Option[String], tags: Option[String], createdOn: Date) =
     DB.withConnection { implicit conn =>
     SQL(
       """
@@ -42,6 +42,10 @@ object Resource {
       """
     ).on('dailyId -> dailyId, 'url -> url, 'title -> title, 'comment -> comment, 'tags -> tags,
       'createdOn -> createdOn).executeUpdate()
+  }
+
+  def findByDailyId(dailyId: Long): List[Resource] = DB.withConnection { implicit conn =>
+    SQL("select * from resources where daily_id = {dailyId}").on('dailyId -> dailyId).as(resource *)
   }
 
 }

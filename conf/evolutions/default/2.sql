@@ -35,7 +35,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (21, 1, 'Daily view details', 30, '2013-12-03', '2013-12-03');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (22, 1, 'Delete a daily', 30, '2013-12-04', '2013-12-04');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (23, 1, 'Flesh out the Resource model case class', 60, '2013-12-05', '2013-12-05');
-insert into dailies (id, project_id, description, duration, created_on, completed_on) values (24, 1, 'Resouce SQL for table definition and create', 60, '2013-12-06', '2013-12-06');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (24, 1, 'Resource SQL for table definition and create', 60, '2013-12-06', '2013-12-06');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (25, 1, 'Bind resource to modal form', 60, '2013-12-07', null);
 
 # --- !Downs
 

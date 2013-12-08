@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import java.util.Date
-import models.{Project, Daily}
+import models.{Resource, Project, Daily}
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,8 +29,8 @@ object Dailies extends Controller {
   def dailies(projectId: Long) = TODO
 
   def daily(id: Long) = Action {
-    val d = Daily.find(id)
-    Ok(views.html.dailies.item(d, Project.find(d.projectId)))
+    val daily = Daily.find(id)
+    Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id)))
   }
 
   def newDaily(projectId: Long) = Action {

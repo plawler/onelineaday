@@ -24,12 +24,14 @@ POST        /projects/:id/delete                    controllers.Projects.delete(
 GET         /projects/:projectId/dailies            controllers.Dailies.dailies(projectId: Long)
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)
 GET         /dailies/:id                            controllers.Dailies.daily(id: Long)
-GET         /dailies/:id/edit                       controllers.Dailies.edit(id: Long)
 
 POST        /dailies                                controllers.Dailies.create
-POST        /dailies/:id                            controllers.Dailies.update(id: Long)
 POST        /dailies/:id/delete                     controllers.Dailies.delete(id: Long)
 POST        /dailies/:id/complete                   controllers.Dailies.complete(id: Long)
+
+#Resources
+GET         /resources/:id                          controllers.Resources.get(id: Long)
+GET         /resources/:dailyId/new                 controllers.Resources.newResource(dailyId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /webjars/*file                          controllers.WebJarAssets.at(file)

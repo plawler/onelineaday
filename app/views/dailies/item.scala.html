@@ -57,21 +57,13 @@
     <button type="button" class="btn btn-success" data-toggle="modal" data-remote="@routes.Resources.newResource(daily.id)" data-target="#newResourceModal">
         Add a resource
     </button>
+
     <div class="modal fade" id="newResourceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
-    @*<button type="button" class="btn btn-secondary" onclick="showResourceModal()">Add it with Javascript</button>*@
     <script language="javascript">
         $('#newResourceModal').on('hidden.bs.modal', function () {
             $(this).removeData();
         })
-
-        @*function showResourceModal() {*@
-            @*$('#newResourceModal').modal({*@
-                @*show: true,*@
-                @*keyboard: true,*@
-                @*remote: '@routes.Resources.newResource(daily.id)'*@
-            @*})*@
-        @*}*@
     </script>
 
     @*don't forget to check and see if we need to use jquery form libs!!!!!*@

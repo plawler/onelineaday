@@ -6,8 +6,7 @@
 
     <h1>Daily <small>@daily.createdOn.format("MMM d, yyyy")</small></h1>
 
-    <p>&nbsp;</p>
-
+    <hr>
     <blockquote>
         <p>@daily.description</p>
     </blockquote>
@@ -26,8 +25,7 @@
         <dt>Duration</dt>
         <dd>@daily.duration minutes</dd>
     </dl>
-
-    <p>&nbsp;</p>
+    <hr>
 
     @form(routes.Dailies.delete(daily.id)) {
         <button type="submit" class="btn btn-danger">Delete</button>
@@ -48,7 +46,11 @@
             </tr>
         </thead>
         @resources.map { resource =>
-
+            <tr>
+                <td>@resource.title</td>
+                <td>@resource.tags</td>
+                <td>@resource.createdOn.format("MMM d, yyyy")</td>
+            </tr>
         }
     </table>
 
@@ -60,7 +62,7 @@
 
     <div class="modal fade" id="newResourceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
-    <script language="javascript">
+    <script type="text/javascript">
         $('#newResourceModal').on('hidden.bs.modal', function () {
             $(this).removeData();
         })

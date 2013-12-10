@@ -1,17 +1,50 @@
-@*<div class="modal fade" id="newResourceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*@
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">New resource</h4>
-            </div>
+@(resourceForm: Form[Resource], daily: Daily)
+
+@import helper.form
+@import bootstrap.text
+@import bootstrap.textarea
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">New resource</h4>
+        </div>
+
+        @form(routes.Resources.create, 'id -> "resourceForm", 'class -> "form-horizontal", 'role -> "form") {
             <div class="modal-body">
-                    ...
+                <input type="hidden" name="dailyId" value="@daily.id"/>
+                @text(resourceForm("url"), "Link")
+                @text(resourceForm("title"), "Title")
+                @text(resourceForm("tags"), "Tags", help = "Separate each tag with a comma")
+                @textarea(resourceForm("comment"), "3", "Comment")
+
             </div>
             <div class="modal-footer">
+                <button id="submit" type="submit" value="Submit" class="btn btn-primary">Save resource</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-@*</div><!-- /.modal -->*@
+        }
+    </div> <!-- /.modal-content -->
+</div> <!-- /.modal-dialog -->
+
+<div id="errorData"></div>
+
+<script type="text/javascript">
+    $("#resourceForm" ).submit(function (event) {
+
+        var jqXHR = $.post($(this).attr("action"), $(this).serialize())
+            .done(function(data) {
+                $("#newResourceModal").modal("hide");
+                alert(data);
+            })
+            .fail(function(data) {
+                alert("shit when sideways!");
+                $("#newResourceModal" ).empty();
+                $("#newResourceModal").append(data.responseText);
+            });
+
+        event.preventDefault();
+
+    });
+</script>

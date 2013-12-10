@@ -27,7 +27,7 @@ object Resource {
     get[String]("title") ~
     get[Option[String]]("comment") ~
     get[Option[String]]("tags") ~
-    get[Date]("createOn") map {
+    get[Date]("created_on") map {
       case id~dailyId~url~title~comment~tags~createdOn =>
         Resource(id, dailyId, url, title, comment, tags, createdOn)
     }

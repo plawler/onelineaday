@@ -33,6 +33,8 @@ POST        /dailies/:id/complete                   controllers.Dailies.complete
 GET         /resources/:id                          controllers.Resources.get(id: Long)
 GET         /resources/:dailyId/new                 controllers.Resources.newResource(dailyId: Long)
 
+POST        /resources                              controllers.Resources.create
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /webjars/*file                          controllers.WebJarAssets.at(file)
 GET         /assets/*file                           controllers.Assets.at(path="/public", file)

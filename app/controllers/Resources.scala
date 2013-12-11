@@ -39,7 +39,7 @@ object Resources extends Controller {
         BadRequest(views.html.resources.modal_new(formWithErrors, Daily.find(formWithErrors.data("dailyId").toLong))),
       resource => {
         Resource.create(resource.dailyId, resource.url, resource.title, resource.comment, resource.tags, new Date())
-        Ok("Success!!")
+        Ok(views.html.dailies.resource_rows(Resource.findByDailyId(resource.dailyId)))
       }
     )
   }

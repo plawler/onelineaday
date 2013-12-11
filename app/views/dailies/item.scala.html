@@ -35,9 +35,7 @@
 
     <h2>Resources</h2>
 
-    <p>&nbsp;</p>
-
-    <table class="table table-striped">
+    <table id="resourcesTable" class="table table-striped">
         <thead>
             <tr>
                 <th>Title</th>
@@ -45,16 +43,10 @@
                 <th>Saved on</th>
             </tr>
         </thead>
-        @resources.map { resource =>
-            <tr>
-                <td>@resource.title</td>
-                <td>@resource.tags</td>
-                <td>@resource.createdOn.format("MMM d, yyyy")</td>
-            </tr>
-        }
+        <tbody>
+            @resource_rows(resources)
+        </tbody>
     </table>
-
-    <p>&nbsp;</p>
 
     <button type="button" class="btn btn-success" data-toggle="modal" data-remote="@routes.Resources.newResource(daily.id)" data-target="#newResourceModal">
         Add a resource

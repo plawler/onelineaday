@@ -18,7 +18,6 @@
                 @text(resourceForm("title"), "Title")
                 @text(resourceForm("tags"), "Tags", help = "Separate each tag with a comma")
                 @textarea(resourceForm("comment"), "3", "Comment")
-
             </div>
             <div class="modal-footer">
                 <button id="submit" type="submit" value="Submit" class="btn btn-primary">Save resource</button>
@@ -32,14 +31,12 @@
 
 <script type="text/javascript">
     $("#resourceForm" ).submit(function (event) {
+        $('#submit' ).prop('disabled', true);
 
         $.post($(this).attr("action"), $(this).serialize())
             .done(function(data) {
                 $("#newResourceModal").modal("hide");
                 location.reload();
-//                var tbody = $("#resourcesTable").find("tbody:last");
-//                tbody.empty();
-//                tbody.append(data);
             })
             .fail(function(data) {
                 $("#newResourceModal").empty();

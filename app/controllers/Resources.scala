@@ -44,4 +44,10 @@ object Resources extends Controller {
     )
   }
 
+  def delete(id: Long) = Action {
+    val dailyId = Resource.find(id).dailyId
+    Resource.delete(id)
+    Redirect(routes.Dailies.daily(dailyId))
+  }
+
 }

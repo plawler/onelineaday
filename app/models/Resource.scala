@@ -44,8 +44,16 @@ object Resource {
       'createdOn -> createdOn).executeUpdate()
   }
 
+  def find(id: Long): Resource = DB.withConnection { implicit conn =>
+    SQL("select * from resources where id = {id}").on('id -> id).using(resource).single()
+  }
+
   def findByDailyId(dailyId: Long): List[Resource] = DB.withConnection { implicit conn =>
     SQL("select * from resources where daily_id = {dailyId}").on('dailyId -> dailyId).as(resource *)
+  }
+
+  def delete(id: Long) = DB.withConnection { implicit conn =>
+    SQL("delete from resources where id = {id}").on('id -> id).executeUpdate()
   }
 
 }

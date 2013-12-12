@@ -34,6 +34,7 @@ GET         /resources/:id                          controllers.Resources.get(id
 GET         /resources/:dailyId/new                 controllers.Resources.newResource(dailyId: Long)
 
 POST        /resources                              controllers.Resources.create
+POST        /resources/:id/delete                   controllers.Resources.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /webjars/*file                          controllers.WebJarAssets.at(file)

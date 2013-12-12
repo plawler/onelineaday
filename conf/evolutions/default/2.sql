@@ -41,6 +41,7 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (27, 1, 'Post Resource via ajax to Resources.create endpoint', 120, '2013-12-09', '2013-12-09');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (28, 1, 'Append or refresh Resource table on Daily view', 60, '2013-12-10', '2013-12-10');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (29, 1, 'Remove a resource', 30, '2013-12-11', '2013-12-11');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (30, 1, 'Rename the "Resources" column on the Daily view page. Remove hardcoded links.', 30, '2013-12-12', '2013-12-12');
 
 # --- !Downs
 

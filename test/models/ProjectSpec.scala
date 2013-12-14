@@ -24,9 +24,9 @@ class ProjectSpec extends Specification with Mockito {
 
   "Project model" should {
     "compute a streak of consecutive dailies" in {
-      val daily1 = mock[Daily]
-      val daily2 = mock[Daily]
-      val daily3 = mock[Daily]
+      val daily1 = mock[ProjectDaily]
+      val daily2 = mock[ProjectDaily]
+      val daily3 = mock[ProjectDaily]
 
       val today = DateTime.now
       daily1.completedOn returns Some(today.toDate)
@@ -38,9 +38,9 @@ class ProjectSpec extends Specification with Mockito {
     }
 
     "compute a streak of non-consecutive dailies" in {
-      val daily1 = mock[Daily]
-      val daily2 = mock[Daily]
-      val daily3 = mock[Daily]
+      val daily1 = mock[ProjectDaily]
+      val daily2 = mock[ProjectDaily]
+      val daily3 = mock[ProjectDaily]
 
       val today = DateTime.now
       daily1.completedOn returns Some(today.toDate)
@@ -52,8 +52,8 @@ class ProjectSpec extends Specification with Mockito {
     }
 
     "compute a streak of None dailies" in {
-      val daily1 = mock[Daily]
-      val daily2 = mock[Daily]
+      val daily1 = mock[ProjectDaily]
+      val daily2 = mock[ProjectDaily]
 
       val today = DateTime.now
       daily1.completedOn returns Some(today.toDate)

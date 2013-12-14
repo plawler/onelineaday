@@ -1,4 +1,4 @@
-@(project: Project, dailies: List[Daily], streak: Int)
+@(project: Project, dailies: List[ProjectDaily], streak: Int)
 
 @import helper._
 
@@ -23,7 +23,7 @@
         <div class="col-md-4">
             <div class="jumbotron">
                 <h1>@streak</h1>
-                <p>day streak@if(streak > 0) {!} else {&nbsp;(get crackin')}</p>
+                <p>day streak@if(streak > 0) {!} else {&nbsp;(get crackin'!)}</p>
             </div>
 
             @*<h3>Momentum</h3>*@
@@ -43,18 +43,17 @@
                 <thead>
                     <tr>
                         <th>Description</th>
-                        @*<th>Created on</th>*@
                         <th>Completed?</th>
                         <th>Resources</th>
                     </tr>
                 </thead>
                 @dailies.map { daily =>
                     <tr>
-                        <td><a href="@routes.Dailies.daily(daily.id)">@daily.description</a></td>
+                        <td><a href="@routes.Dailies.daily(daily.dailyId)">@daily.description</a></td>
                         @*<td>@daily.createdOn.format("MMM d")</td>*@
                         @if(daily.completedOn == None) {
                             <td>
-                                @form(routes.Dailies.complete(daily.id)) {
+                                @form(routes.Dailies.complete(daily.dailyId)) {
                                     <button type="submit" class="btn btn-success btn-xs">Complete it!</button>
                                 }
                             </td>
@@ -62,9 +61,7 @@
                             <td>@daily.completedOn.get.format("MMM d")</td>
                         }
                         <td>
-                            <a href="#">Links <span class="label label-primary">2</span></a>&nbsp;
-                            <a href="#">Commits <span class="label label-primary">3</span></a>&nbsp;
-                            <a href="#">Tweets <span class="label label-primary">1</span></a>
+                            <span class="label label-primary">@daily.resourceCount.getOrElse(0)</span>
                         </td>
                     </tr>
                 }

@@ -31,7 +31,9 @@ object Projects extends Controller {
   }
 
   def project(id: Long) = Action {
-    Ok(views.html.projects.item(Project.find(id), Daily.findByProjectId(id), Project.streak(id)))
+    var projectDailies = Project.findProjectDailies(id)
+    var streak = Project.calculateStreak(projectDailies, new Date(), 0)
+    Ok(views.html.projects.item(Project.find(id), projectDailies, streak))
   }
 
   def newProject = Action {

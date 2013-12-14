@@ -18,6 +18,8 @@ import org.joda.time.{Days, DateTime}
  */
 case class Project(id: Long, name: String, description: String, createdOn: Date)
 
+case class ProjectDaily(projectId: Long, dailyId: Long, description: String, completedOn: Option[Date], resourceCount: Option[Long])
+
 object Project {
 
   // https://github.com/Diego81/workwithplay/tree/master/20130508
@@ -26,18 +28,30 @@ object Project {
 
   val project = {
     get[Long]("id") ~
-      get[String]("name") ~
-      get[String]("description") ~
-      get[Date]("created_on") map {
+    get[String]("name") ~
+    get[String]("description") ~
+    get[Date]("created_on") map {
       case id ~ name ~ description ~ created_on => Project(id, name, description, created_on)
     }
   }
 
-  def streak(projectId: Long): Int = {
-    calculateStreak(Daily.findByProjectId(projectId), new Date(), 0)
+  val projectDaily = {
+    get[Long]("project_id") ~
+    get[Long]("id") ~
+    get[String]("description") ~
+    get[Option[Date]]("completed_on") ~
+    get[Option[Long]]("cnt") map {
+      case projectId~dailyId~description~completedOn~resourceCount => 
+        ProjectDaily(projectId, dailyId, description, completedOn, resourceCount)
+    }
   }
 
-  def calculateStreak(dailies: List[Daily], referenceDate: Date, total: Int): Int = {
+  def streak(projectId: Long): Int = {
+    0
+//    calculateStreak(Daily.findByProjectId(projectId), new Date(), 0)
+  }
+
+  def calculateStreak(dailies: List[ProjectDaily], referenceDate: Date, total: Int): Int = {
     if (dailies.isEmpty) total
     else {
       val daily = dailies.head
@@ -90,5 +104,23 @@ object Project {
       implicit conn => SQL("delete from projects where id = {id}").on('id -> id).executeUpdate
     }
   }
+
+  def findProjectDailies(projectId: Long): List[ProjectDaily] = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      select d.project_id, d.id, d.description, d.completed_on, r.cnt
+      from dailies d
+      left join (select daily_id, count(id) as cnt
+            from resources
+            group by daily_id) as r
+        on r.daily_id = d.id
+      where d.project_id = {projectId}
+      order by d.created_on desc, d.completed_on desc
+      """
+    ).on('projectId -> projectId).as(projectDaily *)
+  }
+  /*
+  
+   */
 
 }

@@ -1,31 +1,27 @@
 As a user
-I want to be able to record my daily project work
-So that I can make progress on my project
-
-As a user
-I want to be able to start a timer to track the actual time I spend on a daily
+I want to start a timer to track the actual time I spend on a daily
 So that the system can monitor my progress and momentum
 
 As a user
-I want to be able to see my project momentum
+I want to see my project momentum
 So that I can better understand the project work and my dedication to the work
 
 As a user
-I want to be able to see the list of dailies for my project
-So that I can see the progress made against the project
-
-As a user
-I want to be able to search within a project
+I want to search within a project
 So that I can find notes and resources related to my project
 
 As a user
-I want to be able to submit personal details to the system (like how many hours per day I watch TV)
+I want to submit personal details to the system (like how many hours per day I watch TV)
 So that the system can suggest appropriate daily time to work on a project
 
 As a user
-I want to be able to connect to a Github account
+I want to connect to a Github account
 So that I can link my actual work to the daily
 
 As a user
-I want to be able to post a daily to Facebook or Twitter
+I want to post a daily to Facebook or Twitter
 So that I can share my progress with my friends in order to increase momentum
+
+As a user
+I want to attach a file to a resource
+So that I can add documents to my library of research

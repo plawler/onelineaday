@@ -18,7 +18,8 @@ import org.joda.time.{Days, DateTime}
  */
 case class Project(id: Long, name: String, description: String, createdOn: Date)
 
-case class ProjectDaily(projectId: Long, dailyId: Long, description: String, completedOn: Option[Date], resourceCount: Option[Long])
+case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],
+                        resourceCount: Option[Long])
 
 object Project {
 
@@ -39,10 +40,11 @@ object Project {
     get[Long]("project_id") ~
     get[Long]("id") ~
     get[String]("description") ~
+    get[Date]("created_on") ~
     get[Option[Date]]("completed_on") ~
     get[Option[Long]]("cnt") map {
-      case projectId~dailyId~description~completedOn~resourceCount => 
-        ProjectDaily(projectId, dailyId, description, completedOn, resourceCount)
+      case projectId~dailyId~description~createdOn~completedOn~resourceCount =>
+        ProjectDaily(projectId, dailyId, description, createdOn, completedOn, resourceCount)
     }
   }
 
@@ -108,7 +110,7 @@ object Project {
   def findProjectDailies(projectId: Long): List[ProjectDaily] = DB.withConnection { implicit conn =>
     SQL(
       """
-      select d.project_id, d.id, d.description, d.completed_on, r.cnt
+      select d.project_id, d.id, d.description, d.created_on, d.completed_on, r.cnt
       from dailies d
       left join (select daily_id, count(id) as cnt
             from resources

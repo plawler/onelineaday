@@ -43,6 +43,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (29, 1, 'Remove a resource', 30, '2013-12-11', '2013-12-11');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (30, 1, 'Rename the "Resources" column on the Daily view page. Remove hardcoded links.', 30, '2013-12-12', '2013-12-12');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (31, 1, 'Dynamic SQL for ProjectDaily list on Project view page', 75, '2013-12-13', '2013-12-13');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (32, 1, 'Complete installation of SecureSocial', 60, '2013-12-14', '2013-12-14');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (33, 1, 'Configuration of SecureSocial', 60, '2013-12-15', '2013-12-15');
 
 # --- !Downs
 

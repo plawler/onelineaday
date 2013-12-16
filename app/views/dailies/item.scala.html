@@ -4,29 +4,21 @@
 
 @main("One Line a Day - Daily") {
 
-    <h1>Daily <small>@daily.createdOn.format("MMM d, yyyy")</small></h1>
+    <h1>@daily.description<br><small>@daily.createdOn.format("MMM d, yyyy")</small></h1>
 
-    <hr>
-    <blockquote>
-        <p>@daily.description</p>
-    </blockquote>
-
-    <dl class="dl-horizontal">
-        <dt>Project</dt>
-        <dd><a href="@routes.Projects.project(project.id)">@project.name</a></dd>
-        <dt>Completed</dt>
-        <dd>
+    <p><a href="@routes.Projects.project(project.id)">@project.name</a></p>
+    <p><strong>Duration </strong>@daily.duration minutes</p>
+    <p>
         @if(daily.completedOn == None) {
-            Nope. Get going!
+            This daily isn't done. <em>Get going!</em>
         } else {
-            @daily.completedOn.get.format("MMM d, yyyy")
+            This daily was completed on @daily.completedOn.get.format("MMM d, yyyy")
         }
-        </dd>
-        <dt>Duration</dt>
-        <dd>@daily.duration minutes</dd>
-    </dl>
+    </p>
     <hr>
-
+    @form(routes.Dailies.complete(daily.id)) {
+        <button type="submit" class="btn btn-success">Complete it!</button>
+    }
     @form(routes.Dailies.delete(daily.id)) {
         <button type="submit" class="btn btn-danger">Delete</button>
     }
@@ -60,7 +52,4 @@
             $(this).removeData();
         })
     </script>
-
-    @*don't forget to check and see if we need to use jquery form libs!!!!!*@
-
 }

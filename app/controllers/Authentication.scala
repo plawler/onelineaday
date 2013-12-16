@@ -16,39 +16,39 @@ import views._
  */
 object Authentication extends Controller {
 
-  val loginForm = Form (
-    tuple (
-      "email" -> text,
-      "password" -> text
-    ) verifying ("Invalid email or password", result => result match {
-      case (email, password) => email.equals("paul.lawler@onelineaday.me") && password.equals("secret") //User.authenticate(email, password).isDefined
-    })
-  )
-
-  /**
-   * Login page.
-   */
-  def login = Action { implicit request =>
-    Ok(html.login(loginForm))
-  }
-
-  /**
-   * Handle login form submission.
-   */
-  def authenticate = Action { implicit request =>
-    loginForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(html.login(formWithErrors)),
-      user => Redirect(routes.Projects.projects).withSession("email" -> user._1)
-    )
-  }
-
-  /**
-   * Logout and clean the session.
-   */
-  def logout = Action {
-    Redirect(routes.Authentication.logout).withNewSession.flashing(
-      "success" -> "You've been logged out"
-    )
-  }
+//  val loginForm = Form (
+//    tuple (
+//      "email" -> text,
+//      "password" -> text
+//    ) verifying ("Invalid email or password", result => result match {
+//      case (email, password) => email.equals("paul.lawler@onelineaday.me") && password.equals("secret") //User.authenticate(email, password).isDefined
+//    })
+//  )
+//
+//  /**
+//   * Login page.
+//   */
+//  def login = Action { implicit request =>
+//    Ok(html.login(loginForm))
+//  }
+//
+//  /**
+//   * Handle login form submission.
+//   */
+//  def authenticate = Action { implicit request =>
+//    loginForm.bindFromRequest.fold(
+//      formWithErrors => BadRequest(html.login(formWithErrors)),
+//      user => Redirect(routes.Projects.projects).withSession("email" -> user._1)
+//    )
+//  }
+//
+//  /**
+//   * Logout and clean the session.
+//   */
+//  def logout = Action {
+//    Redirect(routes.Authentication.logout).withNewSession.flashing(
+//      "success" -> "You've been logged out"
+//    )
+//  }
 
 }

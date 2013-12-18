@@ -18,7 +18,7 @@ case class Daily(id: Long, projectId: Long, description: String, duration: Int, 
 
 object Daily {
 
-  val daily = {
+  val dailyParser = {
     get[Long]("id") ~
     get[Long]("project_id") ~
     get[String]("description") ~
@@ -32,7 +32,7 @@ object Daily {
 
   def findByProjectId(projectId: Long): List[Daily] = DB.withConnection { implicit conn =>
     SQL("select * from dailies where project_id = {projectId} order by created_on desc, completed_on desc")
-      .on('projectId -> projectId).as(daily *)
+      .on('projectId -> projectId).as(dailyParser *)
   }
 
   def create(projectId: Long, description: String, duration: Int, createdOn: Date) =
@@ -47,7 +47,7 @@ object Daily {
   }
 
   def find(id: Long): Daily = DB.withConnection { implicit conn =>
-    SQL("select * from dailies where id = {id}").on('id -> id).using(daily).single()
+    SQL("select * from dailies where id = {id}").on('id -> id).using(dailyParser).single()
   }
 
   def complete(id: Long, completedOn: Date) = DB.withConnection { implicit conn =>

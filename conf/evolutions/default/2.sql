@@ -45,6 +45,10 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (31, 1, 'Dynamic SQL for ProjectDaily list on Project view page', 75, '2013-12-13', '2013-12-13');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (32, 1, 'Complete installation of SecureSocial', 60, '2013-12-14', '2013-12-14');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (33, 1, 'Configuration of SecureSocial', 60, '2013-12-15', '2013-12-15');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (34, 1, 'Create user class for use with SecureSocial', 60, '2013-12-16', '2013-12-16');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (35, 1, 'Anorm parser for User', 60, '2013-12-17', '2013-12-17');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (36, 1, 'Anorm parser for User component types', 60, '2013-12-18', '2013-12-18');
+
 
 # --- !Downs
 

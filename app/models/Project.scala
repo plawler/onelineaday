@@ -27,7 +27,7 @@ object Project {
   // http://janhelwich.wordpress.com/tag/anorm/
   // http://danielwesthe ide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html
 
-  val project = {
+  val projectParser = {
     get[Long]("id") ~
     get[String]("name") ~
     get[String]("description") ~
@@ -36,7 +36,7 @@ object Project {
     }
   }
 
-  val projectDaily = {
+  val projectDailyParser = {
     get[Long]("project_id") ~
     get[Long]("id") ~
     get[String]("description") ~
@@ -75,12 +75,12 @@ object Project {
     implicit conn =>
       SQL("select * from projects where id = {id}").on(
         'id -> id
-      ).using(project).single()
+      ).using(projectParser).single()
   }
 
   def all(): List[Project] = DB.withConnection {
     implicit conn =>
-      SQL("select * from projects order by created_on desc").as(project *)
+      SQL("select * from projects order by created_on desc").as(projectParser *)
   }
 
   def create(name: String, description: String, createdOn: Date) {
@@ -119,7 +119,7 @@ object Project {
       where d.project_id = {projectId}
       order by d.created_on desc, d.completed_on desc
       """
-    ).on('projectId -> projectId).as(projectDaily *)
+    ).on('projectId -> projectId).as(projectDailyParser *)
   }
   /*
   

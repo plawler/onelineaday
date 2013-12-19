@@ -20,6 +20,12 @@ values (2, 35, 'https://markatta.com/codemonkey/blog/2012/08/10/unparsing-with-a
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (3, 35, 'http://blog.lunatech.com/2013/07/04/play-securesocial-slick', 'Play 2, SecureSocial and Slick', null, 'play2, securesocial, database', '2013-12-17');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (4, 37, 'http://www.h2database.com/html/features.html#compatibility', 'H2 compatibility mode', null, 'h2, database', '2013-12-19');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (5, 37, 'http://stackoverflow.com/questions/6761534/scala-with-keyword-usage', 'Scala ''with'' keyword' , null, 'scala', '2013-12-19');
+
 # --- !Downs
 
 DROP TABLE resources;

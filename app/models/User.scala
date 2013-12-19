@@ -30,14 +30,14 @@ case class User(id: Long, firstName: String, lastName: String, fullName: String,
 object User {
 
   val identityParser = {
-    get[String]("user_id") ~
+    get[String]("user_identity_id") ~
     get[String]("provider_id") map {
-      case userId~providerId => IdentityId(userId, providerId)
+      case userIdentityId~providerId => IdentityId(userIdentityId, providerId)
     }
   }
 
   val authenticationMethodParser = {
-    get[String]("method") map { case method => AuthenticationMethod(method)}
+    get[String]("authentication_method") map { case method => AuthenticationMethod(method)}
   }
 
   val passwordInfoParser = {

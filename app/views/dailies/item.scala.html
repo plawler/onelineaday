@@ -16,12 +16,11 @@
         }
     </p>
     <hr>
-    @form(routes.Dailies.complete(daily.id)) {
-        <button type="submit" class="btn btn-success">Complete it!</button>
-    }
-    @form(routes.Dailies.delete(daily.id)) {
-        <button type="submit" class="btn btn-danger">Delete</button>
-    }
+
+    @form(routes.Dailies.complete(daily.id), 'id -> "completeDailyForm") { }
+    @form(routes.Dailies.delete(daily.id), 'id -> "deleteDailyForm") { }
+    <button id="completeDailyButton" type="submit" class="btn btn-success">Complete it!</button>
+    <button id="deleteDailyButton" type="submit" class="btn btn-danger">Delete</button>
 
     <p>&nbsp;</p>
 
@@ -51,5 +50,13 @@
         $('#newResourceModal').on('hidden.bs.modal', function () {
             $(this).removeData();
         })
+
+        $('#completeDailyButton').click(function () {
+            $("#completeDailyForm").submit();
+        });
+
+        $('#deleteDailyButton').click(function () {
+            $("#deleteDailyForm").submit();
+        });
     </script>
 }

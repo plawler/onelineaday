@@ -30,7 +30,7 @@ case class User(id: Long, firstName: String, lastName: String, fullName: String,
 object User {
 
   val identityParser = {
-    get[String]("user_identity_id") ~
+    get[String]("identity_id") ~
     get[String]("provider_id") map {
       case userIdentityId~providerId => IdentityId(userIdentityId, providerId)
     }
@@ -79,6 +79,27 @@ object User {
       case id~firstName~lastName~fullName~email~avatarUrl~identityId~authenticationMethod~passwordInfo~oauth1Info~oauth2Info =>
         User(id, firstName, lastName, fullName, email, avatarUrl, identityId, authenticationMethod, passwordInfo, oauth1Info, oauth2Info)
     }
+  }
+
+  def create(identity: Identity) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      insert into users (first_name, last_name, full_name, email, identity_id, provider_id, authentication_method, hasher, password, salt)
+      values ({firstName}, {lastName}, {fullName}, {email}, {userIdentityId}, {providerId}, {authenticationMethod}, {hasher}, {password}, {salt})
+      """
+    ).on('firstName -> identity.firstName, 'lastName -> identity.lastName, 'fullName -> identity.fullName, 'email -> identity.email,
+          'userIdentityId -> identity.identityId.userId, 'providerId -> identity.identityId.providerId,
+          'authenticationMethod -> identity.authMethod, 'hasher -> identity.passwordInfo.get.hasher,
+          'password -> identity.passwordInfo.get.password, 'salt -> identity.passwordInfo.get.salt
+    ).execute()
+  }
+
+  def findByIdentityId(identityId: IdentityId) = DB.withConnection { implicit conn =>
+    SQL(
+    """
+    select * from users where identity_id = {identityId} and provider_id = {providerId}
+    """
+    ).on('identityId -> identityId.userId, 'providerId -> identityId.providerId).using(userParser).single()
   }
 
 }

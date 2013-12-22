@@ -49,6 +49,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (35, 1, 'Anorm parser for User', 60, '2013-12-17', '2013-12-17');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (36, 1, 'Anorm parser for User component types', 60, '2013-12-18', '2013-12-18');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (37, 1, 'Users table DDL', 60, '2013-12-19', '2013-12-19');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (38, 1, 'Test creation of Users and storage in database', 120, '2013-12-20', '2013-12-20');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (39, 1, 'Fix buttons on Daily view page', 60, '2013-12-21', '2013-12-21');
 
 
 # --- !Downs

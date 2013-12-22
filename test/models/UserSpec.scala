@@ -7,6 +7,10 @@ import org.junit.runner._
 import play.api.test._
 import play.api.test.Helpers._
 import org.specs2.mock.Mockito
+import securesocial.core._
+import securesocial.core.IdentityId
+import play.api.test.FakeApplication
+import scala.Some
 
 
 /**
@@ -29,6 +33,23 @@ class UserSpec extends Specification with Mockito {
   "My app" should {
     "integrate nicely" in memDB {
       1 mustEqual 1
+    }
+  }
+
+  "User" should {
+    "create a user" in memDB {
+      // create an Identity
+      val identityId = IdentityId("test@user.com", "username_and_password")
+      val authMethod = AuthenticationMethod("username_and_password")
+      val passwordInfo = PasswordInfo("bcrypt", "password123", None)
+      val identity = new SocialUser(identityId, "Test", "User", "Test User", Some("test@user.com"), avatarUrl = None,
+                                    passwordInfo = Some(passwordInfo), authMethod = authMethod)
+
+      // send to User.create(identity)
+      User.create(identity)
+      // test that user exists
+      val user = User.findByIdentityId(identityId)
+      user must not be None
     }
   }
 

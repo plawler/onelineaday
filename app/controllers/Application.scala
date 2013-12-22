@@ -6,7 +6,7 @@ import securesocial.core.SecureSocial
 
 object Application extends Controller with SecureSocial {
 
-  def index = Action {
+  def index = SecuredAction {
     Redirect(routes.Projects.projects)
   }
 

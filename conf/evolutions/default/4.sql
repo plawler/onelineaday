@@ -10,7 +10,7 @@ CREATE TABLE users (
     full_name nvarchar(255),
     email nvarchar(255),
     avatar_url nvarchar(max),
-    user_identity_id nvarchar(255),
+    identity_id nvarchar(255),
     provider_id nvarchar(255),
     authentication_method nvarchar(255),
     hasher nvarchar(255),

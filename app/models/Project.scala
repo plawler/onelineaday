@@ -68,7 +68,7 @@ object Project {
   }
 
   private def daysBetween(start: Date, end: Date): Int = {
-    return Days.daysBetween(new DateTime(start).toLocalDate, new DateTime(end).toLocalDate).getDays
+    Days.daysBetween(new DateTime(start).toLocalDate, new DateTime(end).toLocalDate).getDays
   }
 
   def find(id: Long): Project = DB.withConnection {

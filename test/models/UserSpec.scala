@@ -30,26 +30,33 @@ class UserSpec extends Specification with Mockito {
       "db.default.url"    -> "jdbc:h2:mem:test;MODE=PostgreSQL"
     ) ) )(code)
 
-  "My app" should {
-    "integrate nicely" in memDB {
-      1 mustEqual 1
-    }
-  }
+//  "My app" should {
+//    "integrate nicely" in memDB {
+//      1 mustEqual 1
+//    }
+//  }
 
   "User" should {
-    "create a user" in memDB {
+    "crud a user" in memDB {
       // create an Identity
-      val identityId = IdentityId("test@user.com", "username_and_password")
-      val authMethod = AuthenticationMethod("username_and_password")
-      val passwordInfo = PasswordInfo("bcrypt", "password123", None)
+      val identityId = IdentityId("test@user.com", "userpass")
+      val authMethod = AuthenticationMethod("userPassword")
+      val passwordInfo = PasswordInfo("bcrypt", "password", None)
       val identity = new SocialUser(identityId, "Test", "User", "Test User", Some("test@user.com"), avatarUrl = None,
                                     passwordInfo = Some(passwordInfo), authMethod = authMethod)
 
       // send to User.create(identity)
       User.create(identity)
       // test that user exists
-      val user = User.findByIdentityId(identityId)
-      user must not be None
+      User.findByIdentityId(identityId) must not be None
+
+      // new identity for our user
+      val updatedIdentity = new SocialUser(identityId, "Bob", "User", "Bob User", Some("test@user.com"), avatarUrl = None,
+        passwordInfo = Some(passwordInfo), authMethod = authMethod)
+      // update
+      User.update(updatedIdentity)
+      // test that changes have stuck
+      User.findByIdentityId(identityId).get.fullName mustEqual "Bob User"
     }
   }
 

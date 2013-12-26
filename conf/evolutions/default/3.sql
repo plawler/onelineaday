@@ -26,6 +26,12 @@ values (4, 37, 'http://www.h2database.com/html/features.html#compatibility', 'H2
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (5, 37, 'http://stackoverflow.com/questions/6761534/scala-with-keyword-usage', 'Scala ''with'' keyword' , null, 'scala', '2013-12-19');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (6, 40, 'http://blog.orbeon.com/2011/04/scalas-optionsomenone.html', 'Forms Everywhere: The beauty of Scala''s Option/Some/None' , null, 'scala', '2013-12-22');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (7, 40, 'https://groups.google.com/forum/#!searchin/securesocial/save$20method/securesocial/JzRsx5XX88U/W2tZEZr9xSoJ', 'SecureSocial.UserService.save method is really saveOrUpdate' , null, 'scala', '2013-12-22');
+
 # --- !Downs
 
 DROP TABLE resources;

@@ -94,12 +94,26 @@ object User {
     ).execute()
   }
 
-  def findByIdentityId(identityId: IdentityId) = DB.withConnection { implicit conn =>
+  def findByIdentityId(identityId: IdentityId): Option[Identity] = DB.withConnection { implicit conn =>
     SQL(
     """
     select * from users where identity_id = {identityId} and provider_id = {providerId}
     """
-    ).on('identityId -> identityId.userId, 'providerId -> identityId.providerId).using(userParser).single()
+    ).on('identityId -> identityId.userId, 'providerId -> identityId.providerId).as(User.userParser.singleOpt)
   }
+
+  def update(identity: Identity) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      update users
+      set first_name = {firstName}, last_name = {lastName}, full_name = {fullName}, email = {email}, hasher = {hasher}, password = {password}, salt = {salt}
+      where identity_id = {identityId} and provider_id = {providerId}
+      """
+    ).on('firstName -> identity.firstName, 'lastName -> identity.lastName, 'fullName -> identity.fullName, 'email -> identity.email,
+      'hasher -> identity.passwordInfo.get.hasher, 'password -> identity.passwordInfo.get.password, 'salt -> identity.passwordInfo.get.salt,
+      'identityId -> identity.identityId.userId, 'providerId -> identity.identityId.providerId
+    ).executeUpdate()
+  }
+
 
 }

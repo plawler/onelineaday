@@ -51,6 +51,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (37, 1, 'Users table DDL', 60, '2013-12-19', '2013-12-19');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (38, 1, 'Test creation of Users and storage in database', 120, '2013-12-20', '2013-12-20');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (39, 1, 'Fix buttons on Daily view page', 60, '2013-12-21', '2013-12-21');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (40, 1, 'Modify UserService to store new user to database', 60, '2013-12-22', '2013-12-25');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (41, 1, 'Update the Projects entity to reference a User', 120, '2013-12-26', null);
 
 
 # --- !Downs

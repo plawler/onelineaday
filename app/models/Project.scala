@@ -8,6 +8,7 @@ import anorm.SqlParser._
 import java.util.Date
 import play.api.db._
 import org.joda.time.{Days, DateTime}
+import securesocial.core.Identity
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,9 +79,10 @@ object Project {
       ).using(projectParser).single()
   }
 
-  def all(): List[Project] = DB.withConnection {
+  def all(userId: Long): List[Project] = DB.withConnection {
     implicit conn =>
-      SQL("select * from projects order by created_on desc").as(projectParser *)
+      SQL("select * from projects where user_id = {userId} order by created_on desc"
+      ).on('userId -> userId).as(projectParser *)
   }
 
   def create(name: String, description: String, createdOn: Date) {

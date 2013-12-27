@@ -3,8 +3,9 @@ package controllers
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
-import models.{Daily, Project}
+import models.{User, Project}
 import java.util.Date
+import securesocial.core.SecureSocial
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +14,7 @@ import java.util.Date
  * Time: 9:50 PM
  * To change this template use File | Settings | File Templates.
  */
-object Projects extends Controller {
+object Projects extends Controller with SecureSocial {
 
   val projectForm = Form(
     mapping (
@@ -26,8 +27,11 @@ object Projects extends Controller {
   )
 
   //http://engineering.linkedin.com/play/play-framework-democratizing-functional-programming-modern-web-programmers
-  def projects = Action {
-    Ok(views.html.projects.list(Project.all()))
+  def projects = SecuredAction { implicit request =>
+    request.user match {
+      case user: User => Ok(views.html.projects.list(Project.all(user.id)))
+      case _ => throw new RuntimeException("no user in context. no soup for you!!")
+    }
   }
 
   def project(id: Long) = Action {

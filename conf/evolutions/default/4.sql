@@ -27,6 +27,9 @@ CREATE TABLE users (
 insert into users (id, first_name, last_name, full_name, email, identity_id, provider_id, authentication_method, hasher, password)
 values (1, 'Test', 'User', 'Test User', 'test.user@onelineaday.me', 'test.user@onelineaday.me', 'userpass', 'userPassword', 'bcrypt', '$2a$10$9POGiyvjgHnDxVSgOqDZrOSAsljnBvyVfCpFT5CW73yaXyY3HQ7xq');
 
+insert into users (id, first_name, last_name, full_name, email, identity_id, provider_id, authentication_method, hasher, password)
+values (2, 'Paul', 'Lawler', 'Paul Lawler', 'paul.lawler@gmail.com', 'paul.lawler@gmail.com', 'userpass', 'userPassword', 'bcrypt', '$2a$10$9POGiyvjgHnDxVSgOqDZrOSAsljnBvyVfCpFT5CW73yaXyY3HQ7xq');
+
 # --- !Downs
 
 DROP TABLE users;

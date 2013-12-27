@@ -27,7 +27,7 @@ class InMemoryUserService(application: Application) extends UserServicePlugin(ap
     if ( Logger.isDebugEnabled ) {
       Logger.debug("users = %s".format(users))
     }
-    users.values.find( u => u.email.map( e => e == email && u.identityId.providerId == providerId).getOrElse(false))
+    users.values.find( u => u.email.exists(e => e == email && u.identityId.providerId == providerId))
   }
 
   // treat this as saveOrUpdate

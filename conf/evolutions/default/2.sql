@@ -53,7 +53,7 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (39, 1, 'Fix buttons on Daily view page', 60, '2013-12-21', '2013-12-21');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (40, 1, 'Modify UserService to store new user to database', 60, '2013-12-22', '2013-12-25');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (41, 1, 'Update the Projects entity to reference a User', 120, '2013-12-26', '2013-12-26');
-insert into dailies (id, project_id, description, duration, created_on, completed_on) values (42, 1, 'Update User model to support usernames', 90, '2013-12-27', null);
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (42, 1, 'Update User model to support usernames', 45, '2013-12-27', '2013-12-27');
 
 
 # --- !Downs

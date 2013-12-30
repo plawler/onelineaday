@@ -32,6 +32,9 @@ values (6, 40, 'http://blog.orbeon.com/2011/04/scalas-optionsomenone.html', 'For
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (7, 40, 'https://groups.google.com/forum/#!searchin/securesocial/save$20method/securesocial/JzRsx5XX88U/W2tZEZr9xSoJ', 'SecureSocial.UserService.save method is really saveOrUpdate' , null, 'scala', '2013-12-22');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (8, 43, 'http://stackoverflow.com/questions/17735636/testing-a-play2-application-with-securesocial-using-dependency-injection', 'Testing Play2 application with SecureSocial' , null, 'scala, testing, securesocial', '2013-12-29');
+
 # --- !Downs
 
 DROP TABLE resources;

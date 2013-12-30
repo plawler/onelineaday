@@ -18,13 +18,13 @@ import org.junit.Ignore
 @Ignore
 class ProjectsSpec extends Specification {
 
-  "Projects" should {
-
-    "default to the user's list of list on the index page" in new WithBrowser {
-      browser.goTo("http://localhost:" + port + "/")
-      browser.$("h1").getText must equalTo("Your projects")
-    }
-
-  }
+//  "Projects" should {
+//
+//    "default to the user's list of list on the index page" in new WithBrowser {
+//      browser.goTo("http://localhost:" + port + "/")
+//      browser.$("h1").getText must equalTo("Your projects")
+//    }
+//
+//  }
 
 }

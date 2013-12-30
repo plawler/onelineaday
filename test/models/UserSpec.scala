@@ -39,7 +39,7 @@ class UserSpec extends Specification with Mockito {
   "User" should {
     "crud a user" in memDB {
       // create an Identity
-      val identityId = IdentityId("test@user.com", "userpass")
+      val identityId = IdentityId("unittestuser", "userpass")
       val authMethod = AuthenticationMethod("userPassword")
       val passwordInfo = PasswordInfo("bcrypt", "password", None)
       val identity = new SocialUser(identityId, "Test", "User", "Test User", Some("test@user.com"), avatarUrl = None,

@@ -1,8 +1,9 @@
 import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
+import play.api.test.{FakeRequest, WithApplication}
+import utils.TestUtils
 
-import play.api.test._
 import play.api.test.Helpers._
 
 /**
@@ -15,16 +16,16 @@ class ApplicationSpec extends Specification {
 
   "Application" should {
 
-    "send 404 on a bad request" in new WithApplication{
+    "send 404 on a bad request" in new WithApplication {
       route(FakeRequest(GET, "/boum")) must beNone
     }
 
-    "render the default page" in new WithApplication{
-      val home = route(FakeRequest(GET, "/projects")).get
-
-      status(home) must equalTo(OK) // not sure what to do with this since it is a redirect
+    "render the default page" in new WithApplication {
+      val home = route(TestUtils.loggedInFakeRequestWrapper(FakeRequest(GET, "/projects")).withLoggedInUser()).get
+      status(home) must equalTo(OK)
       contentType(home) must beSome.which(_ == "text/html")
       contentAsString(home) must contain ("Your projects")
     }
   }
+
 }

@@ -7,40 +7,11 @@
     <div class="row">
         <div class="col-md-8">
             <h1>@project.name</h1>
-
             <p>&nbsp;</p>
-
-            <p>@project.description</p>
-            <hr>
-
-            @form(routes.Projects.delete(project.id)) {
-                <a href="@routes.Projects.edit(project.id)" class="btn btn-primary">Edit this project</a> &nbsp;
-                <button type="submit" class="btn btn-danger">Delete project</button>
-            }
-
-        </div>
-
-        <div class="col-md-4">
-            <div class="jumbotron">
-                <h1>@streak</h1>
-                <p>day streak@if(streak > 0) {!} else {&nbsp;(get crackin'!)}</p>
-            </div>
-
-            @*<h3>Momentum</h3>*@
-            @*Calculates unbroken streaks and time spent on each daily into a momentum factor. Can increase with social media awareness*@
-
-            @*<h3>Serendipity</h3>*@
-            @*Just an idea that would indicate when the project has accidentally received some boost somehow*@
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <p>&nbsp;</p>
-
             <h2>Dailies</h2>
             <hr>
             @dailies.map { daily =>
-                <h4>@daily.createdOn.format("EEEE, MMM d")</h4>
+                <h4>@daily.createdOn.format("EEEE, MMM d") <small>@daily.duration minutes</small></h4>
                 <p>
                     <a href="@routes.Dailies.daily(daily.dailyId)">@daily.description</a>
                     &nbsp;&nbsp;<span class="badge">@daily.resourceCount.getOrElse(0)</span>
@@ -58,6 +29,25 @@
             }
 
             <p><a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success">Add a daily</a></p>
+        </div>
+        <div class="col-md-4">
+            <h3>About</h3>
+            <p>@project.description</p>
+            @form(routes.Projects.delete(project.id)) {
+                <a href="@routes.Projects.edit(project.id)" class="btn btn-primary btn-sm">Edit</a> &nbsp;
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            }
+
+            <p>&nbsp;</p>
+
+            <h3>Streak</h3>
+            <p>@streak day streak@if(streak > 0) {!} else {&nbsp;(get crackin'!)}</p>
+
+            <h3>Momentum</h3>
+            Calculates unbroken streaks and time spent on each daily into a momentum factor. Can increase with social media awareness.
+
+            <h3>Serendipity</h3>
+            Just an idea that would indicate when the project has accidentally received some boost somehow.
         </div>
     </div>
 

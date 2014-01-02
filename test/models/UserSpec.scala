@@ -11,6 +11,7 @@ import securesocial.core._
 import securesocial.core.IdentityId
 import play.api.test.FakeApplication
 import scala.Some
+import utils.TestUtils
 
 
 /**
@@ -24,20 +25,8 @@ import scala.Some
 class UserSpec extends Specification with Mockito {
 //  http://stackoverflow.com/questions/12421976/fixtures-in-play-2-for-scala/12445815#12445815
 
-  implicit def memDB[T](code: => T) =
-    running ( FakeApplication( additionalConfiguration = Map(
-      "db.default.driver" -> "org.h2.Driver",
-      "db.default.url"    -> "jdbc:h2:mem:test;MODE=PostgreSQL"
-    ) ) )(code)
-
-//  "My app" should {
-//    "integrate nicely" in memDB {
-//      1 mustEqual 1
-//    }
-//  }
-
   "User" should {
-    "crud a user" in memDB {
+    "crud a user" in TestUtils.memDB {
       // create an Identity
       val identityId = IdentityId("unittestuser", "userpass")
       val authMethod = AuthenticationMethod("userPassword")

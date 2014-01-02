@@ -16,6 +16,11 @@ import anorm.SqlParser._
 case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date,
                  completedOn: Option[Date])
 
+case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
+  lazy val prev = Option(page - 1).filter(_ >= 0)
+  lazy val next = Option(page + 1).filter(_ => (offset + items.size) < total)
+}
+
 object Daily {
 
   val dailyParser = {
@@ -60,6 +65,30 @@ object Daily {
 
   def delete(id: Long) = DB.withConnection { implicit conn =>
     SQL("delete from dailies where id = {id}").on('id -> id).executeUpdate()
+  }
+
+  def list(page: Int = 0, pageSize: Int = 10, projectId: Long): Page[Daily] = DB.withConnection { implicit conn =>
+    val offset = pageSize * page
+
+    val dailies = SQL(
+      """
+      select *
+      from dailies
+      where project_id = {projectId}
+      order by created_on desc, completed_on desc
+      limit {pageSize} offset {offset}
+      """)
+      .on('projectId -> projectId, 'pageSize -> pageSize, 'offset -> offset).as(dailyParser *)
+
+    val totalRows = SQL(
+      """
+      select count(*)
+      from dailies
+      where project_id = {projectId}
+      """
+    ).on('projectId -> projectId).as(scalar[Long].single)
+
+    Page(dailies, page, offset, totalRows)
   }
 
 }

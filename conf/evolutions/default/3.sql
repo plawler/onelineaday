@@ -35,6 +35,9 @@ values (7, 40, 'https://groups.google.com/forum/#!searchin/securesocial/save$20m
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (8, 43, 'http://stackoverflow.com/questions/17735636/testing-a-play2-application-with-securesocial-using-dependency-injection', 'Testing Play2 application with SecureSocial' , null, 'scala, testing, securesocial', '2013-12-29');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (9, 46, 'http://ananthakumaran.in/2010/03/29/scala-underscore-magic.html', 'Scala Underscore Magic' , null, 'scala, underscore', '2013-12-31');
+
 # --- !Downs
 
 DROP TABLE resources;

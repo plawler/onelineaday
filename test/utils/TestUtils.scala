@@ -1,9 +1,13 @@
 package utils
 
-import play.api.test.FakeRequest
+import play.api.test.{FakeApplication, FakeRequest}
 import securesocial.core._
 import models.User
 import scala.Some
+import securesocial.core.IdentityId
+import securesocial.core.PasswordInfo
+import scala.Some
+import play.api.test.Helpers._
 import securesocial.core.IdentityId
 import securesocial.core.PasswordInfo
 import scala.Some
@@ -16,6 +20,19 @@ import scala.Some
  * To change this template use File | Settings | File Templates.
  */
 object TestUtils {
+
+  implicit def memDB[T](code: => T) =
+    running ( FakeApplication( additionalConfiguration = Map(
+      "db.default.driver" -> "org.h2.Driver",
+      "db.default.url"    -> "jdbc:h2:mem:test;MODE=PostgreSQL"
+    ) ) )(code)
+
+  //  "My app" should {
+  //    "integrate nicely" in memDB {
+  //      1 mustEqual 1
+  //    }
+  //  }
+
 
   @inline implicit def loggedInFakeRequestWrapper[T](x: FakeRequest[T]) = new LoggedInFakeRequest(x)
 

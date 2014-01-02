@@ -55,7 +55,10 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (41, 1, 'Update the Projects entity to reference a User', 120, '2013-12-26', '2013-12-26');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (42, 1, 'Update User model to support usernames', 45, '2013-12-27', '2013-12-27');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (43, 1, 'Figure out unit testing secured controllers', 30, '2013-12-29', '2013-12-30');
-insert into dailies (id, project_id, description, duration, created_on, completed_on) values (44, 1, 'Enforce unique usernames', 30, '2013-12-30', null);
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (44, 1, 'Enforce unique usernames', 15, '2013-12-30', '2013-12-30');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (45, 1, 'Change users.identity_id to users.username', 60, '2013-12-30', null);
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (46, 1, 'Unit test paged list of dailies', 90, '2013-12-31', '2013-12-31');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (47, 1, 'Reorganize project dailies list', 60, '2014-01-01', '2014-01-02');
 
 # --- !Downs
 

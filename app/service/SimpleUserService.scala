@@ -12,7 +12,8 @@ import models.User
  * IMPORTANT: This is just a sample and not suitable for a production environment since
  * it stores everything in memory.
  */
-class InMemoryUserService(application: Application) extends UserServicePlugin(application) {
+class SimpleUserService(application: Application) extends UserServicePlugin(application) {
+
   private var users = Map[String, Identity]()
   private var tokens = Map[String, Token]()
 

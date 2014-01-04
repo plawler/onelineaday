@@ -13,7 +13,7 @@ CREATE TABLE projects (
 
 insert into projects (id, user_id, name, description, created_on)
 values (1, 2, 'The One Line a Day Project',
-        'One Line a Day is my personal project to build personal projects. The idea is that you have a tremendous amount of high-quality work inside of them but do not have a system for getting it out into the world. One Line a Day creates that system for you so that, day by day, your work can emerge from an idea to a real, live project that, hopefully, makes an incredible contribution to the world.',
+        'One Line a Day is my personal project to build personal projects. The idea is that you have a tremendous amount of high-quality work inside of you but do not have a system for getting it out. One Line a Day is that system so that day by day, your work can emerge from an idea to a real, live project.',
         '2013-11-01');
 
 insert into projects (id, user_id, name, description, created_on)

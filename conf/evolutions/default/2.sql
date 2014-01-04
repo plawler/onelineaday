@@ -59,6 +59,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (45, 1, 'Change users.identity_id to users.username', 60, '2013-12-30', null);
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (46, 1, 'Unit test paged list of dailies', 90, '2013-12-31', '2013-12-31');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (47, 1, 'Reorganize project dailies list', 60, '2014-01-01', '2014-01-02');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (48, 1, 'Cosmetic changes to project page', 60, '2014-01-02', '2014-01-02');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (49, 1, 'Add event calendar to project page', 180, '2014-01-03', '2014-01-03');
 
 # --- !Downs
 

@@ -2,56 +2,127 @@
 
 @import helper._
 
+@import org.apache.commons.lang3.StringEscapeUtils.escapeEcmaScript
+
 @main("One Line a Day - Project") {
 
     <div class="row">
         <div class="col-md-8">
             <h1>@project.name</h1>
             <p>&nbsp;</p>
-            <h2>Dailies</h2>
-            <hr>
+            <h2>Dailies&nbsp;
+                <a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;New daily
+                </a>
+            </h2>
             @dailies.map { daily =>
+                <hr>
                 <h4>@daily.createdOn.format("EEEE, MMM d") <small>@daily.duration minutes</small></h4>
                 <p>
                     <a href="@routes.Dailies.daily(daily.dailyId)">@daily.description</a>
-                    &nbsp;&nbsp;<span class="badge">@daily.resourceCount.getOrElse(0)</span>
+                </p>
+                <p>
+                    <span class="label label-default" data-toggle="tooltip" title="Links">@daily.resourceCount.getOrElse(0)</span>
+                    &nbsp;&nbsp;<span class="label label-primary" data-toggle="tooltip" title="Likes">0</span>
+                    &nbsp;&nbsp;<span class="label label-info" data-toggle="tooltip" title="Tweets">0</span>
                 </p>
                 <p>
                     @if(daily.completedOn == None) {
                         @form(routes.Dailies.complete(daily.dailyId)) {
-                            <button type="submit" class="btn btn-success btn-xs">Complete it!</button>
+                            <button type="submit" class="btn btn-success btn-xs">
+                                <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Complete it!
+                            </button>
                         }
                     } else {
                         Completed on @daily.completedOn.get.format("EEEE, MMM d")
                     }
                 </p>
-                <hr>
             }
-
-            <p><a href="@routes.Dailies.newDaily(project.id)" class="btn btn-success">Add a daily</a></p>
         </div>
         <div class="col-md-4">
             <h3>About</h3>
             <p>@project.description</p>
             @form(routes.Projects.delete(project.id)) {
-                <a href="@routes.Projects.edit(project.id)" class="btn btn-primary btn-sm">Edit</a> &nbsp;
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                <a href="@routes.Projects.edit(project.id)" class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+                </a> &nbsp;
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
+                </button>
             }
 
             <p>&nbsp;</p>
 
             <h3>Streak</h3>
-            <p>@streak day streak@if(streak > 0) {!} else {&nbsp;(get crackin'!)}</p>
+            <p>@streak days in a row@if(streak > 0) {!} else {&nbsp;(get crackin'!)}</p>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <div id="simple-calendar"></div>
+                </div>
+            </div>
+
+            <p>&nbsp;</p>
 
             <h3>Momentum</h3>
-            Calculates unbroken streaks and time spent on each daily into a momentum factor. Can increase with social media awareness.
+            <p>Calculates unbroken streaks and time spent on each daily into a momentum factor. Can increase with social media awareness.</p>
 
             <h3>Serendipity</h3>
-            Just an idea that would indicate when the project has accidentally received some boost somehow.
+            <p>Just an idea that would indicate when the project has accidentally received some boost somehow.</p>
         </div>
     </div>
-
 }
+
+
+@dailyJSArray(projectDailies: List[ProjectDaily]) = @{
+    val str = projectDailies.map { pd =>
+        "{" +
+            "date:\"" + pd.completedOn.getOrElse(pd.createdOn).format("d/M/yyyy") + "\"," +
+            "title:\"" + escapeEcmaScript(pd.description) + "\"," +
+            "color:\"#5cb85c\"," +
+            "nMonths: 6" +
+        "},\r"
+    }.mkString
+    val raw = str.dropRight(1)
+    Html(raw)
+}
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+        $(".label").tooltip();
+    });
+
+    var monthNames = ["January", "February", "May", "June", "March", "April", "July", "August", "September", "October", "November", "December"];
+    var dayNames = ["S", "M", "T", "W", "T", "F", "S"];
+
+    var events = [
+        @dailyJSArray(dailies)
+    ];
+
+    $('#simple-calendar').bic_calendar({
+        //events
+        events: events,
+        //enable select
+        enableSelect: false,
+        //set day names
+        dayNames: dayNames,
+        //set month names
+        monthNames: monthNames,
+        //show dayNames
+        showDays: true,
+        //show month controller
+        displayMonthController: true,
+        //show year controller
+        displayYearController: false,
+        //change calendar to english format
+        startWeekDay: 1,
+        //set ajax call
+        reqAjax: {
+            type: 'get',
+            url: 'http://bic.cat/bic_calendar/index.php'
+        }
+    });
+</script>
 
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@
 @*http://tutorialzine.com/2013/07/50-must-have-plugins-for-extending-twitter-bootstrap*@

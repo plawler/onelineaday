@@ -44,12 +44,18 @@ object Projects extends Controller with SecureSocial {
     Ok(views.html.projects.create(projectForm))
   }
 
-  def add = Action { implicit request =>
+  def add = SecuredAction { implicit request =>
     projectForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.projects.create(formWithErrors)),
       project => {
-          Project.create(project.name, project.description, new Date())
-          Redirect(routes.Projects.projects)
+        request.user match {
+          case user: User => {
+            Project.create(project.name, project.description, new Date(), user.id)
+            Redirect(routes.Projects.projects)
+          }
+          case _ => throw new RuntimeException("no user in context. no soup for you!!")
+        }
+
       }
     )
   }

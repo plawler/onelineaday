@@ -86,11 +86,16 @@ object Project {
       ).on('userId -> userId).as(projectParser *)
   }
 
-  def create(name: String, description: String, createdOn: Date) {
+  def create(name: String, description: String, createdOn: Date, userId: Long) {
     DB.withConnection {
       implicit conn =>
-        SQL("insert into projects (name, description, created_on) values ({name}, {description}, {created_on})").on(
-          'name -> name, 'description -> description, 'created_on -> createdOn
+        SQL(
+          """
+          insert into projects (name, description, created_on, user_id)
+          values ({name}, {description}, {created_on}, {userId})
+          """
+        ).on(
+          'name -> name, 'description -> description, 'created_on -> createdOn, 'userId -> userId
         ).executeUpdate
     }
   }

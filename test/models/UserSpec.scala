@@ -4,12 +4,9 @@ import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
 
-import play.api.test._
-import play.api.test.Helpers._
 import org.specs2.mock.Mockito
 import securesocial.core._
 import securesocial.core.IdentityId
-import play.api.test.FakeApplication
 import scala.Some
 import utils.TestUtils
 

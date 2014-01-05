@@ -4,10 +4,11 @@ import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
 
-import play.api.test._
-import play.api.test.Helpers._
 import org.joda.time.DateTime
 import org.specs2.mock.Mockito
+import utils.TestUtils
+import securesocial.core.{Identity, IdentityId}
+import java.util.Date
 
 
 /**
@@ -62,6 +63,17 @@ class ProjectSpec extends Specification with Mockito {
       val streak = Project.calculateStreak(List(daily1, daily2), today.toDate, 0)
       streak must be equalTo 0
     }
+
+    "create a project assigned to a specific user" in TestUtils.memDB {
+      val user = User.findByIdentityId(IdentityId("paullawler", "userpass")) match {
+          case Some(u: User) => u
+          case _ => throw new IllegalArgumentException("no user with that identity")
+        }
+      Project.all(user.id).size shouldEqual 2
+      Project.create("A Test Project", "This is a test project", new Date(), user.id)
+      Project.all(user.id).size shouldEqual 3
+    }
+
   }
 
 }

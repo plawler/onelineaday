@@ -50,11 +50,6 @@ object Project {
     }
   }
 
-  def streak(projectId: Long): Int = {
-    0
-//    calculateStreak(Daily.findByProjectId(projectId), new Date(), 0)
-  }
-
   def calculateStreak(dailies: List[ProjectDaily], referenceDate: Date, total: Int): Int = {
     if (dailies.isEmpty) total
     else {

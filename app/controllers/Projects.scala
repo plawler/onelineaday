@@ -17,12 +17,12 @@ import securesocial.core.SecureSocial
 object Projects extends Controller with SecureSocial {
 
   val projectForm = Form(
-    mapping (
-    "id" -> ignored(0L),
-    "name" -> nonEmptyText,
-    "description" -> nonEmptyText,
-    "createdOn" -> ignored(new Date())
-    ) (Project.apply)(Project.unapply)
+    mapping(
+      "id" -> ignored(0L),
+      "name" -> nonEmptyText,
+      "description" -> nonEmptyText,
+      "createdOn" -> ignored(new Date())
+    )(Project.apply)(Project.unapply)
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
   )
 
@@ -30,17 +30,18 @@ object Projects extends Controller with SecureSocial {
   def projects = SecuredAction { implicit request =>
     request.user match {
       case user: User => Ok(views.html.projects.list(Project.all(user.id)))
-      case _ => throw new RuntimeException("no user in context. no soup for you!!")
+      //case _ => throw new RuntimeException("no user in context. no soup for you!!")
     }
   }
 
-  def project(id: Long) = Action {
-    var projectDailies = Project.findProjectDailies(id)
-    var streak = Project.calculateStreak(projectDailies, new Date(), 0)
-    Ok(views.html.projects.item(Project.find(id), projectDailies, streak))
+  def project(id: Long) = SecuredAction {
+    implicit request =>
+      var projectDailies = Project.findProjectDailies(id)
+      var streak = Project.calculateStreak(projectDailies, new Date(), 0)
+      Ok(views.html.projects.item(Project.find(id), projectDailies, streak))
   }
 
-  def newProject = Action {
+  def newProject = SecuredAction {
     Ok(views.html.projects.create(projectForm))
   }
 
@@ -53,19 +54,17 @@ object Projects extends Controller with SecureSocial {
             Project.create(project.name, project.description, new Date(), user.id)
             Redirect(routes.Projects.projects)
           }
-          case _ => throw new RuntimeException("no user in context. no soup for you!!")
         }
-
       }
     )
   }
 
-  def edit(id: Long) = Action {
+  def edit(id: Long) = SecuredAction {
     val project = Project.find(id)
     Ok(views.html.projects.edit(project, projectForm.fill(project)))
   } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
 
-  def update(id: Long) = Action { implicit request =>
+  def update(id: Long) = SecuredAction { implicit request =>
     projectForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm)),
       project => {
@@ -75,7 +74,7 @@ object Projects extends Controller with SecureSocial {
     )
   }
 
-  def delete(id: Long) = Action {
+  def delete(id: Long) = SecuredAction {
     Project.delete(id)
     Redirect(routes.Projects.projects)
   }

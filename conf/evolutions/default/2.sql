@@ -63,6 +63,9 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (49, 1, 'Add event calendar to project page', 180, '2014-01-03', '2014-01-03');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (50, 1, 'Test and fix Project create method with user id', 45, '2014-01-04', '2014-01-04');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (51, 1, 'Secure Project actions in controller', 45, '2014-01-05', '2014-01-05');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (52, 1, 'Secure Daily actions in controller', 15, '2014-01-07', '2014-01-07');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (53, 1, 'Incomplete dailies should be red in calendar', 60, '2014-01-08', '2014-01-08');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (54, 1, 'Record Daily duration when complete', 60, '2014-01-09', null);
 
 # --- !Downs
 

@@ -75,15 +75,17 @@
 
 
 @dailyJSArray(projectDailies: List[ProjectDaily]) = @{
+    val green = "#5cb85c"
+    val red = "#d9534f"
     val str = projectDailies.map { pd =>
         "{" +
-            "date:\"" + pd.completedOn.getOrElse(pd.createdOn).format("d/M/yyyy") + "\"," +
+            "date:\"" + pd.createdOn.format("d/M/yyyy") + "\"," + // looks like bic calendar gets a little squirrely if multiple events for the same day
             "title:\"" + escapeEcmaScript(pd.description) + "\"," +
-            "color:\"#5cb85c\"," +
+            "color:\"" + {if (pd.completedOn.isDefined) green else red} + "\"," +
             "nMonths: 6" +
         "},\r"
     }.mkString
-    val raw = str.dropRight(1)
+    val raw = str.dropRight(1) // remove the trailing comma
     Html(raw)
 }
 
@@ -97,7 +99,7 @@
 
     var events = [
         @dailyJSArray(dailies)
-    ];
+    ]
 
     $('#simple-calendar').bic_calendar({
         //events
@@ -115,12 +117,12 @@
         //show year controller
         displayYearController: false,
         //change calendar to english format
-        startWeekDay: 1,
+        startWeekDay: 1
         //set ajax call
-        reqAjax: {
-            type: 'get',
-            url: 'http://bic.cat/bic_calendar/index.php'
-        }
+//        reqAjax: {
+//            type: 'get',
+//            url: 'http://bic.cat/bic_calendar/index.php'
+//        }
     });
 </script>
 

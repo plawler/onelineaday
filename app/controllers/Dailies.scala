@@ -5,6 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import java.util.Date
 import models.{Resource, Project, Daily}
+import securesocial.core.SecureSocial
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +14,7 @@ import models.{Resource, Project, Daily}
  * Time: 7:06 AM
  * To change this template use File | Settings | File Templates.
  */
-object Dailies extends Controller {
+object Dailies extends Controller with SecureSocial {
 
   val dailyForm = Form(
     mapping (
@@ -28,7 +29,7 @@ object Dailies extends Controller {
 
   def dailies(projectId: Long) = TODO
 
-  def daily(id: Long) = Action {
+  def daily(id: Long) = SecuredAction {
     val daily = Daily.find(id)
     Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id)))
   }
@@ -37,7 +38,7 @@ object Dailies extends Controller {
     Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))
   }
 
-  def create = Action { implicit request =>
+  def create = SecuredAction { implicit request =>
     dailyForm.bindFromRequest.fold(
       formWithErrors =>
         BadRequest(views.html.dailies.create(formWithErrors, Project.find(formWithErrors.data("projectId").toLong))),
@@ -48,13 +49,13 @@ object Dailies extends Controller {
     )
   }
 
-  def delete(id: Long) = Action {
+  def delete(id: Long) = SecuredAction {
     val projectId = Daily.find(id).projectId
     Daily.delete(id)
     Redirect(routes.Projects.project(projectId))
   }
 
-  def complete(id: Long) = Action {
+  def complete(id: Long) = SecuredAction {
     Daily.complete(id, new Date())
     val daily = Daily.find(id)
     Redirect(routes.Projects.project(daily.projectId))

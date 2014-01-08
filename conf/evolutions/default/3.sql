@@ -39,7 +39,7 @@ insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (9, 46, 'http://ananthakumaran.in/2010/03/29/scala-underscore-magic.html', 'Scala Underscore Magic' , null, 'scala, underscore', '2013-12-31');
 
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
-values (9, 46, 'http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html', 'The Neophyte''s Guide to Scala Part 5: The Option Type' , null, 'scala, option', '2013-01-05');
+values (10, 50, 'http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html', 'The Neophyte''s Guide to Scala Part 5: The Option Type' , null, 'scala, option', '2013-01-05');
 
 # --- !Downs
 

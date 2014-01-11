@@ -1,0 +1,45 @@
+@(completeDailyForm: Form[Int], daily: Daily)
+
+@import helper.form
+@import bootstrap.number
+
+<!-- completeDailyModal (see projects.item.scala.html for invocation) -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Complete your daily</h4>
+        </div>
+
+        @form(routes.Dailies.complete(daily.id), 'id -> "completeDailyForm", 'class -> "form-horizontal", 'role -> "form") {
+            <div class="modal-body">
+                <p>How long did it take to complete?</p>
+                @number(completeDailyForm("duration"), label = "Duration")
+            </div>
+            <div class="modal-footer">
+                <button id="submit" type="submit" value="Submit" class="btn btn-primary">Complete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        }
+
+    </div> <!-- /.modal-content -->
+</div> <!-- /.modal-dialog -->
+
+<script type="text/javascript">
+    $("#completeDailyForm").submit(function (event) {
+        $('#submit').prop('disabled', true); // lock down the submit button
+
+        $.post($(this).attr("action"), $(this).serialize())
+            .done(function(data) {
+                $("#completeDailyModal").modal("hide"); // close the modal
+                location.reload(); // reload the page
+            })
+            .fail(function(data) {
+                $("#completeDailyModal").empty(); // remove the html from the modal
+                $("#completeDailyModal").append(data.responseText); // reload the error html in the modal
+            });
+
+        event.preventDefault();
+
+    });
+</script>

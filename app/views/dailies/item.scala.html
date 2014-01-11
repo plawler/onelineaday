@@ -7,20 +7,18 @@
     <h1>@daily.description<br><small>@daily.createdOn.format("MMM d, yyyy")</small></h1>
 
     <p><a href="@routes.Projects.project(project.id)">@project.name</a></p>
-    <p><strong>Duration </strong>@daily.duration minutes</p>
-    <p>
-        @if(daily.completedOn == None) {
-            This daily isn't done. <em>Get going!</em>
-        } else {
-            This daily was completed on @daily.completedOn.get.format("MMM d, yyyy")
-        }
-    </p>
+    @if(daily.completedOn == None) {
+        <p>This daily isn't done. <em>Get going!</em></p>
+    } else {
+        <p><strong>Completed on </strong>@daily.completedOn.get.format("MMM d, yyyy")</p>
+        <p><strong>Duration </strong>@daily.duration minutes</p>
+    }
     <hr>
 
-    @form(routes.Dailies.complete(daily.id), 'id -> "completeDailyForm") { }
     @form(routes.Dailies.delete(daily.id), 'id -> "deleteDailyForm") { }
-    <button id="completeDailyButton" type="submit" class="btn btn-success">Complete it!</button>
-    <button id="deleteDailyButton" type="submit" class="btn btn-danger">Delete</button>
+    <button id="deleteDailyButton" type="submit" class="btn btn-danger">
+        <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
+    </button>
 
     <p>&nbsp;</p>
 
@@ -41,7 +39,7 @@
     </table>
 
     <button type="button" class="btn btn-success" data-toggle="modal" data-remote="@routes.Resources.newResource(daily.id)" data-target="#newResourceModal">
-        Add a resource
+        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Add a resource
     </button>
 
     <div class="modal fade" id="newResourceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
@@ -50,10 +48,6 @@
         $('#newResourceModal').on('hidden.bs.modal', function () {
             $(this).removeData();
         })
-
-        $('#completeDailyButton').click(function () {
-            $("#completeDailyForm").submit();
-        });
 
         $('#deleteDailyButton').click(function () {
             $("#deleteDailyForm").submit();

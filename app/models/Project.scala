@@ -20,7 +20,7 @@ import securesocial.core.Identity
 case class Project(id: Long, name: String, description: String, createdOn: Date)
 
 case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],
-                        duration: Int, resourceCount: Option[Long])
+                        duration: Option[Int], resourceCount: Option[Long])
 
 object Project {
 
@@ -43,7 +43,7 @@ object Project {
     get[String]("description") ~
     get[Date]("created_on") ~
     get[Option[Date]]("completed_on") ~
-    get[Int]("duration") ~
+    get[Option[Int]]("duration") ~
     get[Option[Long]]("cnt") map {
       case projectId~dailyId~description~createdOn~completedOn~duration~resourceCount =>
         ProjectDaily(projectId, dailyId, description, createdOn, completedOn, duration, resourceCount)

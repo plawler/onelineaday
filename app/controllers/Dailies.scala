@@ -21,29 +21,32 @@ object Dailies extends Controller with SecureSocial {
       "id" -> ignored(0L),
       "projectId" -> longNumber,
       "description" -> nonEmptyText,
-      "duration" -> number(min = 0), // see docs for min/max
+      "duration" -> optional(number(min = 0)), // see docs for min/max
       "createdOn" -> ignored(new Date),
       "completedOn" -> optional(date("yyyy-MM-dd"))
     )(Daily.apply)(Daily.unapply)
   )
 
-  def dailies(projectId: Long) = TODO
+  val completeDailyForm = Form ("duration" -> number(min = 0))
+
 
   def daily(id: Long) = SecuredAction {
     val daily = Daily.find(id)
     Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id)))
   }
 
-  def newDaily(projectId: Long) = Action {
+  // todo: change to "create"
+  def newDaily(projectId: Long) = SecuredAction {
     Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))
   }
 
+  // todo: change to "save"
   def create = SecuredAction { implicit request =>
     dailyForm.bindFromRequest.fold(
       formWithErrors =>
         BadRequest(views.html.dailies.create(formWithErrors, Project.find(formWithErrors.data("projectId").toLong))),
       daily => {
-        Daily.create(daily.projectId, daily.description, daily.duration, new Date())
+        Daily.create(daily.projectId, daily.description, new Date())
         Redirect(routes.Projects.project(daily.projectId))
       }
     )
@@ -55,10 +58,19 @@ object Dailies extends Controller with SecureSocial {
     Redirect(routes.Projects.project(projectId))
   }
 
-  def complete(id: Long) = SecuredAction {
-    Daily.complete(id, new Date())
-    val daily = Daily.find(id)
-    Redirect(routes.Projects.project(daily.projectId))
+  def editCompletion(id: Long) = SecuredAction {
+    Ok(views.html.dailies.modal_complete(completeDailyForm.fill(0), Daily.find(id)))
+  }
+
+  def complete(id: Long) = SecuredAction { implicit request =>
+    completeDailyForm.bindFromRequest.fold(
+      formWithErrors =>
+        BadRequest(views.html.dailies.modal_complete(formWithErrors, Daily.find(id))),
+      duration => {
+        Daily.complete(id, duration, new Date())
+        Redirect(routes.Projects.project(Daily.find(id).projectId))
+      }
+    )
   }
 
 }

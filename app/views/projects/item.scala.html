@@ -17,7 +17,7 @@
             </h2>
             @dailies.map { daily =>
                 <hr>
-                <h4>@daily.createdOn.format("EEEE, MMM d") <small>@daily.duration minutes</small></h4>
+                <h4>@daily.createdOn.format("EEEE, MMM d") @if(daily.duration.isDefined) {<small>@daily.duration minutes</small>}</h4>
                 <p>
                     <a href="@routes.Dailies.daily(daily.dailyId)">@daily.description</a>
                 </p>
@@ -28,16 +28,17 @@
                 </p>
                 <p>
                     @if(daily.completedOn == None) {
-                        @form(routes.Dailies.complete(daily.dailyId)) {
-                            <button type="submit" class="btn btn-success btn-xs">
-                                <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Complete it!
-                            </button>
-                        }
+                        <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+                            data-remote="@routes.Dailies.editCompletion(daily.dailyId)" data-target="#completeDailyModal">
+                            <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Complete it!
+                        </button>
                     } else {
                         Completed on @daily.completedOn.get.format("EEEE, MMM d")
                     }
                 </p>
             }
+
+            <div class="modal fade" id="completeDailyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
         </div>
         <div class="col-md-4">
             <h3>About</h3>
@@ -73,7 +74,7 @@
     </div>
 }
 
-
+@* build the json array to populate events on the calendar *@
 @dailyJSArray(projectDailies: List[ProjectDaily]) = @{
     val green = "#5cb85c"
     val red = "#d9534f"
@@ -90,6 +91,7 @@
 }
 
 <script type='text/javascript'>
+
     $(document).ready(function () {
         $(".label").tooltip();
     });
@@ -124,6 +126,12 @@
 //            url: 'http://bic.cat/bic_calendar/index.php'
 //        }
     });
+</script>
+
+<script type="text/javascript">
+    $('#newResourceModal').on('hidden.bs.modal', function () {
+        $(this).removeData();
+    })
 </script>
 
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@

@@ -13,7 +13,7 @@ import anorm.SqlParser._
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Daily(id: Long, projectId: Long, description: String, duration: Int, createdOn: Date,
+case class Daily(id: Long, projectId: Long, description: String, duration: Option[Int], createdOn: Date,
                  completedOn: Option[Date])
 
 case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
@@ -27,7 +27,7 @@ object Daily {
     get[Long]("id") ~
     get[Long]("project_id") ~
     get[String]("description") ~
-    get[Int]("duration") ~
+    get[Option[Int]]("duration") ~
     get[Date]("created_on") ~
     get[Option[Date]]("completed_on") map {
       case id~projectId~description~duration~createdOn~completedOn =>
@@ -40,14 +40,14 @@ object Daily {
       .on('projectId -> projectId).as(dailyParser *)
   }
 
-  def create(projectId: Long, description: String, duration: Int, createdOn: Date) =
+  def create(projectId: Long, description: String, createdOn: Date) =
     DB.withConnection { implicit conn =>
     SQL(
       """
-      insert into dailies (project_id, description, duration, created_on)
-      values ({project_id}, {description}, {duration}, {created_on})
+      insert into dailies (project_id, description, created_on)
+      values ({project_id}, {description}, {created_on})
       """
-    ).on('project_id -> projectId, 'description -> description, 'duration -> duration, 'created_on -> createdOn
+    ).on('project_id -> projectId, 'description -> description, 'created_on -> createdOn
     ).executeUpdate()
   }
 
@@ -55,12 +55,14 @@ object Daily {
     SQL("select * from dailies where id = {id}").on('id -> id).using(dailyParser).single()
   }
 
-  def complete(id: Long, completedOn: Date) = DB.withConnection { implicit conn =>
+  def complete(id: Long, duration: Int, completedOn: Date) = DB.withConnection { implicit conn =>
     SQL(
       """
-      update dailies set completed_on = {completedOn} where id = {id}
+      update dailies
+      set duration = {duration}, completed_on = {completedOn}
+      where id = {id}
       """
-    ).on('completedOn -> completedOn, 'id -> id).executeUpdate()
+    ).on('duration -> duration, 'completedOn -> completedOn, 'id -> id).executeUpdate()
   }
 
   def delete(id: Long) = DB.withConnection { implicit conn =>

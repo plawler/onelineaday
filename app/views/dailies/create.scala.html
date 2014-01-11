@@ -11,11 +11,7 @@
     @form(routes.Dailies.create, 'class -> "form-horizontal", 'role -> "form") {
         <input type="hidden" name="projectId" value="@project.id"/>
 
-        @text(dailyForm("description"),
-            "Describe your daily",
-            help = "This is the small nugget of work that you are going to accomplish")
-
-        @number(dailyForm("duration"), "Duration", help = "How long to complete this daily (in minutes)?")
+        @text(dailyForm("description"), "Describe your daily", help = "This is the small nugget of work that you are going to accomplish")
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

@@ -37,9 +37,9 @@ POST        /projects/:id                           controllers.Projects.update(
 POST        /projects/:id/delete                    controllers.Projects.delete(id: Long)
 
 #Dailies
-GET         /projects/:projectId/dailies            controllers.Dailies.dailies(projectId: Long)
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)
 GET         /dailies/:id                            controllers.Dailies.daily(id: Long)
+GET         /dailies/:id/complete                   controllers.Dailies.editCompletion(id: Long)
 
 POST        /dailies                                controllers.Dailies.create
 POST        /dailies/:id/delete                     controllers.Dailies.delete(id: Long)

@@ -9,7 +9,9 @@
         <td>@resource.createdOn.format("MMM d, yyyy")</td>
         <td>
             @form(routes.Resources.delete(resource.id)) {
-                <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                <button type="submit" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
+                </button>
             }
         </td>
     </tr>

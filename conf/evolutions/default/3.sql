@@ -41,6 +41,16 @@ values (9, 46, 'http://ananthakumaran.in/2010/03/29/scala-underscore-magic.html'
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (10, 50, 'http://danielwestheide.com/blog/2012/12/19/the-neophytes-guide-to-scala-part-5-the-option-type.html', 'The Neophyte''s Guide to Scala Part 5: The Option Type' , null, 'scala, option', '2013-01-05');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (11, 54, 'http://stackoverflow.com/questions/18365315/jquerys-jquery-1-10-2-min-map-is-triggering-a-404-not-found', 'JQuery min.map not found (404)' , null, 'jquery, chrome, devtools', '2013-01-11');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (12, 54, 'https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4', 'Using Plain Forms and Tuples in Play' , null, 'play, tuple, form', '2013-01-11');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (13, 54, 'https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4', 'Basic Form Fill Operations in Play' , null, 'play, form', '2013-01-11');
+
+
 # --- !Downs
 
 DROP TABLE resources;

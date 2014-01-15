@@ -6,7 +6,7 @@ CREATE SEQUENCE daily_id_seq start with 100000;
 CREATE TABLE dailies (
     id integer NOT NULL DEFAULT nextval('daily_id_seq'),
     project_id integer,
-    description varchar(max),
+    description varchar,
     duration integer,
     created_on timestamp,
     completed_on timestamp
@@ -66,6 +66,8 @@ insert into dailies (id, project_id, description, duration, created_on, complete
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (52, 1, 'Secure Daily actions in controller', 15, '2014-01-07', '2014-01-07');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (53, 1, 'Incomplete dailies should be red in calendar', 60, '2014-01-08', '2014-01-08');
 insert into dailies (id, project_id, description, duration, created_on, completed_on) values (54, 1, 'Record Daily duration when complete', 120, '2014-01-09', '2014-01-11');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (55, 1, 'Install PostgreSQL', 30, '2014-01-12', '2014-01-12');
+insert into dailies (id, project_id, description, duration, created_on, completed_on) values (56, 1, 'Start PostgreSQL', 15, '2014-01-13', '2014-01-13');
 
 # --- !Downs
 

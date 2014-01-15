@@ -4,7 +4,7 @@ CREATE SEQUENCE resource_id_seq start with 100000;
 CREATE TABLE resources (
     id integer NOT NULL DEFAULT nextval('resource_id_seq'),
     daily_id integer,
-    url varchar(max),
+    url text,
     title varchar(255),
     comment varchar(500),
     tags varchar(255),
@@ -50,6 +50,14 @@ values (12, 54, 'https://groups.google.com/forum/#!topic/play-framework/RLjwgiGD
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (13, 54, 'https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4', 'Basic Form Fill Operations in Play' , null, 'play, form', '2013-01-11');
 
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (14, 55, 'http://stackoverflow.com/questions/10282402/configure-postgresql-for-play-framework-2-0', 'Play Framework, PostgreSQL Configuration' , null, 'play, postgresql', '2013-01-12');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (15, 55, 'http://stackoverflow.com/questions/7731933/postgresql-with-play-framework', 'Play Framework, PostgreSQL Configuration' , null, 'play, postgresql', '2013-01-12');
+
+insert into resources (id, daily_id, url, title, comment, tags, created_on)
+values (15, 56, 'http://stackoverflow.com/a/7975660', 'PostgreSQL Startup on OSX' , null, 'postgresql, osx', '2013-01-13');
 
 # --- !Downs
 

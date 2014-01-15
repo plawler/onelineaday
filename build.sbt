@@ -14,7 +14,8 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap-glyphicons" % "bdd2cbfba0",
   "com.github.nscala-time" %% "nscala-time" % "0.6.0",
   "org.mockito" % "mockito-all" % "1.9.5",
-  "securesocial" %% "securesocial" % "2.1.2"
+  "securesocial" %% "securesocial" % "2.1.2",
+  "postgresql" % "postgresql" % "9.1-901.jdbc4"
 )
 
 play.Project.playScalaSettings

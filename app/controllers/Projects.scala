@@ -36,8 +36,8 @@ object Projects extends Controller with SecureSocial {
 
   def project(id: Long) = SecuredAction {
     implicit request =>
-      var projectDailies = Project.findProjectDailies(id)
-      var streak = Project.calculateStreak(projectDailies, new Date(), 0)
+      val projectDailies = Project.findProjectDailies(id)
+      val streak = Project.calculateStreak(projectDailies, new Date(), 0)
       Ok(views.html.projects.item(Project.find(id), projectDailies, streak))
   }
 

@@ -35,7 +35,7 @@ class ProjectSpec extends Specification with Mockito {
       daily3.completedOn returns Some(today.minusDays(2).toDate)
 
       val streak = Project.calculateStreak(List(daily1, daily2, daily3), today.toDate, 0)
-      streak must be equalTo 2
+      streak must be equalTo 3
     }
 
     "compute a streak of non-consecutive dailies" in {
@@ -49,7 +49,7 @@ class ProjectSpec extends Specification with Mockito {
       daily3.completedOn returns Some(today.minusDays(3).toDate)
 
       val streak = Project.calculateStreak(List(daily1, daily2, daily3), today.toDate, 0)
-      streak must be equalTo 1
+      streak must be equalTo 2
     }
 
     "compute a streak of None dailies" in {
@@ -61,7 +61,7 @@ class ProjectSpec extends Specification with Mockito {
       daily2.completedOn returns None
 
       val streak = Project.calculateStreak(List(daily1, daily2), today.toDate, 0)
-      streak must be equalTo 0
+      streak must be equalTo 1
     }
 
     "create a project assigned to a specific user" in TestUtils.memDB {

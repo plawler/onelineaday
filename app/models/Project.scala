@@ -8,7 +8,6 @@ import anorm.SqlParser._
 import java.util.Date
 import play.api.db._
 import org.joda.time.{Days, DateTime}
-import securesocial.core.Identity
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,12 +58,18 @@ object Project {
         val completedOn = daily.completedOn.get
         val days = daysBetween(completedOn, referenceDate)
         if (days > 1) total
-        else calculateStreak(dailies.tail, completedOn, total + 1)
+        else calculateStreak(dailies.tail, completedOn, total + days)
       }
     }
   }
 
   private def daysBetween(start: Date, end: Date): Int = {
+    val days = distance(start, end)
+    if (days <= 1) 1
+    else days
+  }
+
+  private def distance(start: Date, end: Date): Int = {
     Days.daysBetween(new DateTime(start).toLocalDate, new DateTime(end).toLocalDate).getDays
   }
 

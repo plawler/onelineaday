@@ -8,6 +8,9 @@ import org.specs2.mock.Mockito
 import securesocial.core._
 import securesocial.core.IdentityId
 import scala.Some
+import play.api.test.FakeApplication
+import play.api.test.WithApplication
+import play.api.test.Helpers.inMemoryDatabase
 import utils.TestUtils
 
 
@@ -20,10 +23,11 @@ import utils.TestUtils
  */
 @RunWith(classOf[JUnitRunner])
 class UserSpec extends Specification with Mockito {
-//  http://stackoverflow.com/questions/12421976/fixtures-in-play-2-for-scala/12445815#12445815
+  // http://stackoverflow.com/questions/12421976/fixtures-in-play-2-for-scala/12445815#12445815
+  // http://workwithplay.com/blog/2013/06/19/integration-testing/
 
   "User" should {
-    "crud a user" in TestUtils.memDB {
+    "crud a user" in new WithApplication(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
       // create an Identity
       val identityId = IdentityId("unittestuser", "userpass")
       val authMethod = AuthenticationMethod("userPassword")

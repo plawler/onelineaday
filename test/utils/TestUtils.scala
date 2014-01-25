@@ -33,6 +33,11 @@ object TestUtils {
   //    }
   //  }
 
+  implicit def liveDB[T](code: => T) =
+    running ( FakeApplication( additionalConfiguration = Map(
+      "db.default.driver" -> "org.postgresql.Driver",
+      "db.default.url"    -> "postgres://play:0n3lineaday@localhost:5432/onelineaday"
+    ) ) )(code)
 
   @inline implicit def loggedInFakeRequestWrapper[T](x: FakeRequest[T]) = new LoggedInFakeRequest(x)
 

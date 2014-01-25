@@ -89,7 +89,7 @@ object User {
       """
     ).on('firstName -> identity.firstName, 'lastName -> identity.lastName, 'fullName -> identity.fullName, 'email -> identity.email,
           'userIdentityId -> identity.identityId.userId, 'providerId -> identity.identityId.providerId,
-          'authenticationMethod -> identity.authMethod, 'hasher -> identity.passwordInfo.get.hasher,
+          'authenticationMethod -> identity.authMethod.method, 'hasher -> identity.passwordInfo.get.hasher,
           'password -> identity.passwordInfo.get.password, 'salt -> identity.passwordInfo.get.salt
     ).execute()
   }

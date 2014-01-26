@@ -33,3 +33,11 @@ So that the system can monitor my progress and momentum
 As a user
 I want a reward for completing dailies
 So that I can increase my motivation factor for my project
+
+As a host
+I want to include Google Analytics
+So that I can track statistics about the use of the application
+
+As a user
+I want to be able to search my dailies, resources, likes and tweets
+So that I can quickly access import information to help me keep my project moving forward

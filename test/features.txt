@@ -9,30 +9,26 @@ So that I can increase my project motivation and help by sharing progress with m
 As a user
 I want to see my project momentum
 So that I can better understand my ability to get things done
+
+As a user
+I want a reward for completing dailies
+So that I can increase my motivation factor for my project
                 ˜
 As a user
 I want to see an overall project dashboard (count of dailies, streak, momentum factor, etc)
 So I can understand my ability to get things done across multiple projects
 
 As a user
-I want to search within a project
-So that I can find notes and resources related to my project
-
-As a user
 I want to submit personal details to the system (like how many hours per day I watch TV)
 So that the system can suggest appropriate daily time to work on a project
 
 As a user
-I want to attach a file to a resource
-So that I can add documents to my library of research
+I want to add a quick comment to a completed daily
+So that I can provide some context and reaction around what I learned from the task
 
 As a user
 I want to start a timer to track the actual time I spend on a daily
 So that the system can monitor my progress and momentum
-
-As a user
-I want a reward for completing dailies
-So that I can increase my motivation factor for my project
 
 As a host
 I want to include Google Analytics
@@ -41,3 +37,7 @@ So that I can track statistics about the use of the application
 As a user
 I want to be able to search my dailies, resources, likes and tweets
 So that I can quickly access import information to help me keep my project moving forward
+
+As a user
+I want to attach a file to a resource
+So that I can add documents to my library of research

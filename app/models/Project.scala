@@ -55,21 +55,16 @@ object Project {
       val daily = dailies.head
       if (daily.completedOn == None) total
       else {
+        val streak = if (total == 0) 1 else total // set the streak counter to 1 if starting to compensate for daysBetween + today
         val completedOn = daily.completedOn.get
         val days = daysBetween(completedOn, referenceDate)
-        if (days > 1) total
-        else calculateStreak(dailies.tail, completedOn, total + days)
+        if (days > 1) streak
+        else calculateStreak(dailies.tail, completedOn, streak + days)
       }
     }
   }
 
   private def daysBetween(start: Date, end: Date): Int = {
-    val days = distance(start, end)
-    if (days <= 1) 1
-    else days
-  }
-
-  private def distance(start: Date, end: Date): Int = {
     Days.daysBetween(new DateTime(start).toLocalDate, new DateTime(end).toLocalDate).getDays
   }
 

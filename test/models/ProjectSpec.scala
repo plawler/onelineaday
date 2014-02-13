@@ -52,6 +52,20 @@ class ProjectSpec extends Specification with Mockito {
       streak must be equalTo 2
     }
 
+    "compute a streak of multiple dailies on the same day" in {
+      val daily1 = mock[ProjectDaily]
+      val daily2 = mock[ProjectDaily]
+      val daily3 = mock[ProjectDaily]
+
+      val today = DateTime.now
+      daily1.completedOn returns Some(today.toDate)
+      daily2.completedOn returns Some(today.toDate)
+      daily3.completedOn returns Some(today.minusDays(1).toDate)
+
+      val streak = Project.calculateStreak(List(daily1, daily2, daily3), today.toDate, 0)
+      streak must be equalTo 2
+    }
+
     "compute a streak of None dailies" in {
       val daily1 = mock[ProjectDaily]
       val daily2 = mock[ProjectDaily]

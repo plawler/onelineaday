@@ -102,6 +102,15 @@ object User {
     ).on('identityId -> identityId.userId, 'providerId -> identityId.providerId).as(User.userParser.singleOpt)
   }
 
+  def findByEmailAndProvider(emailAddress: String, provider: String): Option[Identity] = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      select * from users where email = {email} and provider_id = {provider}
+      """
+    ).on('email -> emailAddress, 'provider -> provider).as(User.userParser.singleOpt)
+  }
+
+
   def update(identity: Identity) = DB.withConnection { implicit conn =>
     SQL(
       """

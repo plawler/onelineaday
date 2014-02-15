@@ -9,9 +9,11 @@ import securesocial.core._
 import securesocial.core.IdentityId
 import scala.Some
 import play.api.test.FakeApplication
-import play.api.test.WithApplication
 import play.api.test.Helpers.inMemoryDatabase
+
+import play.api.test.WithApplication
 import utils.TestUtils
+import securesocial.core.providers.UsernamePasswordProvider
 
 
 /**
@@ -27,6 +29,7 @@ class UserSpec extends Specification with Mockito {
   // http://workwithplay.com/blog/2013/06/19/integration-testing/
 
   "User" should {
+
     "crud a user" in new WithApplication(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
       // create an Identity
       val identityId = IdentityId("unittestuser", "userpass")
@@ -48,6 +51,13 @@ class UserSpec extends Specification with Mockito {
       // test that changes have stuck
       User.findByIdentityId(identityId).get.fullName mustEqual "Bob User"
     }
+
+    "find a user by email and provider" in TestUtils.memDB {
+      var user = User.findByEmailAndProvider("paul.lawler@gmail.com", UsernamePasswordProvider.UsernamePassword)
+      user must not be None
+      user.get.email mustEqual Some("paul.lawler@gmail.com")
+    }
+
   }
 
 }

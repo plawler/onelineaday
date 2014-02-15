@@ -28,7 +28,7 @@ class SimpleUserService(application: Application) extends UserServicePlugin(appl
     if ( Logger.isDebugEnabled ) {
       Logger.debug("users = %s".format(users))
     }
-    users.values.find( u => u.email.exists(e => e == email && u.identityId.providerId == providerId))
+    User.findByEmailAndProvider(email, providerId)
   }
 
   // treat this as saveOrUpdate

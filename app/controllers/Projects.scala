@@ -6,6 +6,7 @@ import play.api.data._
 import models.{User, Project}
 import java.util.Date
 import securesocial.core.SecureSocial
+import play.api.Play
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +16,8 @@ import securesocial.core.SecureSocial
  * To change this template use File | Settings | File Templates.
  */
 object Projects extends Controller with SecureSocial {
+
+  val GithubClientId = Play.current.configuration.getString("github.onelineaday.clientId")
 
   val projectForm = Form(
     mapping(
@@ -61,12 +64,12 @@ object Projects extends Controller with SecureSocial {
 
   def edit(id: Long) = SecuredAction {
     val project = Project.find(id)
-    Ok(views.html.projects.edit(project, projectForm.fill(project)))
+    Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId))
   } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
 
   def update(id: Long) = SecuredAction { implicit request =>
     projectForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm)),
+      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm, GithubClientId)),
       project => {
         Project.update(id, project.name, project.description)
         Redirect(routes.Projects.project(id))

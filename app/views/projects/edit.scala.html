@@ -1,4 +1,4 @@
-@(project: Project, projectForm: Form[Project])
+@(project: Project, projectForm: Form[Project], githubClientId: Option[String])
 
 @import helper.form
 @import bootstrap._
@@ -12,6 +12,17 @@
 
         @text(projectForm("name"), "Name")
         @textarea(projectForm("description"), "5", "Description")
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <p>
+                    <i class="fa fa-github fa-2x"></i>
+                    <a href="https://github.com/login/oauth/authorize?scope=repo&client_id=@githubClientId">
+                        Link this project to a Github repository
+                    </a>
+                </p>
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

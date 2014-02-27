@@ -35,13 +35,12 @@ GET         /projects                               controllers.Projects.project
 GET         /projects/new                           controllers.Projects.newProject
 GET         /projects/:id                           controllers.Projects.project(id: Long)
 GET         /projects/:id/edit                      controllers.Projects.edit(id: Long)
-
-#Repositories
-GET         /github/callback                        controllers.Repositories.callback
-
 POST        /projects                               controllers.Projects.add
 POST        /projects/:id                           controllers.Projects.update(id: Long)
 POST        /projects/:id/delete                    controllers.Projects.delete(id: Long)
+
+#Repositories
+GET         /github/callback                        controllers.Repositories.callback
 
 #Dailies
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)

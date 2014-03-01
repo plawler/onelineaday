@@ -62,14 +62,15 @@ object Projects extends Controller with SecureSocial {
     )
   }
 
-  def edit(id: Long) = SecuredAction {
+  // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
+  def edit(id: Long) = SecuredAction { implicit request =>
     val project = Project.find(id)
-    Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId))
-  } // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
+    Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId, s"http://${request.host}/github/callback?projectId=${id}"))
+  }
 
   def update(id: Long) = SecuredAction { implicit request =>
     projectForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm, GithubClientId)),
+      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm, GithubClientId, s"http://${request.host}/github/callback?projectId=${id}")),
       project => {
         Project.update(id, project.name, project.description)
         Redirect(routes.Projects.project(id))

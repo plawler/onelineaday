@@ -37,8 +37,9 @@ object Repositories extends Controller with SecureSocial {
         }
 
     }.getOrElse {
-      Future.successful(Redirect(routes.Projects.projects))
+      Future.successful(InternalServerError) // possibly redirect to a nicer page explaining there was some difficulty connecting to github account
     }
+
   }
 
 }

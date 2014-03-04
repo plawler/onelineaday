@@ -13,6 +13,7 @@ GET         /logout                                 securesocial.controllers.Log
 GET         /authenticate/:provider                 securesocial.controllers.ProviderController.authenticate(provider)
 POST        /authenticate/:provider                 securesocial.controllers.ProviderController.authenticateByPost(provider)
 GET         /not-authorized                         securesocial.controllers.ProviderController.notAuthorized
+
 # User Registration and password handling (only needed if you are using UsernamePasswordProvider)
 GET         /signup                                 securesocial.controllers.Registration.startSignUp
 POST        /signup                                 securesocial.controllers.Registration.handleStartSignUp
@@ -41,6 +42,7 @@ POST        /projects/:id/delete                    controllers.Projects.delete(
 
 #Repositories
 GET         /github/callback                        controllers.Repositories.callback
+GET         /github/repos                           controllers.Repositories.repos(projectId: Long)
 
 #Dailies
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)

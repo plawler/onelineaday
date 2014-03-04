@@ -57,7 +57,7 @@ insert into resources (id, daily_id, url, title, comment, tags, created_on)
 values (15, 55, 'http://stackoverflow.com/questions/7731933/postgresql-with-play-framework', 'Play Framework, PostgreSQL Configuration' , null, 'play, postgresql', '2013-01-12');
 
 insert into resources (id, daily_id, url, title, comment, tags, created_on)
-values (15, 56, 'http://stackoverflow.com/a/7975660', 'PostgreSQL Startup on OSX' , null, 'postgresql, osx', '2013-01-13');
+values (16, 56, 'http://stackoverflow.com/a/7975660', 'PostgreSQL Startup on OSX' , null, 'postgresql, osx', '2013-01-13');
 
 # --- !Downs
 

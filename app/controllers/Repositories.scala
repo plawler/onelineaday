@@ -2,11 +2,14 @@ package controllers
 
 import play.api.mvc.{Action, Controller}
 import securesocial.core.SecureSocial
-import play.api.libs.json.Json
+import play.api.libs.json._
 import play.api.Play
 import play.api.libs.ws.{WS, Response}
+import play.api.libs.functional.syntax._
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
+import models.{GithubRepo}
+
 /**
  * Created with IntelliJ IDEA.
  * User: paullawler
@@ -19,6 +22,11 @@ object Repositories extends Controller with SecureSocial {
   val GithubClientId = Play.current.configuration.getString("github.onelineaday.clientId")
   val GithubClientSecret = Play.current.configuration.getString("github.onelineaday.clientSecret")
 
+  implicit val repositoryRead = (
+      (__ \ "id").read[Long] and
+      (__ \ "name").read[String] and
+      (__ \ "owner" \ "login" ).read[String]
+    )(GithubRepo)
 
 //  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
   def callback = SecuredAction.async { request =>
@@ -46,7 +54,10 @@ object Repositories extends Controller with SecureSocial {
     WS.url("https://api.github.com/user/repos")
       .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}")
       .get().map { result =>
-        result.json
+        result.json.asInstanceOf[JsArray].value.map { repo =>
+          val githubRepo = repo.as[GithubRepo]
+          println(githubRepo.toString)
+        }
       }
 
     Future.successful(InternalServerError)

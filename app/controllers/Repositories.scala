@@ -8,7 +8,7 @@ import play.api.libs.ws.{WS, Response}
 import play.api.libs.functional.syntax._
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
-import models.{GithubRepo}
+import models.{User, Repository}
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,6 +27,8 @@ object Repositories extends Controller with SecureSocial {
       (__ \ "name").read[String] and
       (__ \ "owner" \ "login" ).read[String]
     )(GithubRepo)
+
+  case class GithubRepo(id: Long, name: String, owner: String)
 
 //  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
   def callback = SecuredAction.async { request =>
@@ -50,17 +52,26 @@ object Repositories extends Controller with SecureSocial {
 
   def repos(projectId: Long) = SecuredAction.async { request =>
     val token = request.session("token")
-
     WS.url("https://api.github.com/user/repos")
       .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}")
       .get().map { result =>
-        result.json.asInstanceOf[JsArray].value.map { repo =>
-          val githubRepo = repo.as[GithubRepo]
-          println(githubRepo.toString)
+        asRepos(result.json).foreach {repo =>
+          if (Repository.findByName(repo.name) == None)
+            create(repo, request.user match {case user: User => {user.id}})
         }
+        // Ok(views...)
       }
-
     Future.successful(InternalServerError)
+  }
+
+  private def asRepos(json: JsValue): Seq[GithubRepo] = {
+    json.asInstanceOf[JsArray].value.map { v =>
+      v.as[GithubRepo]
+    }
+  }
+
+  private def create(repo: GithubRepo, userId: Long) = {
+    Repository.create(userId, repo.id, repo.name, repo.owner)
   }
 
 }

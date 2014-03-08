@@ -13,7 +13,7 @@ import anorm.SqlParser._
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Daily(id: Long, projectId: Long, description: String, duration: Option[Int], createdOn: Date,
+case class  Daily(id: Long, projectId: Long, description: String, duration: Option[Int], createdOn: Date,
                  completedOn: Option[Date])
 
 case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {

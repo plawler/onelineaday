@@ -1,0 +1,24 @@
+@(linkRepoForm: Form[(Long, String)], repos: Seq[Repository], projectId: Long)
+
+@import helper.form
+@import bootstrap._
+
+@main("One Line a Day - Select Github Repository") {
+
+    <h1>Link a repo to your project</h1>
+    <p>&nbsp;</p>
+
+    @form(routes.Repositories.link, 'class -> "form-horizontal", 'role -> "form") {
+        <input type="hidden" name="projectId" value="@projectId"/>
+
+        @select(linkRepoForm("repoName"), "Repository", repos.map {r => (r.name, false)}.toMap, false, "")
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="submit" type="submit" value="Submit" class="btn btn-primary">Link repository</button>
+                <a href="@routes.Projects.project(projectId)" class="btn cancel" role="button">Cancel</a>
+            </div>
+        </div>
+    }
+
+}

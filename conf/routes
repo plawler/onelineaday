@@ -43,6 +43,7 @@ POST        /projects/:id/delete                    controllers.Projects.delete(
 #Repositories
 GET         /github/callback                        controllers.Repositories.callback
 GET         /github/repos                           controllers.Repositories.repos(projectId: Long)
+POST        /repositories/link                      controllers.Repositories.link
 
 #Dailies
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)

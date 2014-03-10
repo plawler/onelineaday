@@ -27,6 +27,7 @@ object Projects extends Controller with SecureSocial {
       "createdOn" -> ignored(new Date())
     )(Project.apply)(Project.unapply)
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
+    // http://www.playframework.com/documentation/2.0.4/ScalaForms
   )
 
   //http://engineering.linkedin.com/play/play-framework-democratizing-functional-programming-modern-web-programmers

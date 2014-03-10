@@ -1,14 +1,17 @@
 package controllers
 
-import play.api.mvc.{Action, Controller}
-import securesocial.core.SecureSocial
+import play.api.mvc.Controller
+import securesocial.core.{Identity, SecureSocial}
 import play.api.libs.json._
 import play.api.Play
-import play.api.libs.ws.{WS, Response}
+import play.api.libs.ws.WS
 import play.api.libs.functional.syntax._
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
-import models.{User, Repository}
+import models.{GithubRepo, User, Repository}
+import play.api.data._
+import play.api.data.Forms._
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +31,12 @@ object Repositories extends Controller with SecureSocial {
       (__ \ "owner" \ "login" ).read[String]
     )(GithubRepo)
 
-  case class GithubRepo(id: Long, name: String, owner: String)
+  val selectRepoForm = Form(
+    tuple(
+      "projectId" -> longNumber,
+      "repoName" -> nonEmptyText
+    )
+  )
 
 //  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
   def callback = SecuredAction.async { request =>
@@ -43,35 +51,46 @@ object Repositories extends Controller with SecureSocial {
 
       WS.url("https://github.com/login/oauth/access_token")
         .withHeaders("Accept" -> "application/json").post(sessionData).map { result =>
-          Redirect(routes.Repositories.repos(projectId.get.toLong)).withSession("token" -> (result.json \ "access_token").as[String])
+          Redirect(routes.Repositories.repos(projectId.get.toLong))
+            .withSession("github_access_token" -> (result.json \ "access_token").as[String])
         }
     }.getOrElse {
-      Future.successful(InternalServerError) // possibly redirect to a nicer page explaining there was some difficulty connecting to github account
+      Future.successful(Ok) // not sure what to do here
     }
   }
 
   def repos(projectId: Long) = SecuredAction.async { request =>
-    val token = request.session("token")
+    val token = request.session("github_access_token")
     WS.url("https://api.github.com/user/repos")
       .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}")
       .get().map { result =>
-        asRepos(result.json).foreach {repo =>
-          if (Repository.findByName(repo.name) == None)
-            create(repo, request.user match {case user: User => {user.id}})
+        asGithubRepos(result.json).foreach {repo =>
+          create(repo, request.user)
         }
-        // Ok(views...)
       }
-    Future.successful(InternalServerError)
+    Future.successful(Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId)))
   }
 
-  private def asRepos(json: JsValue): Seq[GithubRepo] = {
+  def link = TODO
+
+  private def asGithubRepos(json: JsValue): Seq[GithubRepo] = {
     json.asInstanceOf[JsArray].value.map { v =>
       v.as[GithubRepo]
     }
   }
 
-  private def create(repo: GithubRepo, userId: Long) = {
-    Repository.create(userId, repo.id, repo.name, repo.owner)
+  private def create(repo: GithubRepo, user: Identity) = {
+    if (Repository.findByName(repo.name) == None) {
+      user match {
+        case user: User => Repository.create(user.id, repo.id, repo.name, repo.owner)
+      }
+    }
+  }
+
+  private def getRepos(identity: Identity): Seq[Repository] = {
+    identity match {
+      case user: User => Repository.findAll(user.id)
+    }
   }
 
 }

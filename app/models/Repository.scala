@@ -53,4 +53,16 @@ object Repository {
     ).on('userId -> userId).as(parser *)
   }
 
+  def linkProjectToRepo(projectId: Long, repoName: String) = {
+    link(findByName(repoName).get.id, projectId)
+  }
+
+  private def link(id: Long, projectId: Long) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      update repositories set project_id = {projectId} where id = {id}
+      """
+    ).on('id -> id, 'projectId -> projectId).executeUpdate()
+  }
+
 }

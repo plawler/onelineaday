@@ -38,6 +38,17 @@ object Repositories extends Controller with SecureSocial {
     )
   )
 
+  val repoForm = Form(
+    mapping (
+      "id" -> longNumber,
+      "userId" -> longNumber,
+      "projectId" -> optional(longNumber),
+      "githubId" -> longNumber,
+      "name" -> nonEmptyText,
+      "owner" -> nonEmptyText
+    )(Repository.apply)(Repository.unapply)
+  )
+
 //  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
   def callback = SecuredAction.async { request =>
     request.getQueryString("code").map { code =>
@@ -71,7 +82,16 @@ object Repositories extends Controller with SecureSocial {
     Future.successful(Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId)))
   }
 
-  def link = TODO
+  def link = SecuredAction { implicit request =>
+    selectRepoForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.repositories.link(formWithErrors, getRepos(request.user), formWithErrors.data("projectId").toLong)),
+      selection => {
+        val projectId = selection._1; val repoName = selection._2
+        Repository.linkProjectToRepo(projectId, repoName)
+        Redirect(routes.Projects.project(projectId))
+      }
+    )
+  }
 
   private def asGithubRepos(json: JsValue): Seq[GithubRepo] = {
     json.asInstanceOf[JsArray].value.map { v =>

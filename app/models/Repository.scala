@@ -28,12 +28,28 @@ object Repository {
     }
   }
 
+  def findById(id: Long): Option[Repository] = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      select * from repositories where id = {id}
+      """
+    ).on('id -> id).singleOpt(parser)
+  }
+
   def findByName(name: String): Option[Repository] = DB.withConnection { implicit conn =>
     SQL(
       """
       select * from repositories where name = {name}
       """
-    ).on('name -> name).as(parser.singleOpt)
+    ).on('name -> name).singleOpt(parser)
+  }
+
+  def findByProjectId(projectId: Long): Option[Repository] = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      select * from repositories where project_id = {projectId}
+      """
+    ).on('projectId -> projectId).singleOpt(parser)
   }
 
   def create(userId: Long, githubId: Long, name: String, owner: String) = DB.withConnection { implicit conn =>
@@ -53,11 +69,15 @@ object Repository {
     ).on('userId -> userId).as(parser *)
   }
 
-  def linkProjectToRepo(projectId: Long, repoName: String) = {
-    link(findByName(repoName).get.id, projectId)
+  def linkProjectToRepo(projectId: Long, repoName: String) {
+    link(findByName(repoName).get.id, Some(projectId))
   }
 
-  private def link(id: Long, projectId: Long) = DB.withConnection { implicit conn =>
+  def unlinkProjectFromRepo(id: Long) {
+    link(id, Option.empty)
+  }
+
+  private def link(id: Long, projectId: Option[Long]) = DB.withConnection { implicit conn =>
     SQL(
       """
       update repositories set project_id = {projectId} where id = {id}

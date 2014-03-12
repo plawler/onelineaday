@@ -3,7 +3,7 @@ package controllers
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
-import models.{User, Project}
+import models.{Repository, User, Project}
 import java.util.Date
 import securesocial.core.SecureSocial
 import play.api.Play
@@ -66,12 +66,17 @@ object Projects extends Controller with SecureSocial {
   // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
   def edit(id: Long) = SecuredAction { implicit request =>
     val project = Project.find(id)
-    Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId, s"http://${request.host}/github/callback?projectId=${id}"))
+    val callback = s"http://${request.host}/github/callback?projectId=$id"
+    val repo = Repository.findByProjectId(id)
+    Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId, callback, repo))
   }
 
   def update(id: Long) = SecuredAction { implicit request =>
     projectForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.projects.edit(Project.find(id), projectForm, GithubClientId, s"http://${request.host}/github/callback?projectId=${id}")),
+      formWithErrors => {
+        BadRequest(views.html.projects.edit(Project.find(id), projectForm, GithubClientId,
+          s"http://${request.host}/github/callback?projectId=$id", Repository.findByProjectId(id)))
+      },
       project => {
         Project.update(id, project.name, project.description)
         Redirect(routes.Projects.project(id))

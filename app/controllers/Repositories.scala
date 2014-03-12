@@ -93,6 +93,19 @@ object Repositories extends Controller with SecureSocial {
     )
   }
 
+  def unlink(id: Long) = SecuredAction { implicit request =>
+    Repository.findById(id) match {
+      case Some(repository) => {
+        Repository.unlinkProjectFromRepo(repository.id)
+        repository.projectId match {
+          case Some(projectId) => Redirect(routes.Projects.project(projectId))
+          case None => Redirect(routes.Projects.projects)
+        }
+      }
+      case None => Redirect(routes.Projects.projects)
+    }
+  }
+
   private def asGithubRepos(json: JsValue): Seq[GithubRepo] = {
     json.asInstanceOf[JsArray].value.map { v =>
       v.as[GithubRepo]

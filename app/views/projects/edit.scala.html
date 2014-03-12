@@ -1,4 +1,4 @@
-@(project: Project, projectForm: Form[Project], githubClientId: Option[String], callbackUrl: String)
+@(project: Project, projectForm: Form[Project], githubClientId: Option[String], callbackUrl: String, repo: Option[Repository])
 
 @import helper.form
 @import bootstrap._
@@ -17,9 +17,13 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <p>
                     <i class="fa fa-github fa-2x"></i>
-                    <a href="https://github.com/login/oauth/authorize?scope=repo&client_id=@githubClientId&redirect_uri=@callbackUrl">
-                        Link this project to a Github repository
-                    </a>
+                    @if(repo == None) {
+                        <a href="https://github.com/login/oauth/authorize?scope=repo&client_id=@githubClientId&redirect_uri=@callbackUrl">
+                            Link this project to a Github repository
+                        </a>
+                    } else {
+                        Project is linked to <a href="#">@repo.get.name</a> on Github. <a href="@routes.Repositories.unlink(repo.get.id)">Unlink it from your repo</a>.
+                    }
                 </p>
             </div>
         </div>

@@ -4,7 +4,7 @@ import play.api.mvc.Controller
 import securesocial.core.{Identity, SecureSocial}
 import play.api.libs.json._
 import play.api.Play
-import play.api.libs.ws.WS
+import play.api.libs.ws.{Response, WS}
 import play.api.libs.functional.syntax._
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
@@ -28,7 +28,8 @@ object Repositories extends Controller with SecureSocial {
   implicit val repositoryRead = (
       (__ \ "id").read[Long] and
       (__ \ "name").read[String] and
-      (__ \ "owner" \ "login" ).read[String]
+      (__ \ "owner" \ "login" ).read[String] and
+      (__ \ "html_url").read[String]
     )(GithubRepo)
 
   val selectRepoForm = Form(
@@ -38,48 +39,33 @@ object Repositories extends Controller with SecureSocial {
     )
   )
 
-  val repoForm = Form(
-    mapping (
-      "id" -> longNumber,
-      "userId" -> longNumber,
-      "projectId" -> optional(longNumber),
-      "githubId" -> longNumber,
-      "name" -> nonEmptyText,
-      "owner" -> nonEmptyText
-    )(Repository.apply)(Repository.unapply)
-  )
-
 //  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
   def callback = SecuredAction.async { request =>
-    request.getQueryString("code").map { code =>
-      val sessionData = Json.obj(
-              "client_id" -> GithubClientId,
-              "client_secret" -> GithubClientSecret,
-              "code" -> code
-            )
+    val code = request.getQueryString("code")
+    val sessionData = Json.obj(
+      "client_id" -> GithubClientId,
+      "client_secret" -> GithubClientSecret,
+      "code" -> code
+    )
 
-      val projectId = request.getQueryString("projectId")
+    val projectId = request.getQueryString("projectId")
+    val response = WS.url("https://github.com/login/oauth/access_token").withHeaders("Accept" -> "application/json").post(sessionData)
 
-      WS.url("https://github.com/login/oauth/access_token")
-        .withHeaders("Accept" -> "application/json").post(sessionData).map { result =>
-          Redirect(routes.Repositories.repos(projectId.get.toLong))
-            .withSession("github_access_token" -> (result.json \ "access_token").as[String])
-        }
-    }.getOrElse {
-      Future.successful(Ok) // not sure what to do here
+    response.map { result =>
+      Redirect(routes.Repositories.repos(projectId.get.toLong))
+        .withSession("github_access_token" -> (result.json \ "access_token").as[String])
     }
   }
 
   def repos(projectId: Long) = SecuredAction.async { request =>
     val token = request.session("github_access_token")
-    WS.url("https://api.github.com/user/repos")
-      .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}")
-      .get().map { result =>
-        asGithubRepos(result.json).foreach {repo =>
-          create(repo, request.user)
-        }
-      }
-    Future.successful(Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId)))
+    val response = WS.url("https://api.github.com/user/repos")
+      .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}").get()
+
+    response.map { result =>
+      asGithubRepos(result.json).foreach {repo => create(repo, request.user)}
+      Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId))
+    }
   }
 
   def link = SecuredAction { implicit request =>
@@ -115,7 +101,7 @@ object Repositories extends Controller with SecureSocial {
   private def create(repo: GithubRepo, user: Identity) = {
     if (Repository.findByName(repo.name) == None) {
       user match {
-        case user: User => Repository.create(user.id, repo.id, repo.name, repo.owner)
+        case user: User => Repository.create(user.id, repo.id, repo.name, repo.owner, repo.url)
       }
     }
   }

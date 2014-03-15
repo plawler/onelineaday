@@ -12,7 +12,7 @@ import securesocial.core.providers.UsernamePasswordProvider
  * Created By: paullawler
  */
 @RunWith(classOf[JUnitRunner])
-class RepositorySpec extends Specification with Mockito {
+class RepositorySpec extends Specification {
 
   "Repository" should {
 

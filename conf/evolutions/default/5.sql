@@ -9,11 +9,12 @@ CREATE TABLE repositories (
   project_id int,
   github_id int,
   name varchar(255),
-  owner varchar(255)
+  owner varchar(255),
+  url text
 );
 
-insert into repositories (id, user_id, project_id, github_id, name, owner)
-values (1, 2, 1, 14459879, 'onelineaday', 'plawler')
+insert into repositories (id, user_id, project_id, github_id, name, owner, url)
+values (1, 2, 1, 14459879, 'onelineaday', 'plawler', 'https://api.github.com/repos/plawler/onelineaday')
 
 # --- !Downs
 

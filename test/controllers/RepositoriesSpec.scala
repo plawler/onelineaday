@@ -14,7 +14,6 @@ import play.api.test.Helpers._
  * Time: 10:15 PM
  * To change this template use File | Settings | File Templates.
  */
-
 @RunWith(classOf[JUnitRunner])
 class RepositoriesSpec extends Specification {
 

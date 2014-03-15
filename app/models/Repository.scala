@@ -10,9 +10,9 @@ import anorm.SqlParser._
  * Created By: paullawler
  */
 
-case class GithubRepo(id: Long, name: String, owner: String)
+case class GithubRepo(id: Long, name: String, owner: String, url: String)
 
-case class Repository(id: Long, userId: Long, projectId: Option[Long], githubId: Long, name: String, owner: String)
+case class Repository(id: Long, userId: Long, projectId: Option[Long], githubId: Long, name: String, owner: String, url: String)
 
 object Repository {
 
@@ -22,9 +22,10 @@ object Repository {
     get[Option[Long]]("project_id") ~
     get[Long]("github_id") ~
     get[String]("name") ~
-    get[String]("owner") map {
-      case id~userId~projectId~githubId~name~owner =>
-        Repository(id, userId, projectId, githubId, name, owner)
+    get[String]("owner") ~
+    get[String]("url") map {
+      case id~userId~projectId~githubId~name~owner~url =>
+        Repository(id, userId, projectId, githubId, name, owner, url)
     }
   }
 
@@ -52,13 +53,13 @@ object Repository {
     ).on('projectId -> projectId).singleOpt(parser)
   }
 
-  def create(userId: Long, githubId: Long, name: String, owner: String) = DB.withConnection { implicit conn =>
+  def create(userId: Long, githubId: Long, name: String, owner: String, url: String) = DB.withConnection { implicit conn =>
     SQL(
       """
-      insert into repositories (user_id, github_id, name, owner)
-      values ({userId}, {githubId}, {name}, {owner})
+      insert into repositories (user_id, github_id, name, owner, url)
+      values ({userId}, {githubId}, {name}, {owner}, {url})
       """
-    ).on('userId -> userId, 'githubId -> githubId, 'name -> name, 'owner -> owner).executeUpdate()
+    ).on('userId -> userId, 'githubId -> githubId, 'name -> name, 'owner -> owner, 'url -> url).executeUpdate()
   }
 
   def findAll(userId: Long): Seq[Repository] = DB.withConnection { implicit conn =>

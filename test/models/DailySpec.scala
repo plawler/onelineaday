@@ -1,8 +1,8 @@
 package models
 
 import org.specs2.runner._
-import org.junit.runner.RunWith
 import org.specs2.mutable._
+import org.junit.runner.RunWith
 import org.specs2.mock.Mockito
 import utils.TestUtils
 

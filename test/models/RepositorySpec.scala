@@ -20,7 +20,7 @@ class RepositorySpec extends Specification {
       val user = User.findByEmailAndProvider("paul.lawler@gmail.com", UsernamePasswordProvider.UsernamePassword) match {
         case Some(user: User) => user
       }
-      Repository.create(user.id, 12544738, "practice", "plawler") should_!= None
+      Repository.create(user.id, 12544738, "practice", "plawler", "https://github.com/repos/plawler") should_!= None
     }
 
     "find a repository by name" in TestUtils.memDB {

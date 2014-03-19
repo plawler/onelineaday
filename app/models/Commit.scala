@@ -46,7 +46,11 @@ object Commit {
   }
 
   def findByDailyId(dailyId: Long): Seq[Commit] = DB.withConnection { implicit conn =>
-    ???
+    SQL(
+      """
+      select * from commits where daily_id = {dailyId}
+      """
+    ).on('dailyId -> dailyId).as(parser *)
   }
 
 }

@@ -4,8 +4,13 @@ import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 import java.util.Date
-import models.{Resource, Project, Daily}
 import securesocial.core.SecureSocial
+import play.api.libs.ws.WS
+import play.api.libs.json._
+import models._
+import scala.Some
+import play.api.libs.functional.syntax._
+import play.api.libs.concurrent.Execution.Implicits._
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +20,15 @@ import securesocial.core.SecureSocial
  * To change this template use File | Settings | File Templates.
  */
 object Dailies extends Controller with SecureSocial {
+
+  implicit val commitReader = (
+      (__ \ "sha").read[String] and
+      (__ \ "commit" \ "author" \ "date" ).read[Date] and
+      (__ \ "commit" \ "author" \ "name").read[String] and
+      (__ \ "commit" \ "author" \ "email" ).read[String] and
+      (__ \ "message").read[String] and
+      (__ \ "html_url").read[String]
+    )(GithubCommit)
 
   val dailyForm = Form(
     mapping (
@@ -28,7 +42,6 @@ object Dailies extends Controller with SecureSocial {
   )
 
   val completeDailyForm = Form ("duration" -> number(min = 0))
-
 
   def daily(id: Long) = SecuredAction {
     val daily = Daily.find(id)
@@ -71,6 +84,31 @@ object Dailies extends Controller with SecureSocial {
         Redirect(routes.Projects.project(Daily.find(id).projectId))
       }
     )
+  }
+
+  def commits(dailyId: Long) = SecuredAction.async { implicit request =>
+    request.session.get("github_access_token") match {
+      case Some(token) => {
+        val repo = Repository.findByProjectId(Daily.find(dailyId).projectId).get
+        val response = WS.url(s"https://api.github.com/repos/${repo.owner}/${repo.name}/commits")
+          .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}").get()
+        response.map { result =>
+          asGithubCommit(result.json) foreach { commit =>
+            Commit.create(dailyId, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
+          }
+          Ok // fetch the commits and return the view
+        }
+      }
+      // really should redirect to the oauth flow
+      case None => throw new IllegalStateException("Github access has not been established")
+    }
+  }
+  // use this token for curl testing 8938b44b6c911e2ebcbd454cc2b1dc50d6c10b04
+
+  private def asGithubCommit(json: JsValue): Seq[GithubCommit] = {
+    json.asInstanceOf[JsArray].value.map { v =>
+      v.asInstanceOf[GithubCommit]
+    }
   }
 
 }

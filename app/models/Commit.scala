@@ -4,12 +4,15 @@ import play.api.Play.current
 import play.api.db._
 import anorm._
 import anorm.SqlParser._
+import java.util.Date
 
 /**
  * Created By: paullawler
  */
 
 case class Commit(id: Long, repositoryId: Long, dailyId: Long, sha: String, author: String, committer: String, html_url: String, message: String)
+
+case class GithubCommit(sha: String, date: Date, author: String, email: String, message: String, url: String)
 
 object Commit {
 

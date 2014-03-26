@@ -46,7 +46,6 @@ GET         /github/repos                           controllers.Repositories.rep
 GET         /repositories/:id/unlink                controllers.Repositories.unlink(id: Long)
 POST        /repositories/link                      controllers.Repositories.link
 
-
 #Dailies
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)
 GET         /dailies/:id                            controllers.Dailies.daily(id: Long)
@@ -55,6 +54,7 @@ GET         /dailies/:id/complete                   controllers.Dailies.editComp
 POST        /dailies                                controllers.Dailies.create
 POST        /dailies/:id/delete                     controllers.Dailies.delete(id: Long)
 POST        /dailies/:id/complete                   controllers.Dailies.complete(id: Long)
+POST        /dailies/:id/commits                    controllers.Dailies.commits(id: Long)
 
 #Resources
 GET         /resources/:id                          controllers.Resources.get(id: Long)

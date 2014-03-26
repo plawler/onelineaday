@@ -4,9 +4,8 @@ import play.api.mvc.Controller
 import securesocial.core.{Identity, SecureSocial}
 import play.api.libs.json._
 import play.api.Play
-import play.api.libs.ws.{Response, WS}
+import play.api.libs.ws.{WS}
 import play.api.libs.functional.syntax._
-import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits._
 import models.{GithubRepo, User, Repository}
 import play.api.data._
@@ -61,7 +60,6 @@ object Repositories extends Controller with SecureSocial {
     val token = request.session("github_access_token")
     val response = WS.url("https://api.github.com/user/repos")
       .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}").get()
-
     response.map { result =>
       asGithubRepos(result.json).foreach {repo => create(repo, request.user)}
       Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId))

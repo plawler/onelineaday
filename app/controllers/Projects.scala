@@ -7,6 +7,10 @@ import models.{Repository, User, Project}
 import java.util.Date
 import securesocial.core.SecureSocial
 import play.api.Play
+import play.api.libs.ws.WS
+import play.utils.UriEncoding
+import play.core.Router
+import java.net.URLEncoder
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,8 +69,10 @@ object Projects extends Controller with SecureSocial {
 
   // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
   def edit(id: Long) = SecuredAction { implicit request =>
+    val redirectUrl = routes.Repositories.repos(id).absoluteURL() //routes.Repositories.repos(projectId.get.toLong)
+    val encodedUrl = URLEncoder.encode(redirectUrl, "UTF-8")
     val project = Project.find(id)
-    val callback = s"http://${request.host}/github/callback?projectId=$id"
+    val callback = s"http://${request.host}/callbacks/github?redirectUrl=$encodedUrl"
     val repo = Repository.findByProjectId(id)
     Ok(views.html.projects.edit(project, projectForm.fill(project), GithubClientId, callback, repo))
   }

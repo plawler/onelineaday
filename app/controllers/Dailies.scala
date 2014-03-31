@@ -11,6 +11,7 @@ import models._
 import scala.Some
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.json
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,11 +23,11 @@ import play.api.libs.concurrent.Execution.Implicits._
 object Dailies extends Controller with SecureSocial {
 
   implicit val commitReader = (
-      (__ \ "sha").read[String] and
-      (__ \ "commit" \ "author" \ "date" ).read[Date] and
-      (__ \ "commit" \ "author" \ "name").read[String] and
-      (__ \ "commit" \ "author" \ "email" ).read[String] and
-      (__ \ "message").read[String] and
+      (__ \ "sha").read[String] ~
+      (__ \ "commit" \ "author" \ "date" ).read[Date] ~
+      (__ \ "commit" \ "author" \ "name").read[String] ~
+      (__ \ "commit" \ "author" \ "email" ).read[String] ~
+      (__ \ "commit" \ "message").read[String] ~
       (__ \ "html_url").read[String]
     )(GithubCommit)
 
@@ -91,12 +92,12 @@ object Dailies extends Controller with SecureSocial {
       case Some(token) => {
         val repo = Repository.findByProjectId(Daily.find(dailyId).projectId).get
         val response = WS.url(s"https://api.github.com/repos/${repo.owner}/${repo.name}/commits")
-          .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}").get()
+          .withHeaders("Accept" -> "application/json", "Authorization" -> s"token $token").get()
         response.map { result =>
           asGithubCommit(result.json) foreach { commit =>
             Commit.create(dailyId, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
           }
-          Ok // fetch the commits and return the view
+          Redirect(routes.Dailies.daily(dailyId))
         }
       }
       // really should redirect to the oauth flow
@@ -107,8 +108,22 @@ object Dailies extends Controller with SecureSocial {
 
   private def asGithubCommit(json: JsValue): Seq[GithubCommit] = {
     json.asInstanceOf[JsArray].value.map { v =>
-      v.asInstanceOf[GithubCommit]
+      v.validate[GithubCommit] match {
+        case commit: JsSuccess[GithubCommit] => commit.get
+      }
     }
   }
+
+//  json.validate[Place] match {
+//    case s: JsSuccess[Place] => {
+//      val place: Place = s.get
+//      // do something with place
+//    }
+//    case e: JsError => {
+//      // error handling flow
+//    }
+//  }
+
+
 
 }

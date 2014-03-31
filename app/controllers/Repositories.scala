@@ -1,15 +1,17 @@
 package controllers
 
-import play.api.mvc.Controller
+import play.api.mvc.{Call, Controller}
 import securesocial.core.{Identity, SecureSocial}
 import play.api.libs.json._
 import play.api.Play
-import play.api.libs.ws.{WS}
+import play.api.libs.ws.WS
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
 import models.{GithubRepo, User, Repository}
 import play.api.data._
 import play.api.data.Forms._
+import play.utils.UriEncoding
+import java.net.URLDecoder
 
 
 /**
@@ -20,9 +22,6 @@ import play.api.data.Forms._
  * To change this template use File | Settings | File Templates.
  */
 object Repositories extends Controller with SecureSocial {
-
-  val GithubClientId = Play.current.configuration.getString("github.onelineaday.clientId")
-  val GithubClientSecret = Play.current.configuration.getString("github.onelineaday.clientSecret")
 
   implicit val repositoryRead = (
       (__ \ "id").read[Long] and
@@ -37,24 +36,6 @@ object Repositories extends Controller with SecureSocial {
       "repoName" -> nonEmptyText
     )
   )
-
-//  http://stackoverflow.com/questions/20252970/play-framework-composing-actions-with-async-web-request
-  def callback = SecuredAction.async { request =>
-    val code = request.getQueryString("code")
-    val sessionData = Json.obj(
-      "client_id" -> GithubClientId,
-      "client_secret" -> GithubClientSecret,
-      "code" -> code
-    )
-
-    val projectId = request.getQueryString("projectId")
-    val response = WS.url("https://github.com/login/oauth/access_token").withHeaders("Accept" -> "application/json").post(sessionData)
-
-    response.map { result =>
-      Redirect(routes.Repositories.repos(projectId.get.toLong))
-        .withSession("github_access_token" -> (result.json \ "access_token").as[String])
-    }
-  }
 
   def repos(projectId: Long) = SecuredAction.async { request =>
     val token = request.session("github_access_token")

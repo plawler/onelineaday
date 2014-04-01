@@ -128,7 +128,6 @@ object Dailies extends Controller with SecureSocial {
   }
 
   private def saveCommits(commit: GithubCommit, repo: Repository, daily: Daily) = {
-    println(s"saving commit ${commit.sha}")
     Commit.create(daily.id, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
   }
 

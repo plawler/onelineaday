@@ -69,7 +69,7 @@ object Projects extends Controller with SecureSocial {
 
   // https://groups.google.com/forum/#!topic/play-framework/d1hd_JamPW4
   def edit(id: Long) = SecuredAction { implicit request =>
-    val redirectUrl = routes.Repositories.repos(id).absoluteURL() //routes.Repositories.repos(projectId.get.toLong)
+    val redirectUrl = routes.Repositories.repos(id).absoluteURL()
     val encodedUrl = URLEncoder.encode(redirectUrl, "UTF-8")
     val project = Project.find(id)
     val callback = s"http://${request.host}/callbacks/github?redirectUrl=$encodedUrl"

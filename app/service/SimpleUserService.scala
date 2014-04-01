@@ -6,12 +6,6 @@ import securesocial.core.providers.Token
 import securesocial.core.IdentityId
 import models.User
 
-/**
- * A Sample In Memory user service in Scala
- *
- * IMPORTANT: This is just a sample and not suitable for a production environment since
- * it stores everything in memory.
- */
 class SimpleUserService(application: Application) extends UserServicePlugin(application) {
 
   private var users = Map[String, Identity]()

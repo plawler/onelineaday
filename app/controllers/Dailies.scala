@@ -12,6 +12,10 @@ import scala.Some
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json
+import org.joda.time.{DateTimeZone, DateTime}
+import play.api.Play
+import java.net.URLEncoder
+import scala.concurrent.Future
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +25,9 @@ import play.api.libs.json
  * To change this template use File | Settings | File Templates.
  */
 object Dailies extends Controller with SecureSocial {
+
+  val GithubClientId = Play.current.configuration.getString("github.onelineaday.clientId")
+  val EST_OFFSET_HACK = 5
 
   implicit val commitReader = (
       (__ \ "sha").read[String] ~
@@ -49,12 +56,10 @@ object Dailies extends Controller with SecureSocial {
     Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id)))
   }
 
-  // todo: change to "create"
   def newDaily(projectId: Long) = SecuredAction {
     Ok(views.html.dailies.create(dailyForm, Project.find(projectId)))
   }
 
-  // todo: change to "save"
   def create = SecuredAction { implicit request =>
     dailyForm.bindFromRequest.fold(
       formWithErrors =>
@@ -88,23 +93,25 @@ object Dailies extends Controller with SecureSocial {
   }
 
   def commits(dailyId: Long) = SecuredAction.async { implicit request =>
+    val daily = Daily.find(dailyId)
     request.session.get("github_access_token") match {
       case Some(token) => {
-        val repo = Repository.findByProjectId(Daily.find(dailyId).projectId).get
-        val response = WS.url(s"https://api.github.com/repos/${repo.owner}/${repo.name}/commits")
-          .withHeaders("Accept" -> "application/json", "Authorization" -> s"token $token").get()
+        val repo = Repository.findByProjectId(daily.projectId).get
+        val response = WS.url(commitsUrl(repo, daily)).withHeaders("Accept" -> "application/json", "Authorization" -> s"token $token").get()
         response.map { result =>
-          asGithubCommit(result.json) foreach { commit =>
-            Commit.create(dailyId, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
-          }
+          asGithubCommit(result.json).foreach(commit => saveCommits(commit, repo, daily))
           Redirect(routes.Dailies.daily(dailyId))
         }
       }
-      // really should redirect to the oauth flow
-      case None => throw new IllegalStateException("Github access has not been established")
+      case None => {
+        val redirectUrl = routes.Dailies.commits(dailyId).absoluteURL()
+        val encodedUrl = URLEncoder.encode(redirectUrl, "UTF-8")
+        val oauthUrl = s"https://github.com/login/oauth/authorize?scope=repo&client_id=$GithubClientId&redirect_uri=$encodedUrl"
+        Future.successful(Redirect(new Call("GET", oauthUrl)))
+      }
     }
+//    Future.failed(throw new IllegalStateException())
   }
-  // use this token for curl testing 8938b44b6c911e2ebcbd454cc2b1dc50d6c10b04
 
   private def asGithubCommit(json: JsValue): Seq[GithubCommit] = {
     json.asInstanceOf[JsArray].value.map { v =>
@@ -112,6 +119,17 @@ object Dailies extends Controller with SecureSocial {
         case commit: JsSuccess[GithubCommit] => commit.get
       }
     }
+  }
+
+  private def commitsUrl(repo: Repository, daily: Daily): String = {
+    val since = new DateTime(daily.completedOn.get, DateTimeZone.UTC).minusHours(EST_OFFSET_HACK)
+    val until = since.plusHours(23).plusMinutes(59)
+    s"https://api.github.com/repos/${repo.owner}/${repo.name}/commits?since=$since&until=$until"
+  }
+
+  private def saveCommits(commit: GithubCommit, repo: Repository, daily: Daily) = {
+    println(s"saving commit ${commit.sha}")
+    Commit.create(daily.id, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
   }
 
 //  json.validate[Place] match {

@@ -20,7 +20,7 @@ class RepositoriesSpec extends Specification {
   "Repositories" should {
 
     "acquire a Github token" in new WithApplication {
-      route(FakeRequest(GET, "/github/callback?code=123456")) must not beNone
+      route(FakeRequest(GET, "/callbacks/github?code=123456")) must not beNone
     }
 
   }

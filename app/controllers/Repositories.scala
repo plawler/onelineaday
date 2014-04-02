@@ -86,9 +86,7 @@ object Repositories extends Controller with SecureSocial {
   }
 
   private def getRepos(identity: Identity): Seq[Repository] = {
-    identity match {
-      case user: User => Repository.findAll(user.id)
-    }
+    identity match { case user: User => Repository.findAll(user.id)}
   }
 
 }

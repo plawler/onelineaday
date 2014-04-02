@@ -11,7 +11,6 @@ import models._
 import scala.Some
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
-import play.api.libs.json
 import org.joda.time.{DateTimeZone, DateTime}
 import play.api.Play
 import java.net.URLEncoder
@@ -27,7 +26,7 @@ import scala.concurrent.Future
 object Dailies extends Controller with SecureSocial {
 
   val GithubClientId = Play.current.configuration.getString("github.onelineaday.clientId")
-  val EST_OFFSET_HACK = 5
+  val EST_OFFSET_HACK = 5 // todo: find a solution to this!!
 
   implicit val commitReader = (
       (__ \ "sha").read[String] ~

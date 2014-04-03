@@ -14,7 +14,7 @@ CREATE TABLE repositories (
 );
 
 insert into repositories (id, user_id, project_id, github_id, name, owner, url)
-values (1, 2, 1, 14459879, 'onelineaday', 'plawler', 'https://api.github.com/repos/plawler/onelineaday')
+values (1, 2, 1, 14459879, 'onelineaday', 'plawler', 'https://api.github.com/repos/plawler/onelineaday');
 
 # --- !Downs
 

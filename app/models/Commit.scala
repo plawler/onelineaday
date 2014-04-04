@@ -57,4 +57,12 @@ object Commit {
     ).on('dailyId -> dailyId).as(parser *)
   }
 
+  def findBySha(sha: String): Option[Commit] = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      select * from commits where sha = {sha}
+      """
+    ).on('sha -> sha).as(parser.singleOpt)
+  }
+
 }

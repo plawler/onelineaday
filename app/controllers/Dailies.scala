@@ -109,13 +109,14 @@ object Dailies extends Controller with SecureSocial {
         Future.successful(Redirect(new Call("GET", oauthUrl)))
       }
     }
-//    Future.failed(throw new IllegalStateException())
+//    Future.failed(throw new IllegalStateException("Yo, Github, what the fuck happened?"))
   }
 
   private def asGithubCommit(json: JsValue): Seq[GithubCommit] = {
     json.asInstanceOf[JsArray].value.map { v =>
       v.validate[GithubCommit] match {
         case commit: JsSuccess[GithubCommit] => commit.get
+        case error: JsError => throw new IllegalArgumentException("Value would not validate. Errors are:" + error.toString)
       }
     }
   }
@@ -127,7 +128,8 @@ object Dailies extends Controller with SecureSocial {
   }
 
   private def saveCommits(commit: GithubCommit, repo: Repository, daily: Daily) = {
-    Commit.create(daily.id, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
+    if (Commit.findBySha(commit.sha).isEmpty)
+      Commit.create(daily.id, repo.id, commit.sha, commit.author, commit.author, commit.url, commit.message)
   }
 
 //  json.validate[Place] match {

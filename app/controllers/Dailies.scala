@@ -105,7 +105,8 @@ object Dailies extends Controller with SecureSocial {
       case None => {
         val redirectUrl = routes.Dailies.commits(dailyId).absoluteURL()
         val encodedUrl = URLEncoder.encode(redirectUrl, "UTF-8")
-        val oauthUrl = s"https://github.com/login/oauth/authorize?scope=repo&client_id=$GithubClientId&redirect_uri=$encodedUrl"
+        val callback = s"http://${request.host}/callbacks/github?redirectUrl=$encodedUrl"
+        val oauthUrl = s"https://github.com/login/oauth/authorize?scope=repo&client_id=${GithubClientId.get}&redirect_uri=$callback"
         Future.successful(Redirect(new Call("GET", oauthUrl)))
       }
     }

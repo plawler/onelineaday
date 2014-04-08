@@ -26,7 +26,7 @@ POST        /reset/:token                           securesocial.controllers.Reg
 GET         /password                               securesocial.controllers.PasswordChange.page
 POST        /password                               securesocial.controllers.PasswordChange.handlePasswordChange
 
-#Authentication THIS
+#Authentication
 #GET         /login                                  controllers.Authentication.login
 #GET         /logout                                 controllers.Authentication.logout
 #POST        /authenticate                           controllers.Authentication.authenticate
@@ -52,11 +52,10 @@ POST        /repositories/link                      controllers.Repositories.lin
 GET         /projects/:projectId/dailies/new        controllers.Dailies.newDaily(projectId: Long)
 GET         /dailies/:id                            controllers.Dailies.daily(id: Long)
 GET         /dailies/:id/complete                   controllers.Dailies.editCompletion(id: Long)
-
+GET         /dailies/:id/commits                    controllers.Dailies.commits(id: Long)
 POST        /dailies                                controllers.Dailies.create
 POST        /dailies/:id/delete                     controllers.Dailies.delete(id: Long)
 POST        /dailies/:id/complete                   controllers.Dailies.complete(id: Long)
-POST        /dailies/:id/commits                    controllers.Dailies.commits(id: Long)
 
 #Resources
 GET         /resources/:id                          controllers.Resources.get(id: Long)

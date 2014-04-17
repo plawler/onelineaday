@@ -19,7 +19,7 @@ import org.joda.time.{Days, DateTime}
 case class Project(id: Long, name: String, description: String, createdOn: Date)
 
 case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],
-                        duration: Option[Int], resourceCount: Option[Long])
+                        duration: Option[Int], resourceCount: Option[Long], commitCount: Option[Long])
 
 object Project {
 
@@ -43,9 +43,10 @@ object Project {
     get[Date]("created_on") ~
     get[Option[Date]]("completed_on") ~
     get[Option[Int]]("duration") ~
-    get[Option[Long]]("cnt") map {
-      case projectId~dailyId~description~createdOn~completedOn~duration~resourceCount =>
-        ProjectDaily(projectId, dailyId, description, createdOn, completedOn, duration, resourceCount)
+    get[Option[Long]]("resource_cnt") ~
+    get[Option[Long]]("commit_cnt") map {
+      case projectId~dailyId~description~createdOn~completedOn~duration~resourceCount~commitCount =>
+        ProjectDaily(projectId, dailyId, description, createdOn, completedOn, duration, resourceCount, commitCount)
     }
   }
 
@@ -113,12 +114,16 @@ object Project {
   def findProjectDailies(projectId: Long): List[ProjectDaily] = DB.withConnection { implicit conn =>
     SQL(
       """
-      select d.project_id, d.id, d.description, d.created_on, d.completed_on, d.duration, r.cnt
+      select d.project_id, d.id, d.description, d.created_on, d.completed_on, d.duration, r.resource_cnt, c.commit_cnt
       from dailies d
-      left join (select daily_id, count(id) as cnt
+      left join (select daily_id, count(id) as resource_cnt
             from resources
             group by daily_id) as r
         on r.daily_id = d.id
+      left join (select daily_id, count(id) as commit_cnt
+            from commits
+            group by daily_id) as c
+        on c.daily_id = d.id
       where d.project_id = {projectId}
       order by d.created_on desc, d.completed_on desc
       """

@@ -1,4 +1,4 @@
-@(daily: Daily, project: Project, resources: List[Resource])
+@(daily: Daily, project: Project, resources: List[Resource], commits: Seq[Commit])
 
 @import helper._
 
@@ -49,6 +49,23 @@
 
     <!-- Commits -->
     <h2>Commits</h2>
+
+    <table id="commitsTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Sha</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @commits.map { commit =>
+            <tr>
+                <td><a href="@commit.html_url">@commit.sha</a></td>
+                <td>@commit.message</td>
+            </tr>
+        }
+        </tbody>
+    </table>
 
     @form(routes.Dailies.commits(daily.id), 'class -> "form-horizontal", 'role -> "form") {
         <button id="submit" type="submit" value="Submit" class="btn btn-primary">

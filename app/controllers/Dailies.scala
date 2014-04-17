@@ -52,7 +52,7 @@ object Dailies extends Controller with SecureSocial {
 
   def daily(id: Long) = SecuredAction {
     val daily = Daily.find(id)
-    Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id)))
+    Ok(views.html.dailies.item(daily, Project.find(daily.projectId), Resource.findByDailyId(id), Commit.findByDailyId(id)))
   }
 
   def newDaily(projectId: Long) = SecuredAction {
@@ -142,7 +142,5 @@ object Dailies extends Controller with SecureSocial {
 //      // error handling flow
 //    }
 //  }
-
-
 
 }

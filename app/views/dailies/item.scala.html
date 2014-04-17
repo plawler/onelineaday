@@ -54,7 +54,7 @@
         <thead>
             <tr>
                 <th>Sha</th>
-                <th></th>
+                <th>Message</th>
             </tr>
         </thead>
         <tbody>
@@ -76,7 +76,7 @@
     <script type="text/javascript">
         $('#newResourceModal').on('hidden.bs.modal', function () {
             $(this).removeData();
-        })
+        });
 
         $('#deleteDailyButton').click(function () {
             $("#deleteDailyForm").submit();

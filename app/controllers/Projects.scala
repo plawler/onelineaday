@@ -28,7 +28,8 @@ object Projects extends Controller with SecureSocial {
       "id" -> ignored(0L),
       "name" -> nonEmptyText,
       "description" -> nonEmptyText,
-      "createdOn" -> ignored(new Date())
+      "createdOn" -> ignored(new Date()),
+      "retiredOn" -> optional(date("yyyy-MM-dd"))
     )(Project.apply)(Project.unapply)
     // using tuples: https://groups.google.com/forum/#!topic/play-framework/RLjwgiGDYP4
     // http://www.playframework.com/documentation/2.0.4/ScalaForms

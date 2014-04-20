@@ -14,11 +14,13 @@
             </tr>
         </thead>
         @projects.map { project =>
-            <tr>
-                <td><a href="@routes.Projects.project(project.id)">@project.name</a></td>
-                <td>@project.createdOn.format("MMMM d, yyyy")</td>
-                @*<td>0</td>*@
-            </tr>
+            @if(project.retiredOn.isEmpty) {
+                <tr>
+                    <td><a href="@routes.Projects.project(project.id)">@project.name</a></td>
+                    <td>@project.createdOn.format("MMMM d, yyyy")</td>
+                    @*<td>0</td>*@
+                </tr>
+            }
         }
     </table>
 

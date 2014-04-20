@@ -16,7 +16,7 @@ import org.joda.time.{Days, DateTime}
  * Time: 9:30 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Project(id: Long, name: String, description: String, createdOn: Date)
+case class Project(id: Long, name: String, description: String, createdOn: Date, retiredOn: Option[Date])
 
 case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],
                         duration: Option[Int], resourceCount: Option[Long], commitCount: Option[Long])
@@ -31,8 +31,9 @@ object Project {
     get[Long]("id") ~
     get[String]("name") ~
     get[String]("description") ~
-    get[Date]("created_on") map {
-      case id ~ name ~ description ~ created_on => Project(id, name, description, created_on)
+    get[Date]("created_on") ~
+    get[Option[Date]]("retired_on") map {
+      case id~name~description~created_on~retiredOn => Project(id, name, description, created_on, retiredOn)
     }
   }
 
@@ -129,8 +130,5 @@ object Project {
       """
     ).on('projectId -> projectId).as(projectDailyParser *)
   }
-  /*
-  
-   */
 
 }

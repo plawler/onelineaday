@@ -16,7 +16,9 @@ import org.joda.time.{Days, DateTime}
  * Time: 9:30 AM
  * To change this template use File | Settings | File Templates.
  */
-case class Project(id: Long, name: String, description: String, createdOn: Date, retiredOn: Option[Date])
+case class Project(id: Long, name: String, description: String, createdOn: Date, retiredOn: Option[Date]) {
+  def retired: Boolean = !retiredOn.isEmpty
+}
 
 case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],
                         duration: Option[Int], resourceCount: Option[Long], commitCount: Option[Long])

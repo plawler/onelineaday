@@ -14,7 +14,7 @@
             </tr>
         </thead>
         @projects.map { project =>
-            @if(project.retiredOn.isEmpty) {
+            @if(!project.retired) {
                 <tr>
                     <td><a href="@routes.Projects.project(project.id)">@project.name</a></td>
                     <td>@project.createdOn.format("MMMM d, yyyy")</td>

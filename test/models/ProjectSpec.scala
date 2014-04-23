@@ -2,12 +2,12 @@ package models
 
 import org.specs2.mutable._
 import org.specs2.runner._
-import org.junit.runner._
+import org.junit.runner.RunWith
 
 import org.joda.time.DateTime
 import org.specs2.mock.Mockito
 import utils.TestUtils
-import securesocial.core.{Identity, IdentityId}
+import securesocial.core.{IdentityId}
 import java.util.Date
 
 
@@ -21,9 +21,10 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class ProjectSpec extends Specification with Mockito {
 
-//  https://code.google.com/p/specs/wiki/UsingMockito
+  //  https://code.google.com/p/specs/wiki/UsingMockito
 
   "Project model" should {
+
     "compute a streak of consecutive dailies" in {
       val daily1 = mock[ProjectDaily]
       val daily2 = mock[ProjectDaily]
@@ -80,12 +81,21 @@ class ProjectSpec extends Specification with Mockito {
 
     "create a project assigned to a specific user" in TestUtils.memDB {
       val user = User.findByIdentityId(IdentityId("paullawler", "userpass")) match {
-          case Some(u: User) => u
-          case _ => throw new IllegalArgumentException("no user with that identity")
-        }
+        case Some(u: User) => u
+        case _ => throw new IllegalArgumentException("no user with that identity")
+      }
       Project.all(user.id).size shouldEqual 2
       Project.create("A Test Project", "This is a test project", new Date(), user.id)
       Project.all(user.id).size shouldEqual 3
+    }
+
+    "retire a project" in TestUtils.memDB {
+      val user = User.findByIdentityId(IdentityId("paullawler", "userpass")) match {
+        case Some(u: User) => u
+      }
+      val id = Project.create("A Test Project", "This is a test project", new Date(), user.id)
+      Project.retire(id)
+      Project.find(id).retiredOn should not be None
     }
 
   }

@@ -2,6 +2,6 @@
 
 # --- !Ups
 
-ALTER TABLE projects ADD COLUMN retired_on timestamp without time zone;
+ALTER TABLE projects ADD COLUMN retired_on timestamp;
 
 # --- !Downs

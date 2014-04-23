@@ -85,18 +85,15 @@ object Project {
       ).on('userId -> userId).as(projectParser *)
   }
 
-  def create(name: String, description: String, createdOn: Date, userId: Long) {
-    DB.withConnection {
-      implicit conn =>
-        SQL(
-          """
-          insert into projects (name, description, created_on, user_id)
-          values ({name}, {description}, {created_on}, {userId})
-          """
-        ).on(
-          'name -> name, 'description -> description, 'created_on -> createdOn, 'userId -> userId
-        ).executeUpdate
-    }
+  def create(name: String, description: String, createdOn: Date, userId: Long) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      insert into projects (name, description, created_on, user_id)
+      values ({name}, {description}, {created_on}, {userId})
+      """
+    ).on(
+      'name -> name, 'description -> description, 'created_on -> createdOn, 'userId -> userId
+    ).executeUpdate
   }
 
   def update(id: Long, name: String, description: String) {
@@ -131,6 +128,15 @@ object Project {
       order by d.created_on desc, d.completed_on desc
       """
     ).on('projectId -> projectId).as(projectDailyParser *)
+  }
+
+
+  def retire(id: Long) = DB.withConnection { implicit conn =>
+    SQL(
+      """
+      update projects set retired_on = current_date where id = {id}
+      """
+    ).on('id -> id).executeUpdate()
   }
 
 }

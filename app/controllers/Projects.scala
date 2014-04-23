@@ -96,4 +96,9 @@ object Projects extends Controller with SecureSocial {
     Redirect(routes.Projects.projects)
   }
 
+  def retire(id: Long) = SecuredAction {
+    Project.retire(id)
+    Redirect(routes.Projects.projects)
+  }
+
 }

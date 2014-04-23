@@ -39,6 +39,7 @@ GET         /projects/:id/edit                      controllers.Projects.edit(id
 POST        /projects                               controllers.Projects.add
 POST        /projects/:id                           controllers.Projects.update(id: Long)
 POST        /projects/:id/delete                    controllers.Projects.delete(id: Long)
+POST        /projects/:id/retire                    controllers.Projects.retire(id: Long)
 
 #Callbacks
 GET         /callbacks/github                       controllers.Callbacks.github

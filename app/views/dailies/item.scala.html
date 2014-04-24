@@ -15,10 +15,11 @@
     }
     <hr>
 
-    @form(routes.Dailies.delete(daily.id), 'id -> "deleteDailyForm") { }
-    <button id="deleteDailyButton" type="submit" class="btn btn-danger">
-        <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
-    </button>
+    @form(routes.Dailies.delete(daily.id), 'id -> "deleteDailyForm") {
+        <button id="deleteDailyButton" type="submit" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete
+        </button>
+    }
 
     <p>&nbsp;</p>
 
@@ -79,7 +80,7 @@
         });
 
         $('#deleteDailyButton').click(function () {
-            $("#deleteDailyForm").submit();
+            return confirm("Are you sure?");
         });
     </script>
 }

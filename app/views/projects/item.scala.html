@@ -44,11 +44,11 @@
         <div class="col-md-4">
             <h3>About</h3>
             <p>@project.description</p>
-            @form(routes.Projects.retire(project.id)) {
+            @form(routes.Projects.retire(project.id), 'id -> "retireProjectForm") {
                 <a href="@routes.Projects.edit(project.id)" class="btn btn-primary btn-sm">
                     <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
                 </a> &nbsp;
-                <button type="submit" class="btn btn-danger btn-sm">
+                <button id="retireProjectButton" type="submit" class="btn btn-danger btn-sm">
                     <i class="fa fa-archive"></i>&nbsp;&nbsp;Retire
                 </button>
             }
@@ -131,9 +131,9 @@
 </script>
 
 <script type="text/javascript">
-    $('#newResourceModal').on('hidden.bs.modal', function () {
-        $(this).removeData();
-    })
+    $('#retireProjectButton' ).click(function() {
+        return confirm("Are you sure?");
+    });
 </script>
 
 @*http://bootstrap-calendar.azurewebsites.net/index-bs3.html*@

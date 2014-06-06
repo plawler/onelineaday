@@ -11,8 +11,16 @@ I want to be able to retire a project
 So that I don't have to see it in my project list
 
 As a user
-I want to post a daily to Facebook or Twitter
+I want to post a daily to Twitter
 So that I can increase my project motivation and help by sharing progress with my network
+
+As a user
+I want to be notified if my streak starts to break
+So that I can fix the distractions keeping me from working on my project
+
+As a user
+I want a breakdown of the hours I am spending on my project
+So I can better understand my effort
 
 As a user
 I want to see my project momentum
@@ -21,7 +29,7 @@ So that I can better understand my ability to get things done
 As a user
 I want a reward for completing dailies
 So that I can increase my motivation factor for my project
-                ˜
+
 As a user
 I want to see an overall project dashboard (count of dailies, streak, momentum factor, etc)
 So I can understand my ability to get things done across multiple projects

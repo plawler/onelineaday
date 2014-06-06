@@ -12,6 +12,14 @@ import play.api.http.Status
  */
 class DailiesSpec extends Specification with Mockito {
 
+  /**
+   * when running any tests, remember to add env variables as vm parameters
+   * -DSMTP_HOST_PASSWORD=a-6intruder
+   * -DSMTP_HOST_USERNAME=paul.lawler@gmail.com
+   * -DGITHUB_ONELINEADAY_CLIENT_ID=6caff2c9bca2cf6d20ab
+   * -DGITHUB_ONELINEADAY_CLIENT_SECRET=2c7ee10d4c834be6f6dcbb3bea4166f6bfd1e35c
+   */
+
   "Dailies controller" should {
 
     "fetch commits from Github for the Daily's date" in new WithApplication(FakeApplication(additionalConfiguration = inMemoryDatabase())) {

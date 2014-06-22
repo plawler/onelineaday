@@ -19,4 +19,6 @@ libraryDependencies ++= Seq(
   "postgresql" % "postgresql" % "9.1-901.jdbc4"
 )
 
-play.Project.playScalaSettings
+//play.Project.playScalaSettings
+
+lazy val root = (project in file(".")).addPlugins(PlayScala)

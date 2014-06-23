@@ -8,11 +8,11 @@ import securesocial.core.SecureSocial
 import play.api.libs.ws.WS
 import play.api.libs.json._
 import models._
-import scala.Some
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
 import org.joda.time.{DateTimeZone, DateTime}
 import play.api.Play
+import play.api.Play.current
 import java.net.URLEncoder
 import scala.concurrent.Future
 

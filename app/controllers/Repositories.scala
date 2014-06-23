@@ -1,17 +1,15 @@
 package controllers
 
-import play.api.mvc.{Call, Controller}
+import play.api.mvc.{Controller}
 import securesocial.core.{Identity, SecureSocial}
 import play.api.libs.json._
-import play.api.Play
+import play.api.Play.current
 import play.api.libs.ws.WS
 import play.api.libs.functional.syntax._
 import play.api.libs.concurrent.Execution.Implicits._
 import models.{GithubRepo, User, Repository}
 import play.api.data._
 import play.api.data.Forms._
-import play.utils.UriEncoding
-import java.net.URLDecoder
 
 
 /**

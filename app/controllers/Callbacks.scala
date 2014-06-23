@@ -1,10 +1,11 @@
 package controllers
 
+import play.api.Play
+import play.api.libs.ws.WS
 import securesocial.core.SecureSocial
 import play.api.mvc.{Call, Controller}
 import play.api.libs.json.Json
-import play.api.libs.ws.WS
-import play.api.Play
+import play.api.Play.current // needs the Play application in scope with 2.3. Wha?
 import play.api.libs.concurrent.Execution.Implicits._
 
 import java.net.URLDecoder

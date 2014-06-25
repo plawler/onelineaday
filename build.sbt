@@ -8,7 +8,7 @@ libraryDependencies ++= Seq(
   jdbc,
   anorm,
   cache,
-  "org.webjars" %% "webjars-play" % "2.2.0",
+  "org.webjars" %% "webjars-play" % "2.2.1",
   "org.webjars" % "bootstrap" % "3.0.1",
   "org.webjars" % "jquery" % "1.10.2",
   "org.webjars" % "bootstrap-glyphicons" % "bdd2cbfba0",

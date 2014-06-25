@@ -9,8 +9,8 @@
 
     @form(routes.Projects.add, 'class -> "form-horizontal", 'role -> "form") {
 
-        @text(projectForm("name"), "Name")
-        @textarea(projectForm("description"), "5", "Description")
+        @text(projectForm("name"), "Name", "", "") <!-- IDE bitching about default empty string not fulfilling interface contract -->
+        @textarea(projectForm("description"), "5", "Description", "", "")
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

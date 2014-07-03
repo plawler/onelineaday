@@ -7,9 +7,6 @@ import models.{Repository, User, Project}
 import java.util.Date
 import securesocial.core.SecureSocial
 import play.api.Play
-import play.api.libs.ws.WS
-import play.utils.UriEncoding
-import play.core.Router
 import java.net.URLEncoder
 
 /**
@@ -59,10 +56,9 @@ object Projects extends Controller with SecureSocial {
       formWithErrors => BadRequest(views.html.projects.create(formWithErrors)),
       project => {
         request.user match {
-          case user: User => {
+          case user: User =>
             Project.create(project.name, project.description, new Date(), user.id)
             Redirect(routes.Projects.projects)
-          }
         }
       }
     )

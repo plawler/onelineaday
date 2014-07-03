@@ -17,7 +17,7 @@ import org.joda.time.{Days, DateTime}
  * To change this template use File | Settings | File Templates.
  */
 case class Project(id: Long, name: String, description: String, createdOn: Date, retiredOn: Option[Date]) {
-  def retired: Boolean = !retiredOn.isEmpty
+  def retired: Boolean = retiredOn.nonEmpty
 }
 
 case class ProjectDaily(projectId: Long, dailyId: Long, description: String, createdOn: Date, completedOn: Option[Date],

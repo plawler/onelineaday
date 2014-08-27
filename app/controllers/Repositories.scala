@@ -38,7 +38,7 @@ object Repositories extends Controller with SecureSocial {
   def repos(projectId: Long) = SecuredAction.async { request =>
     val token = request.session("github_access_token")
     val response = WS.url("https://api.github.com/user/repos")
-      .withHeaders("Accept" -> "application/json", "Authorization" -> s"token ${token}").get()
+      .withHeaders("Accept" -> "application/json", "Authorization" -> s"token $token").get()
     response.map { result =>
       asGithubRepos(result.json).foreach {repo => create(repo, request.user)}
       Ok(views.html.repositories.link(selectRepoForm, getRepos(request.user), projectId))
@@ -58,13 +58,12 @@ object Repositories extends Controller with SecureSocial {
 
   def unlink(id: Long) = SecuredAction { implicit request =>
     Repository.findById(id) match {
-      case Some(repository) => {
+      case Some(repository) =>
         Repository.unlinkProjectFromRepo(repository.id)
         repository.projectId match {
           case Some(projectId) => Redirect(routes.Projects.project(projectId))
           case None => Redirect(routes.Projects.projects)
         }
-      }
       case None => Redirect(routes.Projects.projects)
     }
   }

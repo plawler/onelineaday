@@ -4,7 +4,8 @@ So that I can correlate actual work to each daily
 
 As a user
 I want to be able to search my dailies, resources, likes and tweets
-So that I can quickly access import information to help me keep my project moving forward
+So that I can quickly access important information to help me keep my project moving forward
+(store each day as a large document in elastic search)
 
 As a user
 I want to be able to retire a project
